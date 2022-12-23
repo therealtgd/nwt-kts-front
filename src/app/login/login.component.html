@@ -1,0 +1,35 @@
+<span class="p-float-label">
+  <input id="float-input" [ngModel]="email" type="text" pInputText> 
+  <label for="float-input">Email</label>
+</span>
+
+<span class="p-float-label">
+  <p-password id="float-password" [ngModel]="password" [toggleMask]="true" [feedback]="true"></p-password>
+  <label for="float-password">Password</label>
+</span>
+
+<span class="p-float-label">
+  <p-password id="float-password-confirm" [(ngModel)]="confirmPassword" [toggleMask]="true" [feedback]="false"></p-password>
+  <label for="float-password-confirm">Confirm password</label>
+</span>
+
+<span class="p-float-label">
+  <input id="float-input" [ngModel]="name" type="text" pInputText> 
+  <label for="float-input">Name</label>
+</span>
+
+<span class="p-float-label">
+  <input id="float-input" [ngModel]="surname" type="text" pInputText> 
+  <label for="float-input">Surname</label>
+</span>
+
+<span class="p-float-label">
+  <p-autoComplete [ngModel]="city" [suggestions]="cities" (completeMethod)="search($event)"></p-autoComplete>
+  <label for="float-input">City</label>
+</span>
+
+<span class="p-float-label">
+  <input id="float-input" type="text" pInputText> 
+  <label for="float-input" [ngModel]="phone">Phone number</label>
+</span>
+
