@@ -1,3 +1,6 @@
+@import '~/node_modules/primeflex/primeflex.css';
+@import '~/node_modules/primeicons/primeicons.css';
+
 body {
   font-family: 'Poppins', Roboto, Helvetica, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
