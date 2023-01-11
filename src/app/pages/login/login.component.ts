@@ -6,6 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  filteredCountries: any[] = [];
+
+  search($event: any) {
+  throw new Error('Method not implemented.');
+  }
   email: string = "";
   password: string = "";
   confirmPassword: string = "";
@@ -22,13 +27,13 @@ export class LoginComponent {
     'Priština','Prokuplje','Smederevo','Sombor','Sremska Mitrovica','Subotica','Užice','Čačak'
   ]
 
-  filterCountry(event: ) {
+  filterCountry(event: any) {
     //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
     let filtered: any[] = [];
     let query = event.query;
-    for (let i = 0; i < this.countries.length; i++) {
-      let country = this.countries[i];
-      if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+    for (let i = 0; i < this.cities.length; i++) {
+      let country = this.cities[i];
+      if (country.toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(country);
       }
     }
