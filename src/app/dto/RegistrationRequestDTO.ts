@@ -1,4 +1,4 @@
-export class RegistrationRequest {
+export class RegistrationRequestDTO {
   firstName: String = "";
   lastName: String = "";
   email: String = "";

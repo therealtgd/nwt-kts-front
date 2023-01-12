@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload/fileupload';
-import { RegistrationRequest } from 'src/app/dto/RegistrationRequest';
+import { RegistrationRequestDTO } from 'src/app/dto/RegistrationRequestDTO';
 import { ClientService } from 'src/app/services/ClientService';
 import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator'; 
 ​
@@ -20,6 +20,9 @@ export class ClientRegistrationComponent implements OnInit {
   @ViewChild('fileUpload')
   fileUpload!: FileUpload;
 
+  modalVisibility: boolean = false;
+  modalHeader: string = '';
+  modalContent: string = '';
   form!: FormGroup;
   url : any;
 
@@ -38,6 +41,7 @@ export class ClientRegistrationComponent implements OnInit {
       validator: ConfirmPasswordValidator("password", "confirmPassword")
     });
   }
+  
   uploadFile(event : any) {
     for (let file of event.files) {
       this.form.patchValue({ myFile: file });
@@ -58,7 +62,7 @@ export class ClientRegistrationComponent implements OnInit {
   save(){
     this.fileUpload.upload();
     this.showImage();
-    let registrationData: RegistrationRequest = {
+    let registrationData: RegistrationRequestDTO = {
       "firstName": this.form.value.firstName,
       "lastName": this.form.value.lastName,
       "email": this.form.value.email,
@@ -68,9 +72,16 @@ export class ClientRegistrationComponent implements OnInit {
       "phoneNumber": this.form.value.phoneNumber,
       "image": ""
     };
-    this.clientService.registerClient(registrationData).subscribe(response => {
-      console.log(response);
-    });
+    this.clientService.registerClient(registrationData)
+    .subscribe(
+      data => { this.displayModal("Success!", data);  },
+      error => {this.displayModal("Oops!", error.error); console.log(error);}
+      );
+  }
+  displayModal(header : string, content : Object) {
+    this.modalContent = content.toString();
+    this.modalHeader = header;
+    this.modalVisibility = true;
   }
 
   compareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {

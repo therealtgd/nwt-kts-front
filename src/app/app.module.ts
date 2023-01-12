@@ -16,12 +16,15 @@ import {CardModule} from 'primeng/card';
 import {FileUploadModule} from 'primeng/fileupload';
 import {HttpClientModule} from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ClientRegistrationComponent
+    ClientRegistrationComponent,
+    RegistrationConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import { MessageService } from 'primeng/api';
     AutoCompleteModule,
     FileUploadModule,
     HttpClientModule,
-    CardModule
+    CardModule,
+    DialogModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

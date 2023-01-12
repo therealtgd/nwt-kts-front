@@ -1,0 +1,40 @@
+<div class="pt-8 flex justify-content-center">
+  <div class="w-6 pt-8">
+    <div class="flex justify-content-center pt-20">
+      <i class="pi pi-car" style="font-size: 2rem"></i>
+    </div>
+
+    <h1 class="flex justify-content-center pt-20" style="text-align: center;">
+      Thank you for registering!
+    </h1>
+
+    <div class="w-12 flex mt-6">
+
+      <div class="w-6 p-6 border-right-2 border-purple-100">
+        <p class="flex justify-content-center" style="text-align: center;">
+          You can continue browsing as<br> an unregistered user.
+        </p>
+        <p-button (click)="redirect()" class="flex justify-content-center pt-4">
+          Home
+        </p-button>
+      </div>
+
+      <div class="w-6 p-6 px-10">
+        <p class="flex justify-content-center" style="text-align: center;">
+          You can log in as a client so<br> you can order a taxi.
+        </p>
+        <p-button (click)="redirect('/login')" class="flex justify-content-center pt-4">
+          Log in
+        </p-button>
+      </div>
+
+    </div>
+  </div>
+
+  <p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" [(visible)]="modalVisibility" [modal]="true" [style]="{width: '30vw'}" >
+    <p class="m-0">{{ this.modalContent }}</p>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="modalVisibility=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
