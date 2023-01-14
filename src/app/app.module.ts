@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 import { DialogModule } from 'primeng/dialog';
 import { AuthGuard } from './guards/auth.guard'; 
+import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
 
 @NgModule({
@@ -45,6 +46,7 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
   providers: [
     MessageService,
     AuthGuard,
+    AuthService , 
   {
    provide: HTTP_INTERCEPTORS,
    useClass: HttpInterceptorService,

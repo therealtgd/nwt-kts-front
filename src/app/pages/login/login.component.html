@@ -1,35 +1,28 @@
-<span class="p-float-label">
-  <input id="float-input" [ngModel]="email" type="text" pInputText> 
-  <label for="float-input">Email</label>
-</span>
 
-<span class="p-float-label">
-  <p-password id="float-password" [ngModel]="password" [toggleMask]="true" [feedback]="true"></p-password>
-  <label for="float-password">Password</label>
-</span>
+<div class="flex justify-content-center mt-8 pt-8">
 
-<span class="p-float-label">
-  <p-password id="float-password-confirm" [(ngModel)]="confirmPassword" [toggleMask]="true" [feedback]="false"></p-password>
-  <label for="float-password-confirm">Confirm password</label>
-</span>
+  <p-card class="w-3" header="Log in">
 
-<span class="p-float-label">
-  <input id="float-input" [ngModel]="name" type="text" pInputText> 
-  <label for="float-input">Name</label>
-</span>
+    <form class="flex flex-wrap row-gap-1" [formGroup]="form" (ngSubmit)="login()">
+      
+      <span class="w-12 p-2 p-float-label">
+        <input type="text" required="true" formControlName="username" pKeyFilter="alpha" minlength="2" maxlength="20" pInputText>
+        <label for="float-input">Username</label>
+      </span>
+      
+      <span class="w-12 p-2 mb-1 p-float-label">
+        <p-password [toggleMask]="true" [feedback]="true" required="true" formControlName="password" minlength="2" maxlength="20" p></p-password>
+        <label for="float-input">Password</label>
+      </span>
 
-<span class="p-float-label">
-  <input id="float-input" [ngModel]="surname" type="text" pInputText> 
-  <label for="float-input">Surname</label>
-</span>
+      <small class="p-error mx-2 block" *ngIf="error">{{ error }}</small>
 
-<span class="p-float-label">
-  <p-autoComplete [ngModel]="city" [suggestions]="cities" (completeMethod)="search($event)"></p-autoComplete>
-  <label for="float-input">City</label>
-</span>
+      <span class="flex justify-content-center flex-wrap w-12 mt-3">
+        <p-button type="submit" label="Log in"></p-button> 
+      </span>
 
-<span class="p-float-label">
-  <input id="float-input" type="text" pInputText> 
-  <label for="float-input" [ngModel]="phone">Phone number</label>
-</span>
+    </form>
 
+  </p-card>
+
+</div>

@@ -1,44 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginDTO } from 'src/app/dto/login-dto';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { saveToken } from 'src/app/util/context';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  filteredCountries: any[] = [];
+export class LoginComponent implements OnInit {
 
-  search($event: any) {
-  throw new Error('Method not implemented.');
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    })
+    this.authService.logout();
   }
-  email: string = "";
-  password: string = "";
-  confirmPassword: string = "";
-  name: string = "";
-  surname: string = "";
-  city: string = "";
-  phone: string = "";
 
-  
+  form!: FormGroup;
+  error: string = '';
 
-  cities: string[] = [
-    'Beograd','Bor','Valjevo','Vranje','Vršac','Zaječar','Zrenjanin','Jagodina','Kikinda','Kragujevac',
-    'Kraljevo','Kruševac','Leskovac','Loznica','Niš','Novi Pazar','Novi Sad','Pančevo','Pirot','Požarevac',
-    'Priština','Prokuplje','Smederevo','Sombor','Sremska Mitrovica','Subotica','Užice','Čačak'
-  ]
-
-  filterCountry(event: any) {
-    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered: any[] = [];
-    let query = event.query;
-    for (let i = 0; i < this.cities.length; i++) {
-      let country = this.cities[i];
-      if (country.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(country);
-      }
-    }
-
-    this.filteredCountries = filtered;
+  login(): void {
+    this.authService.login({
+      username: this.form.value.username,
+      password: this.form.value.password
+    })
+      .subscribe(
+        data => {
+          if (data) {
+            saveToken(data as string);
+            this.authService.getWhoAmI();
+          }
+        },
+        error => {
+          this.error = error.message;
+        }
+      )
   }
 
 }
