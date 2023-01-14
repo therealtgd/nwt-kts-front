@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientService } from 'src/app/services/ClientService';
+import { ClientService } from 'src/app/services/client.service';
 
 @Component({
   selector: 'app-registration-confirmation',

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload/fileupload';
 import { RegistrationRequestDTO } from 'src/app/dto/RegistrationRequestDTO';
-import { ClientService } from 'src/app/services/ClientService';
+import { ClientService } from 'src/app/services/client.service';
 import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator'; 
 ​
 @Component({
