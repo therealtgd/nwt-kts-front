@@ -18,6 +18,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 import { DialogModule } from 'primeng/dialog';
+import { AuthGuard } from './guards/auth.guard'; 
 
 @NgModule({
   declarations: [
@@ -40,7 +41,10 @@ import { DialogModule } from 'primeng/dialog';
     CardModule,
     DialogModule
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    AuthGuard,
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
