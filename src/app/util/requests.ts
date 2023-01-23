@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-export const apiUrl = 'localhost:8080';
-const header = {headers: new HttpHeaders({ 'Content-Type' : 'application/json' })}
+export const apiUrl = 'http://localhost:8080';
+const header = {headers: new HttpHeaders({ 'Content-Type' : 'application/json', responseType : 'json' })}
 
 export function get(httpClient: HttpClient, url: string){
   return httpClient.get(apiUrl + url, header);

@@ -4,6 +4,7 @@ import { LoginDTO } from 'src/app/dto/login-dto';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { saveToken } from 'src/app/util/context';
+import { TokenResponse } from 'src/app/dto/token-response';
 
 
 @Component({
@@ -37,9 +38,12 @@ export class LoginComponent implements OnInit {
     })
       .subscribe(
         data => {
+          console.log(data);
           if (data) {
-            saveToken(data as string);
+            let tokenResponse = data as TokenResponse;
+            saveToken(tokenResponse.accessToken);
             this.authService.getWhoAmI();
+            this.router.navigate(['/']);
           }
         },
         error => {
