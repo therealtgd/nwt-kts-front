@@ -21,13 +21,16 @@ import { DialogModule } from 'primeng/dialog';
 import { AuthGuard } from './guards/auth.guard'; 
 import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ClientRegistrationComponent,
-    RegistrationConfirmationComponent
+    RegistrationConfirmationComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
     FileUploadModule,
     HttpClientModule,
     CardModule,
-    DialogModule
+    DialogModule,
+    MenubarModule
   ],
   providers: [
     MessageService,

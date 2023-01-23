@@ -8,7 +8,7 @@ import { RegistrationConfirmationComponent } from './pages/registration-confirma
 const routes: Routes = [
   // { path: 'somepath', component: SomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-  { path: 'register', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
+  { path: 'register/client', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
   { path: 'confirm-registration/:token', component: RegistrationConfirmationComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

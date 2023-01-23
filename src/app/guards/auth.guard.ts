@@ -11,6 +11,9 @@ export class AuthGuard implements CanActivate {
    constructor(private router: Router) { }
 
    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+      if (this.getResolvedUrl(route).includes("login") || this.getResolvedUrl(route).includes("register/client")) {
+         return !this.isLoggedIn();
+      }
       return this.isLoggedIn();
    }
 
@@ -20,4 +23,10 @@ export class AuthGuard implements CanActivate {
       }
       return false;
    }
+
+   private getResolvedUrl(route: ActivatedRouteSnapshot): string {
+      return route.pathFromRoot
+          .map(v => v.url.map(segment => segment.toString()).join('/'))
+          .join('/');
+  }
 } 

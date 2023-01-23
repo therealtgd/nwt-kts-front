@@ -1,19 +1,20 @@
+import { ContextData } from "../dto/context-data";
 import { get } from "./requests";
 
 
-export function getSession() {
+export function getSession() : ContextData | undefined {
   try {
     const serializedState = localStorage.getItem('session');
     if (serializedState === null) {
       return undefined;
     }
-    return JSON.parse(serializedState);
+    return JSON.parse(serializedState) as ContextData;
   } catch (err) {
     return undefined;
   }
 }
 
-export function saveSession(state: Object) {
+export function saveSession(state: ContextData) {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('session', serializedState);

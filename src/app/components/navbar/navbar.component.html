@@ -1,0 +1,11 @@
+<ng-container *ngIf="role !== ''">
+  <p-menubar>
+    <ng-template pTemplate="start">
+      <img src="/assets/w-logo.svg" height="30" class="mb-1">
+    </ng-template>
+    
+    <ng-template pTemplate="end">
+      <button class="p-button-text p-button-plain" pButton label="Sign out" icon="pi pi-sign-out" (click)="logOut()"></button>
+    </ng-template>
+  </p-menubar>
+</ng-container>

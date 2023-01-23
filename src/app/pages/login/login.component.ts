@@ -38,12 +38,11 @@ export class LoginComponent implements OnInit {
     })
       .subscribe(
         data => {
-          console.log(data);
           if (data) {
             let tokenResponse = data as TokenResponse;
             saveToken(tokenResponse.accessToken);
             this.authService.getWhoAmI();
-            this.router.navigate(['/']);
+            window.location.reload();
           }
         },
         error => {
