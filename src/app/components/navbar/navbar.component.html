@@ -1,11 +1,18 @@
-<ng-container *ngIf="role !== ''">
-  <p-menubar>
-    <ng-template pTemplate="start">
-      <img src="/assets/w-logo.svg" height="30" class="mb-1">
-    </ng-template>
-    
+<p-menubar>
+  <ng-template pTemplate="start">
+    <img src="/assets/w-logo.svg" height="30" class="mb-1 mr-5">
+  </ng-template>
+
+
+
     <ng-template pTemplate="end">
-      <button class="p-button-text p-button-plain" pButton label="Sign out" icon="pi pi-sign-out" (click)="logOut()"></button>
+      <ng-container *ngIf="role === ''">
+          <button class="p-button-text p-button-plain" pButton label="Log In" icon="pi pi-sign-in"
+            (click)="logIn()"></button>
+      </ng-container>
+  <ng-container *ngIf="role !== ''">
+      <button class="p-button-text p-button-plain" pButton label="Sign out" icon="pi pi-sign-out"
+        (click)="logOut()"></button>
+  </ng-container>
     </ng-template>
-  </p-menubar>
-</ng-container>
+</p-menubar>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginDTO } from 'src/app/dto/login-dto';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,23 +17,37 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    const token: string = this.route.snapshot.queryParamMap.get('token') || '';
+    const error: string = this.route.snapshot.queryParamMap.get('error') || '';
+
+    if (token !== '') {
+      saveToken(token);
+      this.authService.getWhoAmI();
+      window.location.reload();
+    }
+    else if(error){
+  		this.errorMessage = error;
+  	}
+
     this.form = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     })
-    this.authService.logout();
+    
   }
 
+  googleURL: string = "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:4200/login";
   form!: FormGroup;
-  error: string = '';
+  errorMessage: string = '';
 
   login(): void {
     this.authService.login({
-      username: this.form.value.username,
+      email: this.form.value.email,
       password: this.form.value.password
     })
       .subscribe(
@@ -46,9 +60,12 @@ export class LoginComponent implements OnInit {
           }
         },
         error => {
-          this.error = error.message;
+          this.errorMessage = error.message;
         }
       )
   }
 
+  googleClick() {
+    window.location.href = this.googleURL;
+  }
 }

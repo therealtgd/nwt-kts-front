@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload/fileupload';
 import { RegistrationRequestDTO } from 'src/app/dto/RegistrationRequestDTO';
-import { ClientService } from 'src/app/services/client.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator'; 
 ​
 @Component({
@@ -14,7 +15,8 @@ export class ClientRegistrationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private clientService: ClientService
+    private authService: AuthService,
+    private router: Router
     ) {}
   
   @ViewChild('fileUpload')
@@ -63,19 +65,20 @@ export class ClientRegistrationComponent implements OnInit {
     this.fileUpload.upload();
     this.showImage();
     let registrationData: RegistrationRequestDTO = {
-      "firstName": this.form.value.firstName,
-      "lastName": this.form.value.lastName,
+      "displayName": this.form.value.firstName + ' ' + this.form.value.lastName,
       "email": this.form.value.email,
       "username": this.form.value.username,
       "password": this.form.value.password,
       "confirmPassword" : this.form.value.confirmPassword,
       "phoneNumber": this.form.value.phoneNumber,
-      "image": ""
+      "image": "",
+      socialProvider: 'LOCAL'
     };
-    this.clientService.registerClient(registrationData)
+    console.log(registrationData);
+    this.authService.registerClient(registrationData)
     .subscribe(
-      data => { this.displayModal("Success!", data);  },
-      error => {this.displayModal("Oops!", error.error); console.log(error);}
+      data => { this.displayModal("Success!", "You have successfully registered."); this.router.navigate(['/login']); },
+      error => {this.displayModal("Oops!", error.error.message); console.log(error);}
       );
   }
   displayModal(header : string, content : Object) {
@@ -84,12 +87,18 @@ export class ClientRegistrationComponent implements OnInit {
     this.modalVisibility = true;
   }
 
+  invalidateFields(errorObject: Object) {
+    const invalidFields: string[] = Object.keys(errorObject);
+    invalidFields.forEach(fieldName => {
+      this.form.controls[fieldName].setErrors({'invalid': true});
+    });
+  }
+
   compareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
     return () => {
     if (controlOne.value !== controlTwo.value)
       return { match_error: 'Passwords do not match' };
     return null;
   };
-
 }
 }

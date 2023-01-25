@@ -11,12 +11,7 @@ import { post } from "../util/requests";
 export class ClientService {
   constructor(private http: HttpClient) { }
 
-  url = "http://localhost:8080/client";
-
-  public registerClient(data: RegistrationRequestDTO) : Observable<Object> {
-    return post(this.http, '/register', data);
-  }
   public activateClient(tokenRequest: RegistrationConfirmationDTO) : Observable<Object> {
-    return post(this.http, '/register/confirm', tokenRequest);
+    return post(this.http, '/client/register/confirm', tokenRequest);
   }
 }

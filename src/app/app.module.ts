@@ -23,6 +23,8 @@ import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MenubarModule } from 'primeng/menubar';
+import { GoogleLoginProvider, SocialAuthServiceConfig } from 'angularx-social-login';
+import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { MenubarModule } from 'primeng/menubar';
     HttpClientModule,
     CardModule,
     DialogModule,
-    MenubarModule
+    MenubarModule,
+    CoolSocialLoginButtonsModule
   ],
   providers: [
     MessageService,
@@ -56,6 +59,18 @@ import { MenubarModule } from 'primeng/menubar';
    useClass: HttpInterceptorService,
    multi: true
   },
+  {
+    provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('Google-Client-ID-Goes-Here'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+  }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
