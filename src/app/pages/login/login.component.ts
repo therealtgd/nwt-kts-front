@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   googleURL: string = "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:4200/login";
+  facebookURL: string = "http://localhost:8080/oauth2/authorization/facebook?redirect_uri=http://localhost:4200/login";
   form!: FormGroup;
   errorMessage: string = '';
 
@@ -64,8 +65,10 @@ export class LoginComponent implements OnInit {
         }
       )
   }
-
-  googleClick() {
+  googleLogIn() {
     window.location.href = this.googleURL;
+  }
+  facebookLogIn() {
+    window.location.href = this.facebookURL;
   }
 }

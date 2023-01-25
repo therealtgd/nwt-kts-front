@@ -1,7 +1,7 @@
 
-<div class="flex justify-content-center mt-8 pt-8">
+<div class="flex justify-content-center mt-5 pt-8">
 
-  <p-card class="w-3" header="Log in">
+  <p-card class="w-4" header="Log in">
 
     <form class="flex flex-wrap row-gap-1" [formGroup]="form" (ngSubmit)="login()">
       
@@ -31,11 +31,16 @@
     </div>
   </div>
 
-    <div class="flex justify-content-center px-2">
-      <cool-google-button color="light" (click)="googleClick()">
-        Login with Google
-      </cool-google-button>
-    </div>
+  <div class="flex justify-content-center px-2">
+    <cool-google-button color="light" (click)="googleLogIn()" class="mr-3">
+      Login with Google
+    </cool-google-button>
+    <cool-facebook-button color="light" (click)="facebookLogIn()" class="ml-3">
+      Login with Facebook
+    </cool-facebook-button>
+  </div>
+  <div class="flex justify-content-center px-2">
+  </div>
 
     <small class="flex justify-content-center mt-4">
       Not a member yet? &nbsp;<a href="/register/client"> Sign up now</a> 
