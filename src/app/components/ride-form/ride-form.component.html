@@ -1,0 +1,22 @@
+<p-card>
+  <h1>Request a ride now</h1>
+  <span class="p-float-label pickup-location">
+    <input 
+      id="pickupLocation" 
+      type="text" 
+      pInputText
+      ngx-google-places-autocomplete
+      (onAddressChange)="handleAddressChange($event, 'pickupLocation')"> 
+    <label for="float-input">Pickup location</label>
+  </span>
+  <span class="p-float-label destination">
+    <input 
+      type="text" 
+      pInputText
+      ngx-google-places-autocomplete
+      (onAddressChange)="handleAddressChange($event, 'destination')"> 
+    <label for="float-input">Destination</label>
+  </span>
+  <button pButton type="button" label="Request now" class="btn-request"></button>
+  <app-google-maps [pickupLocation]="pickupLocation" [destination]="destination"></app-google-maps>
+</p-card>
