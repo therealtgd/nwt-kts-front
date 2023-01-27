@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload/fileupload';
-import { RegistrationRequestDTO } from 'src/app/dto/RegistrationRequestDTO';
+import { RegistrationRequest } from 'src/app/dto/registration-request';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator'; 
 ​
@@ -64,7 +64,7 @@ export class ClientRegistrationComponent implements OnInit {
   save(){
     this.fileUpload.upload();
     this.showImage();
-    let registrationData: RegistrationRequestDTO = {
+    let registrationData: RegistrationRequest = {
       "displayName": this.form.value.firstName + ' ' + this.form.value.lastName,
       "email": this.form.value.email,
       "username": this.form.value.username,

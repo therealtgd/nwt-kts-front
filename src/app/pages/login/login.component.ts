@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginDTO } from 'src/app/dto/login-dto';
+import { LoginRequest } from 'src/app/dto/login-request';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { saveToken } from 'src/app/util/context';
