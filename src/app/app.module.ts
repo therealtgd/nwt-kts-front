@@ -15,9 +15,10 @@ import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
+import {DragDropModule} from 'primeng/dragdrop';
 
-import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GoogleMapsComponent } from './components/google-maps/google-maps.component';
@@ -61,6 +62,7 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
     GoogleMapsModule,
     GMapModule,
     GooglePlaceModule,
+    DragDropModule,
   ],
   providers: [
     MessageService,

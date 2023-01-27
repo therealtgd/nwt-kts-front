@@ -1,22 +1,57 @@
-<p-card>
+<p-card class="w-3 inline-block absolute z-1" style="top: 200px; left: 100px;min-width: 400px;">
   <h1>Request a ride now</h1>
   <span class="p-float-label pickup-location">
     <input 
-      id="pickupLocation" 
-      type="text" 
-      pInputText
-      ngx-google-places-autocomplete
-      (onAddressChange)="handleAddressChange($event, 'pickupLocation')"> 
+    id="pickupLocation" 
+    type="text" 
+    pInputText
+    ngx-google-places-autocomplete
+    (onAddressChange)="handleAddressChange($event, 'pickupLocation')"
+    class="w-11"
+    [options]="autocompleteOptions">
     <label for="float-input">Pickup location</label>
   </span>
-  <span class="p-float-label destination">
-    <input 
-      type="text" 
-      pInputText
-      ngx-google-places-autocomplete
-      (onAddressChange)="handleAddressChange($event, 'destination')"> 
-    <label for="float-input">Destination</label>
-  </span>
-  <button pButton type="button" label="Request now" class="btn-request"></button>
-  <app-google-maps [pickupLocation]="pickupLocation" [destination]="destination"></app-google-maps>
+  <div>
+    <span 
+    *ngFor="let i of stops; let idx = index"
+    class="p-float-label destination"
+    pDraggable="stop" pDroppable="stop"
+    (onDragStart)="onDragStart(idx)" (onDrop)="onDrop(idx)"> 
+      <input 
+        type="text" 
+        pInputText
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleStopChange($event, idx)"
+        class="w-11"
+        [options]="autocompleteOptions"> 
+      <label for="float-input">Stop</label>
+      <i class="pi pi-minus cursor-pointer text-xl" (click)="removeStop(idx)" style="margin-left: 10px"></i>
+    </span>
+    <span class="p-float-label destination">
+      <input 
+        type="text" 
+        pInputText
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleAddressChange($event, 'destination')"
+        class="w-11"
+        [options]="autocompleteOptions"> 
+      <label for="float-input">Destination</label>
+      <i *ngIf="stops.length < MAX_STOPS" class="pi pi-plus cursor-pointer text-xl" style="margin-left: 10px" (click)="addStop()"></i>
+    </span>
+  </div>
+  
+  <div class="w-11 flex justify-content-between aling-items-center">
+    <button pButton type="button" label="Request now" class="btn-request"></button>
+    <div class="flex flex-column justify-content-center w-5">
+      <span><label>Distance: </label>{{distance}}</span>
+      <span><label>Price: </label>{{price}}RSD</span>
+    </div>
+  </div>
 </p-card>
+<app-google-maps
+  [pickupLocation]="pickupLocation"
+  [destination]="destination"
+  [stops]="stops"
+  (onRideInfoChanged)="handleRideInfoChanged($event)"
+  class="relative block">
+</app-google-maps>

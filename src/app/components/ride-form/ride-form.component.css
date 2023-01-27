@@ -1,15 +1,7 @@
-input {
-  width: 100%;
-}
-
 .pickup-location {
   margin-top: 10px;
 }
 
 .destination {
   margin-block: 10px;
-}
-
-.btn-request {
-  margin-bottom: 15px;
 }

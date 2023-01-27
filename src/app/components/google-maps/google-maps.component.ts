@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
+import { RideInfo } from 'src/app/models/ride-info';
+import { Stop } from 'src/app/models/stop';
 
 @Component({
   selector: 'app-google-maps',
@@ -9,6 +11,10 @@ import { LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
 })
 export class GoogleMapsComponent implements OnInit {
 
+  @Input() pickupLocation: LatLngLiteral | null = null;
+  @Input() destination: LatLngLiteral | null = null;
+  @Input() stops: Stop[] = [];
+  @Output() onRideInfoChanged = new EventEmitter<RideInfo>();
   @ViewChild(GoogleMap) map!: GoogleMap;
   options!: google.maps.MapOptions;
   directionsService!: google.maps.DirectionsService;
@@ -16,51 +22,40 @@ export class GoogleMapsComponent implements OnInit {
 
   markers: any[] = [];
 
-  private _pickupLocation!: LatLngLiteral | null;
-  @Input() set pickupLocation(value: LatLngLiteral | null) {
-    this._pickupLocation = value;
-    if (this._pickupLocation) {
-      this.dropMarker(this._pickupLocation);
-      this.setRoutePolyline();
-    }
-  }
-
-  get pickupLocation(): LatLngLiteral | null {
-    return this._pickupLocation;
-  }
-
-  private _destination!: LatLngLiteral | null;
-  @Input() set destination(value: LatLngLiteral | null) {
-    this._destination = value;
-    if (this._destination) {
-      this.dropMarker(this._destination);
-      this.setRoutePolyline();
-    }
-  }
-
-  get destination(): LatLngLiteral | null {
-    return this._destination;
+  ngOnChanges() {
+    this.pickupLocation && this.destination && this.setRoutePolyline();
   }
 
   ngOnInit() {
     this.options = {
-      center: { lat: 45.2396, lng: 19.822 },
+       
+      center: { lat: 45.24755837792679, lng: 19.827395671336852 },
       zoom: 13,
+      restriction: {
+        latLngBounds: {
+          north: 45.33871095236587,
+          south: 45.21794541928532,
+          east: 19.91827998750687,
+          west: 19.688449296530184
+        },
+        strictBounds: true,
+      },
+      streetViewControl: false,
     };
     this.directionsService = new google.maps.DirectionsService();
-    this.directionsRenderer = new google.maps.DirectionsRenderer();
+    this.directionsRenderer = new google.maps.DirectionsRenderer();   
   }
 
   dropMarker(coordinates: LatLngLiteral) {
-    // this.markers.push({
-    //   position: {
-    //     lat: coordinates.lat,
-    //     lng: coordinates.lng,
-    //   },
-    //   options: {
-    //     animation: google.maps.Animation.DROP,
-    //   },
-    // })
+    this.markers.push({
+      position: {
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+      },
+      options: {
+        animation: google.maps.Animation.DROP,
+      },
+    })
   }
 
   setRoutePolyline() {
@@ -68,15 +63,35 @@ export class GoogleMapsComponent implements OnInit {
       let request = {
         origin: this.pickupLocation,
         destination: this.destination,
-        travelMode: google.maps.TravelMode.DRIVING
+        waypoints: this.stops.map(stop => ({
+          location: stop.address.formatted_address,
+          stopover: true
+        })),
+        travelMode: google.maps.TravelMode.DRIVING,
       };
 
       this.directionsService.route(request, (response, status) => {
         if (status == google.maps.DirectionsStatus.OK) {
           this.directionsRenderer.setMap(this.map.googleMap ?? null);
           this.directionsRenderer.setDirections(response);
+          
+          const legs = response?.routes[0].legs;
+          if (legs) {
+            const startAddress = legs[0].start_address;
+            const endAddress = legs[legs.length-1].end_address;
+            const distance = legs.map(leg => leg.distance!.value).reduce((acc, current) => acc + current, 0);
+            const duration = legs.map(leg => leg.duration!.value).reduce((acc, current) => acc + current, 0);
+
+            this.onRideInfoChanged.emit({
+              distance: {text: (distance/1000).toFixed(1)+' km', value: distance},
+              duration: {text: Math.round(duration/60)+' mins', value: duration},
+              startAddress,
+              endAddress,
+            });
+          }
+         
         } else {
-          console.log('Something went wrong')
+          console.warn('Something went wrong')
         }
       })
     }
