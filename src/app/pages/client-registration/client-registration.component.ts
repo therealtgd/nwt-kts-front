@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload/fileupload';
-import { RegistrationRequestDTO } from 'src/app/dto/RegistrationRequestDTO';
+import { ApiResponse } from 'src/app/dto/api-response';
+import { RegistrationRequest } from 'src/app/dto/registration-request';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ImageService } from 'src/app/services/image/image.service';
 import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator'; 
 ​
 @Component({
@@ -16,7 +18,8 @@ export class ClientRegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private imageService: ImageService
     ) {}
   
   @ViewChild('fileUpload')
@@ -25,6 +28,7 @@ export class ClientRegistrationComponent implements OnInit {
   modalVisibility: boolean = false;
   modalHeader: string = '';
   modalContent: string = '';
+  uploadedFile!: File;
   form!: FormGroup;
   url : any;
 
@@ -36,8 +40,7 @@ export class ClientRegistrationComponent implements OnInit {
       username: [''],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
-      phoneNumber: [''],
-      myFile: new FormControl(),
+      phoneNumber: ['']
     },
     {
       validator: ConfirmPasswordValidator("password", "confirmPassword")
@@ -46,12 +49,13 @@ export class ClientRegistrationComponent implements OnInit {
   
   uploadFile(event : any) {
     for (let file of event.files) {
-      this.form.patchValue({ myFile: file });
-      this.form.get('myFile')?.updateValueAndValidity();
+      this.uploadedFile = file
     }
+    this.fileUpload.clear();
+    this.showImage();
   }
   showImage() {
-    if (this.form.value.myFile === null) { return; }
+    if (this.uploadedFile === undefined) { return; }
     var reader = new FileReader();
     reader.onload = (event: any) => {
       this.url = event.target.result;
@@ -59,27 +63,43 @@ export class ClientRegistrationComponent implements OnInit {
     reader.onerror = (event: any) => {
       console.log("File could not be read: " + event.target.error.code);
     };
-    reader.readAsDataURL(this.form.value.myFile);
+    reader.readAsDataURL(this.uploadedFile);
   }
   save(){
-    this.fileUpload.upload();
-    this.showImage();
-    let registrationData: RegistrationRequestDTO = {
-      "displayName": this.form.value.firstName + ' ' + this.form.value.lastName,
-      "email": this.form.value.email,
-      "username": this.form.value.username,
-      "password": this.form.value.password,
-      "confirmPassword" : this.form.value.confirmPassword,
-      "phoneNumber": this.form.value.phoneNumber,
-      "image": "",
+    let registrationData: RegistrationRequest = {
+      displayName: this.form.value.firstName + ' ' + this.form.value.lastName,
+      email: this.form.value.email,
+      username: this.form.value.username,
+      password: this.form.value.password,
+      confirmPassword : this.form.value.confirmPassword,
+      phoneNumber: this.form.value.phoneNumber,
       socialProvider: 'LOCAL'
     };
     console.log(registrationData);
+    
     this.authService.registerClient(registrationData)
     .subscribe(
-      data => { this.displayModal("Success!", "You have successfully registered."); this.router.navigate(['/login']); },
+      data => { 
+        console.log();
+        const response: ApiResponse = data as ApiResponse;
+        this.imageService.upload(this.getImageData(response.message))
+        .subscribe(
+          data => { this.displayModal("Success!", "You have successfully registered."); this.router.navigate(['/login']); },
+          error => { this.displayModal("Oops!", error); console.log(error); }
+        )
+      },
       error => {this.displayModal("Oops!", error.error.message); console.log(error);}
       );
+  }
+  getImageData(email: string): FormData {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append(
+      'image', 
+      this.uploadedFile
+    );
+    console.log(formData);
+    return formData;
   }
   displayModal(header : string, content : Object) {
     this.modalContent = content.toString();

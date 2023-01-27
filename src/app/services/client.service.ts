@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { RegistrationRequestDTO } from "../dto/RegistrationRequestDTO";
-import { RegistrationConfirmationDTO } from "../dto/RegistrationConfirmationDTO";
+import { RegistrationConfirmation } from "../dto/registration-confirmation";
 import { post } from "../util/requests";
 
 @Injectable({
@@ -11,7 +10,7 @@ import { post } from "../util/requests";
 export class ClientService {
   constructor(private http: HttpClient) { }
 
-  public activateClient(tokenRequest: RegistrationConfirmationDTO) : Observable<Object> {
+  public activateClient(tokenRequest: RegistrationConfirmation) : Observable<Object> {
     return post(this.http, '/client/register/confirm', tokenRequest);
   }
 }
