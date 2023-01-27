@@ -1,3 +1,5 @@
+import { FileHandle } from "./file-handle";
+
 export interface RegistrationRequest {
   displayName: String;
   email: String;
@@ -5,6 +7,5 @@ export interface RegistrationRequest {
   password: String;
   confirmPassword: String;
   phoneNumber: String;
-  image: String;
   socialProvider: string;
 }

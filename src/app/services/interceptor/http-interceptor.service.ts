@@ -15,12 +15,13 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    const contentType: string = request.headers.get('Content-Type') || 'application/json';
     const token: string = getToken();
-    if (request.url.includes(apiUrl) && token) {
+    if (request.url.includes(apiUrl) && token && !request.url.includes('image')) {
 
       request = request.clone({
         setHeaders: {
-          'Content-Type': 'application/json',
+          'Content-Type': contentType,
           responseType : 'json',
           Authorization: `Bearer ${getToken()}`
         }
