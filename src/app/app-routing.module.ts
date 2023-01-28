@@ -7,7 +7,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 
 const routes: Routes = [
-  // { path: 'somepath', component: SomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'register/client', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
   { path: 'confirm-registration/:token', component: RegistrationConfirmationComponent },

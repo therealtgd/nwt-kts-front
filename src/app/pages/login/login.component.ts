@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginRequest } from 'src/app/dto/login-request';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { saveToken } from 'src/app/util/context';
 import { TokenResponse } from 'src/app/dto/token-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -43,32 +43,44 @@ export class LoginComponent implements OnInit {
 
   googleURL: string = "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:4200/login";
   facebookURL: string = "http://localhost:8080/oauth2/authorization/facebook?redirect_uri=http://localhost:4200/login";
-  form!: FormGroup;
+  modalVisibility: boolean = false;
+  modalContent: string = '';
+  modalHeader: string = '';
   errorMessage: string = '';
+  form!: FormGroup;
 
   login(): void {
     this.authService.login({
       email: this.form.value.email,
       password: this.form.value.password
     })
-      .subscribe(
-        data => {
-          if (data) {
-            let tokenResponse = data as TokenResponse;
-            saveToken(tokenResponse.accessToken);
-            this.authService.getWhoAmI();
-            window.location.reload();
-          }
-        },
-        error => {
-          this.errorMessage = error.message;
-        }
-      )
+      .subscribe({
+        next: (response) => this.handleLoginSuccess(response as TokenResponse),
+        error : (error) => this.handleLoginError(error)
+      });
+  }
+  handleLoginSuccess(response: TokenResponse) {
+    saveToken(response.accessToken);
+    this.authService.getWhoAmI();
+    window.location.reload();
+    this.router.navigate(['home']);
   }
   googleLogIn() {
     window.location.href = this.googleURL;
   }
   facebookLogIn() {
     window.location.href = this.facebookURL;
+  }
+  handleLoginError(error: HttpErrorResponse) {
+    console.log(error)
+    if (typeof error.error.error === "string")
+      this.displayModal("Oops!", error.error.error);
+    else
+      this.displayModal("Oops!", error.error.message);
+  }
+  displayModal(header : string, content : Object) {
+    this.modalContent = content.toString();
+    this.modalHeader = header;
+    this.modalVisibility = true;
   }
 }
