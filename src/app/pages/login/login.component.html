@@ -1,51 +1,56 @@
-
 <div class="flex justify-content-center mt-5 pt-8">
 
   <p-card class="w-4" header="Log in">
 
     <form class="flex flex-wrap row-gap-1" [formGroup]="form" (ngSubmit)="login()">
-      
+
       <span class="w-12 p-2 p-float-label">
-        <input type="text" required="true" formControlName="email" pKeyFilter="alpha" minlength="2" maxlength="30" pInputText>
+        <input type="text" required="true" formControlName="email" pKeyFilter="alpha" minlength="2" maxlength="30"
+          pInputText>
         <label for="float-input">Email</label>
       </span>
-      
+
       <span class="w-12 p-2 mb-1 p-float-label">
-        <p-password [toggleMask]="true" [feedback]="false" required="true" formControlName="password" minlength="2" maxlength="20" p></p-password>
+        <p-password [toggleMask]="true" [feedback]="false" required="true" formControlName="password" minlength="2"
+          maxlength="20" p></p-password>
         <label for="float-input">Password</label>
       </span>
 
       <small class="p-error mx-2 block" *ngIf="errorMessage">{{ errorMessage }}</small>
 
       <span class="flex justify-content-center flex-wrap w-12 mt-3 px-2">
-        <button pButton type="button" type="submit" label="Log in" style="width:100%" ></button> 
+        <button pButton type="button" type="submit" label="Log in" style="width:100%"></button>
       </span>
 
     </form>
 
     <div class="flex justify-content-center w-12">
-    <div style="width:95%; text-align:center; border-bottom: 1px solid #444444; line-height:0.1em; margin:30px 0 30px;">
-      <span>
-        or 
-      </span>
+      <div
+        style="width:95%; text-align:center; border-bottom: 1px solid #444444; line-height:0.1em; margin:30px 0 30px;">
+        <span>
+          or
+        </span>
+      </div>
     </div>
-  </div>
 
-  <div class="flex justify-content-center px-2">
-    <cool-google-button color="light" (click)="googleLogIn()" class="mr-3">
-      Login with Google
-    </cool-google-button>
-    <cool-facebook-button color="light" (click)="facebookLogIn()" class="ml-3">
-      Login with Facebook
-    </cool-facebook-button>
-  </div>
-  <div class="flex justify-content-center px-2">
-  </div>
-
-    <small class="flex justify-content-center mt-4">
-      Not a member yet? &nbsp;<a href="/register/client"> Sign up now</a> 
-    </small>
+    <div class="flex justify-content-center px-2">
+      <cool-google-button color="light" (click)="googleLogIn()" class="mr-3">
+        Login with Google
+      </cool-google-button>
+      <cool-facebook-button color="light" (click)="facebookLogIn()" class="ml-3">
+        Login with Facebook
+      </cool-facebook-button>
+    </div>
+    <div class="flex justify-content-center px-2">
+    </div>
 
   </p-card>
 
+  <p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" [(visible)]="modalVisibility"
+    [modal]="true" [style]="{width: '30vw'}">
+    <p class="m-0">{{ this.modalContent }}</p>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="modalVisibility=false;" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
 </div>

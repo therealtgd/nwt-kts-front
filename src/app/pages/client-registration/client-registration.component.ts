@@ -6,8 +6,8 @@ import { ApiResponse } from 'src/app/dto/api-response';
 import { RegistrationRequest } from 'src/app/dto/registration-request';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ImageService } from 'src/app/services/image/image.service';
-import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator'; 
-​
+import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator';
+
 @Component({
   selector: 'app-client-registration',
   templateUrl: './client-registration.component.html',
@@ -20,17 +20,18 @@ export class ClientRegistrationComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private imageService: ImageService
-    ) {}
-  
+  ) { }
+
   @ViewChild('fileUpload')
   fileUpload!: FileUpload;
 
-  modalVisibility: boolean = false;
+  successModalVisibility: boolean = false;
+  errorModalVisibility: boolean = false;
   modalHeader: string = '';
   modalContent: string = '';
   uploadedFile!: File;
   form!: FormGroup;
-  url : any;
+  url: any;
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -42,12 +43,12 @@ export class ClientRegistrationComponent implements OnInit {
       confirmPassword: ['', [Validators.required]],
       phoneNumber: ['']
     },
-    {
-      validator: ConfirmPasswordValidator("password", "confirmPassword")
-    });
+      {
+        validator: ConfirmPasswordValidator("password", "confirmPassword")
+      });
   }
-  
-  uploadFile(event : any) {
+
+  uploadFile(event: any) {
     for (let file of event.files) {
       this.uploadedFile = file
     }
@@ -65,60 +66,72 @@ export class ClientRegistrationComponent implements OnInit {
     };
     reader.readAsDataURL(this.uploadedFile);
   }
-  save(){
+  save() {
     let registrationData: RegistrationRequest = {
       displayName: this.form.value.firstName + ' ' + this.form.value.lastName,
       email: this.form.value.email,
       username: this.form.value.username,
       password: this.form.value.password,
-      confirmPassword : this.form.value.confirmPassword,
+      confirmPassword: this.form.value.confirmPassword,
       phoneNumber: this.form.value.phoneNumber,
       socialProvider: 'LOCAL'
     };
-    console.log(registrationData);
-    
+
     this.authService.registerClient(registrationData)
-    .subscribe(
-      data => { 
-        console.log();
-        const response: ApiResponse = data as ApiResponse;
-        this.imageService.upload(this.getImageData(response.message))
-        .subscribe(
-          data => { this.displayModal("Success!", "You have successfully registered."); this.router.navigate(['/login']); },
-          error => { this.displayModal("Oops!", error); console.log(error); }
-        )
-      },
-      error => {this.displayModal("Oops!", error.error.message); console.log(error);}
-      );
+      .subscribe({
+        next: (data) => this.handleImageSuccess(data as ApiResponse),
+        error: (error) => this.handleRegistrationError(error.error as ApiResponse)
+      });
   }
   getImageData(email: string): FormData {
     const formData = new FormData();
     formData.append('email', email);
     formData.append(
-      'image', 
+      'image',
       this.uploadedFile
     );
-    console.log(formData);
     return formData;
   }
-  displayModal(header : string, content : Object) {
+  redirect(pageName: string = '') {
+    this.router.navigate([`${pageName}`]);
+  }
+  handleImageSuccess(response: ApiResponse) {
+    this.displaySuccessModal("Success!", "You have successfully registered.");
+  }
+  handleRegistrationSuccess(response: ApiResponse) {
+    this.imageService.upload(this.getImageData(response.message))
+      .subscribe({
+        next: (data) => this.handleImageSuccess(data as ApiResponse),
+        error: (error) => this.handleRegistrationError(error.error as ApiResponse)
+      });
+  }
+  handleRegistrationError(error: ApiResponse) {
+    console.log(error)
+    this.displayErrorModal("Oops!", error.message);
+  }
+  displaySuccessModal(header: string, content: Object) {
     this.modalContent = content.toString();
     this.modalHeader = header;
-    this.modalVisibility = true;
+    this.successModalVisibility = true;
+  }
+  displayErrorModal(header: string, content: Object) {
+    this.modalContent = content.toString();
+    this.modalHeader = header;
+    this.errorModalVisibility = true;
   }
 
   invalidateFields(errorObject: Object) {
     const invalidFields: string[] = Object.keys(errorObject);
     invalidFields.forEach(fieldName => {
-      this.form.controls[fieldName].setErrors({'invalid': true});
+      this.form.controls[fieldName].setErrors({ 'invalid': true });
     });
   }
 
   compareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
     return () => {
-    if (controlOne.value !== controlTwo.value)
-      return { match_error: 'Passwords do not match' };
-    return null;
-  };
-}
+      if (controlOne.value !== controlTwo.value)
+        return { match_error: 'Passwords do not match' };
+      return null;
+    };
+  }
 }

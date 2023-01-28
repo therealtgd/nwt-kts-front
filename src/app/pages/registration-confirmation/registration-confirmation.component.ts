@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiResponse } from 'src/app/dto/api-response';
 import { ClientService } from 'src/app/services/client.service';
 
 @Component({
@@ -15,22 +17,34 @@ export class RegistrationConfirmationComponent {
     private clientService: ClientService
     ){
     this.route.params.subscribe( params => clientService.activateClient({ "token": params['token'] })
-    .subscribe( 
-      data => { this.displayModal("Success!", data); },
-      error => { this.displayModal("Oops!", error.error); this.redirect(); }
-      ) );
+    .subscribe({ 
+      next: (response) => this.handleRegistrationSuccess(response as ApiResponse),
+      error: (error) => this.handleRegistrationError(error)
+      }) );
   }
 
-  modalVisibility: boolean = false;
+  successModalVisibility: boolean = false;
+  errorModalVisibility: boolean = false;
   modalContent: string = '';
   modalHeader: string = '';
 
   redirect(pageName: string = ''){
     this.router.navigate([`${pageName}`]);
   }
-  displayModal(header : string, content : Object) {
+  handleRegistrationSuccess(response: ApiResponse) {
+    this.displaySuccessModal("Success!", response.message);
+  }
+  handleRegistrationError(error: HttpErrorResponse) {
+    this.displayErrorModal("Oops!", error.error);
+  }
+  displaySuccessModal(header : string, content : Object) {
     this.modalContent = content.toString();
     this.modalHeader = header;
-    this.modalVisibility = true;
+    this.successModalVisibility = true;
+  }
+  displayErrorModal(header : string, content : Object) {
+    this.modalContent = content.toString();
+    this.modalHeader = header;
+    this.errorModalVisibility = true;
   }
 }
