@@ -29,3 +29,9 @@ h6 {
 p {
   margin: 0;
 }
+
+.full-height {
+  height: calc(100vh - 75.844px);
+  display: block;
+}
+

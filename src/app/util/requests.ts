@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { ApiResponse } from "../dto/api-response";
 
 type HeaderT = {
   headers: HttpHeaders,

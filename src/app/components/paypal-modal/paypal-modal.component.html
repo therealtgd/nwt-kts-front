@@ -1,0 +1,10 @@
+<app-modal
+  [visible]="modalVisible"
+  header="Checkout with PayPal"
+  (onModalClose)="this.onModalClose.emit()">
+  <ng-container content>
+    <ng-container *ngIf="showSuccess"><span class="text-xl"><i class="pi pi-check-circle"></i> Success</span></ng-container>
+    <ng-container *ngIf="showError"><span class="text-xl"><i class="pi pi-times-circle"></i> Purchase failed</span></ng-container>
+  </ng-container>
+  <ngx-paypal footer [config]="payPalConfig"></ngx-paypal>
+</app-modal>
