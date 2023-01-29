@@ -40,8 +40,7 @@ export class ClientRegistrationComponent implements OnInit {
       email: [''],
       username: [''],
       password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
-      phoneNumber: ['']
+      confirmPassword: ['', [Validators.required]]
     },
       {
         validator: ConfirmPasswordValidator("password", "confirmPassword")
@@ -73,7 +72,6 @@ export class ClientRegistrationComponent implements OnInit {
       username: this.form.value.username,
       password: this.form.value.password,
       confirmPassword: this.form.value.confirmPassword,
-      phoneNumber: this.form.value.phoneNumber,
       socialProvider: 'LOCAL'
     };
 

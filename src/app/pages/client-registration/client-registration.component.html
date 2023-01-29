@@ -32,15 +32,17 @@
       <label for="float-password">Confirm password</label>
     </span>
 
-    <span class="w-6 p-2 p-float-label">
-      <input type="text" required="true" formControlName="phoneNumber" pKeyFilter="int" minlength="2" maxlength="20" pInputText>
-      <label for="float-input">Phone number</label>
-    </span>
-    <span class="w-6 px-2 p-float-label flex vertical-align-middle">
+    <span class="w-12 p-2 p-float-label flex vertical-align-middle">
       <p-fileUpload #fileUpload mode="basic" chooseLabel="Browse" class="my-auto" accept="image/*"
         [customUpload]="true" (onSelect)="uploadFile($event)">
       </p-fileUpload>
-      <img *ngIf="url" [src]="url" height="50px" class="my-auto ml-3">
+      <img *ngIf="url" [src]="url" class="my-auto ml-3">
+      <ng-container *ngIf="uploadedFile">
+        <div class="ml-3 w-full overflow-hidden">
+          {{uploadedFile.name}}
+        </div>
+        
+      </ng-container>
     </span>
 
     <span class="flex justify-content-center flex-wrap w-12 pt-5">
