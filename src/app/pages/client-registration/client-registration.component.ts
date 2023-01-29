@@ -88,7 +88,7 @@ export class ClientRegistrationComponent implements OnInit {
   }
   handleRegistrationSuccess(response: ApiResponse<null>) {
     const image: FormData = this.getImageData(response.message);
-    if(!this.uploadedFile) {
+    if (!this.uploadedFile) {
       this.handleImageSuccess();
       return;
     }
