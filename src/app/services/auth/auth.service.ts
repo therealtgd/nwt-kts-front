@@ -22,6 +22,7 @@ export class AuthService {
     console.log("invalidating")
     invalidateSession();
     invalidateToken();
+    window.location.reload();
   }
   
   getWhoAmI(): void {

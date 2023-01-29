@@ -22,6 +22,7 @@ export class EditProfileComponent {
   modalContent: string = '';
   uploadedFile!: File;
   userUpdateForm!: FormGroup;
+  passwordUpdateForm!: FormGroup;
   url: any;
 
   constructor(
@@ -35,6 +36,13 @@ export class EditProfileComponent {
       displayName: [this.user.displayName],
       username: [this.user.username]
     });
+    this.passwordUpdateForm = this.fb.group({
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+    },
+      {
+        validator: ConfirmPasswordValidator("password", "confirmPassword")
+      });
   }
   updateUser(): void {
     let updateRequest: UpdateUser = {
@@ -46,6 +54,18 @@ export class EditProfileComponent {
     this.userService.updateUser(updateRequest)
     .subscribe({
       next : (data) => this.displaySuccessModal("Success!", "You have successfully changed your information."),
+      error: (error) => this.displayFailureModal("Oops!", error)
+    })
+  }
+  updatePassword(): void {
+    let updateRequest: UpdatePassword = {
+      password: this.passwordUpdateForm.value.password,
+      confirmPassword : this.passwordUpdateForm.value.confirmPassword,
+    };
+    console.log(updateRequest);
+    this.userService.updatePassword(updateRequest)
+    .subscribe({
+      next : (data) => this.displaySuccessModal("Success!", "You have successfully changed your password."),
       error: (error) => this.displayFailureModal("Oops!", error)
     })
   }
@@ -61,5 +81,12 @@ export class EditProfileComponent {
   }
   reload() {
     window.location.reload();
+  }
+  compareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
+    return () => {
+      if (controlOne.value !== controlTwo.value)
+        return { match_error: 'Passwords do not match' };
+      return null;
+    };
   }
 }

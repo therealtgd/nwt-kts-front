@@ -15,5 +15,8 @@ export class UserService {
   public updateUser(data: UpdateUser) : Observable<Object> {
     return put(this.http, '/user/update', data);
   }
+  public updatePassword(data: UpdatePassword) : Observable<Object> {
+    return put(this.http, '/user/update-password', data);
+  }
 
 }
