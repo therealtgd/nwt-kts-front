@@ -5,17 +5,19 @@ import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { NgxPayPalModule } from 'ngx-paypal';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { MessageService } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
+import { DragDropModule } from 'primeng/dragdrop';
 import { FileUploadModule } from 'primeng/fileupload';
 import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import {DragDropModule} from 'primeng/dragdrop';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -31,6 +33,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
+import { ModalComponent } from './components/modal/modal.component';
+import { AddressPipe } from './pipes/address.pipe';
+import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
+import { PaypalModalComponent } from './components/paypal-modal/paypal-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +48,10 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
     GoogleMapsComponent,
     HomeComponent,
     RideFormComponent,
+    ModalComponent,
+    AddressPipe,
+    BuyCreditsComponent,
+    PaypalModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +73,8 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
     GMapModule,
     GooglePlaceModule,
     DragDropModule,
+    NgxPayPalModule,
+    ProgressSpinnerModule,
   ],
   providers: [
     MessageService,

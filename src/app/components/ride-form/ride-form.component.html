@@ -2,21 +2,21 @@
   <h1>Request a ride now</h1>
   <span class="p-float-label pickup-location">
     <input 
-    id="pickupLocation" 
-    type="text" 
-    pInputText
-    ngx-google-places-autocomplete
-    (onAddressChange)="handleAddressChange($event, 'pickupLocation')"
-    class="w-11"
-    [options]="autocompleteOptions">
+      id="pickupLocation" 
+      type="text" 
+      pInputText
+      ngx-google-places-autocomplete
+      (onAddressChange)="handleAddressChange($event, 'pickupLocation')"
+      class="w-11"
+      [options]="autocompleteOptions">
     <label for="float-input">Pickup location</label>
   </span>
   <div>
     <span 
-    *ngFor="let i of stops; let idx = index"
-    class="p-float-label destination"
-    pDraggable="stop" pDroppable="stop"
-    (onDragStart)="onDragStart(idx)" (onDrop)="onDrop(idx)"> 
+      *ngFor="let i of rideInfo.stops; let idx = index"
+      class="p-float-label destination"
+      pDraggable="stop" pDroppable="stop"
+      (onDragStart)="onDragStart(idx)" (onDrop)="onDrop(idx)"> 
       <input 
         type="text" 
         pInputText
@@ -36,22 +36,62 @@
         class="w-11"
         [options]="autocompleteOptions"> 
       <label for="float-input">Destination</label>
-      <i *ngIf="stops.length < MAX_STOPS" class="pi pi-plus cursor-pointer text-xl" style="margin-left: 10px" (click)="addStop()"></i>
+      <i *ngIf="rideInfo.stops.length < MAX_STOPS" class="pi pi-plus cursor-pointer text-xl" style="margin-left: 10px" (click)="addStop()"></i>
     </span>
   </div>
   
   <div class="w-11 flex justify-content-between aling-items-center">
-    <button pButton type="button" label="Request now" class="btn-request"></button>
+    <button
+      pButton type="button"
+      label="Request now"
+      class="btn-request"
+      (click)="onRequestRide()"
+      [disabled]="!rideInfo.price">
+    </button>
     <div class="flex flex-column justify-content-center w-5">
-      <span><label>Distance: </label>{{distance}}</span>
-      <span><label>Price: </label>{{price}}RSD</span>
+      <span><label>Distance: </label>{{rideInfo.distance.text}}</span>
+      <span><label>Price: </label>{{rideInfo.price}}RSD</span>
     </div>
   </div>
 </p-card>
 <app-google-maps
   [pickupLocation]="pickupLocation"
   [destination]="destination"
-  [stops]="stops"
+  [stops]="rideInfo.stops"
   (onRideInfoChanged)="handleRideInfoChanged($event)"
   class="relative block">
 </app-google-maps>
+<app-modal
+  [header]="modalHeader"
+  [content]="modalContent"
+  [visible]="modalVisible"
+  (onModalClose)="closeModal()">
+  <div content>
+    <p-progressSpinner *ngIf="showSpinner"></p-progressSpinner>
+    <div *ngIf="rideInfo?.driver">
+      <div><label>Driver: </label>{{rideInfo.driver}}</div>
+      <div><label>Pickup location: </label>{{rideInfo.startAddress.address | address}}</div>
+      <div><label>Destination: </label>{{rideInfo.endAddress.address | address}}</div>
+      <div><label>Stops: </label>{{rideInfo.stops.length}}</div>
+      <div><label>Distance: </label>{{rideInfo.distance.text}}</div>
+    </div>
+  </div>
+  <div *ngIf="rideInfo?.driver" footer class="flex justify-content-center">
+    <p-button
+      *ngIf="clientCreditsBalance >= rideInfo.price"
+      icon="pi pi-wallet"
+      (click)="modalVisible=false"
+      label="Request for {{rideInfo.price}}RSD">
+    </p-button>
+    <p-button
+      *ngIf="clientCreditsBalance < rideInfo.price"
+      icon="pi pi-credit-card"
+      [routerLink]="'/buy-credits'"
+      label="Buy credits">
+    </p-button>
+    <p-button
+      (click)="modalVisible=false"
+      label="Split fare">
+    </p-button>
+  </div>
+</app-modal>

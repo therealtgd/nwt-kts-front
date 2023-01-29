@@ -3,6 +3,7 @@ import { GoogleMap } from '@angular/google-maps';
 import { LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
 import { RideInfo } from 'src/app/models/ride-info';
 import { Stop } from 'src/app/models/stop';
+import { VehicleType } from 'src/app/models/vehicle-type';
 
 @Component({
   selector: 'app-google-maps',
@@ -14,7 +15,7 @@ export class GoogleMapsComponent implements OnInit {
   @Input() pickupLocation: LatLngLiteral | null = null;
   @Input() destination: LatLngLiteral | null = null;
   @Input() stops: Stop[] = [];
-  @Output() onRideInfoChanged = new EventEmitter<RideInfo>();
+  @Output() onRideInfoChanged = new EventEmitter<any>();
   @ViewChild(GoogleMap) map!: GoogleMap;
   options!: google.maps.MapOptions;
   directionsService!: google.maps.DirectionsService;
@@ -77,8 +78,20 @@ export class GoogleMapsComponent implements OnInit {
           
           const legs = response?.routes[0].legs;
           if (legs) {
-            const startAddress = legs[0].start_address;
-            const endAddress = legs[legs.length-1].end_address;
+            const startAddress = {
+              address: legs[0].start_address,
+              coordinates: {
+                lat: legs[0].start_location.lat(),
+                lng: legs[0].start_location.lng()
+              }
+            };
+            const endAddress = {
+              address: legs[legs.length-1].end_address,
+              coordinates: {
+                lat: legs[legs.length-1].start_location.lat(),
+                lng: legs[legs.length-1].start_location.lng()
+              }
+            };
             const distance = legs.map(leg => leg.distance!.value).reduce((acc, current) => acc + current, 0);
             const duration = legs.map(leg => leg.duration!.value).reduce((acc, current) => acc + current, 0);
 

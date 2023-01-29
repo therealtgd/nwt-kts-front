@@ -1,0 +1,23 @@
+<ng-container *ngIf="creditAmounts$ | async as creditAmounts; else loading"
+  class="flex align-items-center w-screen justify-content-center">
+  <div class="flex flex-wrap row-gap-2 full-height w-5 mx-auto my-0">
+    <p-card *ngFor="let creditAmount of creditAmounts"
+      class="flex flex-column align-items-center justify-content-center w-4">
+      <div class="flex align-items-center justify-content-center">
+        <div class="text-2xl inline-block mr-2">{{creditAmount}}</div>
+        <i class="pi pi-money-bill"></i>
+      </div>
+      <ng-template pTemplate="footer">
+        <p-button icon="pi pi-paypal" label="Buy now" (onClick)="buyCredits(creditAmount)">
+        </p-button>
+      </ng-template>
+    </p-card>
+  </div>
+</ng-container>
+<ng-template #loading>Loading credit amounts...</ng-template>
+<app-paypal-modal 
+  *ngIf="showPayPalModal"
+  [buyAmount]="buyAmount"
+  [modalVisible]="showPayPalModal"
+  (onModalClose)="showPayPalModal = false">
+</app-paypal-modal>
