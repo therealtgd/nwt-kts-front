@@ -11,6 +11,7 @@ import { getSession } from 'src/app/util/context';
 export class ProfileComponent implements OnInit {
   user!: ContextData;
   image!: SafeResourceUrl;
+  selectedItem: string = 'Edit profile'
 
   constructor(private _sanitizer: DomSanitizer) { }
 

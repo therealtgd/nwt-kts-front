@@ -20,3 +20,24 @@
   object-position: center;
   border-radius: 50%;
 }
+
+.profile-choice {
+  color: var(--gray-300);
+  font-size: 1rem;
+	transition: transform 0.2s;
+	transition: 0.2s;
+}
+
+.profile-choice:hover {
+  color: var(--white);
+  font-size: 1.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.chosen-item {
+  color: var(--white);
+  font-size: 1.2rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
