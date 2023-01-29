@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
   constructor(private _sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.user = getSession() || { id:'', image:'', displayName:'', username:'', email:'', role:'' };
+    this.user = getSession() || { image:'', displayName:'', username:'', email:'', role:'' };
     this.image = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + this.user.image);
   }
 

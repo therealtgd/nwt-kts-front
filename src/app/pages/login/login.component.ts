@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { saveToken } from 'src/app/util/context';
 import { TokenResponse } from 'src/app/dto/token-response';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ApiResponse } from 'src/app/models/api-response';
 
 
 @Component({
@@ -55,15 +56,19 @@ export class LoginComponent implements OnInit {
       password: this.form.value.password
     })
       .subscribe({
-        next: (response) => this.handleLoginSuccess(response as TokenResponse),
-        error : (error) => this.handleLoginError(error)
+        next: (response) => this.handleLoginSuccess(response),
+        error : (error) => this.handleLoginError(error.error)
       });
   }
-  handleLoginSuccess(response: TokenResponse) {
-    saveToken(response.accessToken);
+  handleLoginSuccess(response: ApiResponse<null>) {
+    saveToken(response.message);
     this.authService.getWhoAmI();
     window.location.reload();
     this.router.navigate(['home']);
+  }
+  handleLoginError(error: ApiResponse<null>) {
+    console.log(error)
+    this.displayModal("Oops!", error.message);
   }
   googleLogIn() {
     window.location.href = this.googleURL;
@@ -71,15 +76,8 @@ export class LoginComponent implements OnInit {
   facebookLogIn() {
     window.location.href = this.facebookURL;
   }
-  handleLoginError(error: HttpErrorResponse) {
-    console.log(error)
-    if (typeof error.error.error === "string")
-      this.displayModal("Oops!", error.error.error);
-    else
-      this.displayModal("Oops!", error.error.message);
-  }
-  displayModal(header : string, content : Object) {
-    this.modalContent = content.toString();
+  displayModal(header : string, content : string) {
+    this.modalContent = content;
     this.modalHeader = header;
     this.modalVisibility = true;
   }

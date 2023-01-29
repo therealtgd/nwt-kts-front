@@ -1,7 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
-import { ApiResponse } from 'src/app/dto/api-response';
 import { ContextData } from 'src/app/dto/context-data';
 import { UpdatePassword } from 'src/app/dto/update-password';
 import { UpdateUser } from 'src/app/dto/update-user';
@@ -49,12 +48,10 @@ export class EditProfileComponent {
       displayName: this.userUpdateForm.value.displayName,
       username: this.userUpdateForm.value.username
     };
-    console.log(updateRequest);
-    
     this.userService.updateUser(updateRequest)
     .subscribe({
       next : (data) => this.displaySuccessModal("Success!", "You have successfully changed your information."),
-      error: (error) => this.displayFailureModal("Oops!", error)
+      error: (error) => this.displayFailureModal("Oops!", error.error.message)
     })
   }
   updatePassword(): void {
@@ -62,20 +59,19 @@ export class EditProfileComponent {
       password: this.passwordUpdateForm.value.password,
       confirmPassword : this.passwordUpdateForm.value.confirmPassword,
     };
-    console.log(updateRequest);
     this.userService.updatePassword(updateRequest)
     .subscribe({
       next : (data) => this.displaySuccessModal("Success!", "You have successfully changed your password."),
-      error: (error) => this.displayFailureModal("Oops!", error)
+      error: (error) => this.displayFailureModal("Oops!", error.error.message)
     })
   }
-  displaySuccessModal(header: string, content: Object) {
-    this.modalContent = content.toString();
+  displaySuccessModal(header: string, content: string) {
+    this.modalContent = content;
     this.modalHeader = header;
     this.successModalVisibility = true;
   }
-  displayFailureModal(header: string, content: Object) {
-    this.modalContent = content.toString();
+  displayFailureModal(header: string, content: string) {
+    this.modalContent = content;
     this.modalHeader = header;
     this.failureModalVisibility = true;
   }

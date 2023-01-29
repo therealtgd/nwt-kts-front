@@ -37,10 +37,10 @@
       <p-button icon="pi pi-check" (click)="successModalVisibility=false;" label="Ok" styleClass="p-button-text"></p-button>
     </ng-template>
   </p-dialog>
-  <p-dialog header="{{ this.modalHeader }}" (onHide)="redirect('login')" [draggable]="false" [resizable]="false" [(visible)]="errorModalVisibility" [modal]="true" [style]="{width: '30vw'}" >
+  <p-dialog header="{{ this.modalHeader }}" (onHide)="redirect('login')" [draggable]="false" [resizable]="false" [(visible)]="failureModalVisibility" [modal]="true" [style]="{width: '30vw'}" >
     <p class="m-0">{{ this.modalContent }}</p>
     <ng-template pTemplate="footer">
-      <p-button icon="pi pi-check" (click)="errorModalVisibility=false" label="Ok" styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-check" (click)="failureModalVisibility=false" label="Ok" styleClass="p-button-text"></p-button>
     </ng-template>
   </p-dialog>
 </div>

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ContextData } from 'src/app/dto/context-data';
 import { LoginRequest } from 'src/app/dto/login-request';
-import { RegistrationRequest } from 'src/app/dto/registration-request';
-import { saveToken, saveSession, invalidateSession, invalidateToken } from 'src/app/util/context';
+import { ApiResponse } from 'src/app/models/api-response';
+import { saveSession, invalidateSession, invalidateToken } from 'src/app/util/context';
 import { get, post } from 'src/app/util/requests';
 
 @Injectable({
@@ -14,8 +14,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(data: LoginRequest): Observable<Object> {
-    return post(this.http, '/auth/signin', data);
+  login(data: LoginRequest): Observable<ApiResponse<null>> {
+    return post(this.http, '/auth/signin', data) as Observable<ApiResponse<null>>;
   }
 
   logout(): void {
@@ -26,15 +26,11 @@ export class AuthService {
   }
   
   getWhoAmI(): void {
-    get(this.http, '/user/me')
+    (get(this.http, '/user/me') as Observable<ApiResponse<ContextData>>)
       .subscribe({
-        next: (data) => saveSession(data as ContextData),
+        next: (data) => saveSession(data.body as ContextData),
         error: (error) => this.logout()
       })
-  }
-
-  public registerClient(data: RegistrationRequest) : Observable<Object> {
-    return post(this.http, '/auth/signup', data);
   }
   
 }

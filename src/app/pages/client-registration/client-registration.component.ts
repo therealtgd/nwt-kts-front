@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload/fileupload';
-import { ApiResponse } from 'src/app/dto/api-response';
 import { RegistrationRequest } from 'src/app/dto/registration-request';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { ApiResponse } from 'src/app/models/api-response';
 import { ImageService } from 'src/app/services/image/image.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { ConfirmPasswordValidator } from '../../validators/confirm-password.validator';
 
 @Component({
@@ -17,7 +17,7 @@ export class ClientRegistrationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private imageService: ImageService
   ) { }
@@ -26,7 +26,7 @@ export class ClientRegistrationComponent implements OnInit {
   fileUpload!: FileUpload;
 
   successModalVisibility: boolean = false;
-  errorModalVisibility: boolean = false;
+  failureModalVisibility: boolean = false;
   modalHeader: string = '';
   modalContent: string = '';
   uploadedFile!: File;
@@ -35,8 +35,7 @@ export class ClientRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      firstName: [''],
-      lastName: [''],
+      displayName: [''],
       email: [''],
       username: [''],
       password: ['', [Validators.required]],
@@ -65,57 +64,58 @@ export class ClientRegistrationComponent implements OnInit {
     };
     reader.readAsDataURL(this.uploadedFile);
   }
+  getImageData(email: string): FormData {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('image', this.uploadedFile);
+    return formData;
+  }
   save() {
+    console.log(this.uploadedFile);
     let registrationData: RegistrationRequest = {
-      displayName: this.form.value.firstName + ' ' + this.form.value.lastName,
+      displayName: this.form.value.displayName,
       email: this.form.value.email,
       username: this.form.value.username,
       password: this.form.value.password,
       confirmPassword: this.form.value.confirmPassword,
       socialProvider: 'LOCAL'
     };
-
-    this.authService.registerClient(registrationData)
+    this.userService.registerClient(registrationData)
       .subscribe({
-        next: (data) => this.handleImageSuccess(data as ApiResponse),
-        error: (error) => this.handleRegistrationError(error.error as ApiResponse)
+        next: (data) => this.handleRegistrationSuccess(data),
+        error: (error) => this.handleRegistrationError(error.error)
       });
   }
-  getImageData(email: string): FormData {
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append(
-      'image',
-      this.uploadedFile
-    );
-    return formData;
-  }
-  redirect(pageName: string = '') {
-    this.router.navigate([`${pageName}`]);
-  }
-  handleImageSuccess(response: ApiResponse) {
-    this.displaySuccessModal("Success!", "You have successfully registered.");
-  }
-  handleRegistrationSuccess(response: ApiResponse) {
+  handleRegistrationSuccess(response: ApiResponse<null>) {
+    const image: FormData = this.getImageData(response.message);
+    if(!this.uploadedFile) {
+      this.handleImageSuccess();
+      return;
+    }
     this.imageService.upload(this.getImageData(response.message))
       .subscribe({
-        next: (data) => this.handleImageSuccess(data as ApiResponse),
-        error: (error) => this.handleRegistrationError(error.error as ApiResponse)
+        next: (data) => this.handleImageSuccess(),
+        error: (error) => this.handleRegistrationError(error.error)
       });
   }
-  handleRegistrationError(error: ApiResponse) {
-    console.log(error)
+  handleImageSuccess() {
+    this.displaySuccessModal("Success!", "You have successfully registered.");
+  }
+  handleRegistrationError(error: ApiResponse<null>) {
     this.displayErrorModal("Oops!", error.message);
   }
-  displaySuccessModal(header: string, content: Object) {
-    this.modalContent = content.toString();
+  displaySuccessModal(header: string, content: string) {
+    this.modalContent = content;
     this.modalHeader = header;
     this.successModalVisibility = true;
   }
-  displayErrorModal(header: string, content: Object) {
-    this.modalContent = content.toString();
+  displayErrorModal(header: string, content: string) {
+    this.modalContent = content;
     this.modalHeader = header;
-    this.errorModalVisibility = true;
+    this.failureModalVisibility = true;
+  }
+  redirect(pageName: string = '') {
+    this.router.navigate([`${pageName}`]);
   }
 
   invalidateFields(errorObject: Object) {
