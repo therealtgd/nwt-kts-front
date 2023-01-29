@@ -17,6 +17,10 @@ export function getWithParams(httpClient: HttpClient, url: string, params: HttpP
 }
 
 export function post(httpClient: HttpClient, url: string, requestData : Object, contentType: string = 'application/json'){
+  return httpClient.post(apiUrl + url, requestData, getHeader(contentType));
+}
+
+export function postWithoutHeader(httpClient: HttpClient, url: string, requestData : Object){
   return httpClient.post(apiUrl + url, requestData, {});
 }
 

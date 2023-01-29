@@ -1,5 +1,4 @@
 import { ContextData } from "../dto/context-data";
-import { get } from "./requests";
 
 
 export function getSession() : ContextData | undefined {

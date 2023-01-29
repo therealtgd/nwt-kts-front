@@ -26,8 +26,9 @@ export class AuthService {
   
   getWhoAmI(): void {
     get(this.http, '/user/me')
-      .subscribe(data => {
-        saveSession(data as ContextData);
+      .subscribe({
+        next: (data) => saveSession(data as ContextData),
+        error: (error) => this.logout()
       })
   }
 

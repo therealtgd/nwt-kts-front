@@ -5,6 +5,7 @@ import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'register/client', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
   { path: 'confirm-registration/:token', component: RegistrationConfirmationComponent },
   { path: 'buy-credits', component: BuyCreditsComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

@@ -37,6 +37,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { AddressPipe } from './pipes/address.pipe';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { PaypalModalComponent } from './components/paypal-modal/paypal-modal.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { PaypalModalComponent } from './components/paypal-modal/paypal-modal.com
     AddressPipe,
     BuyCreditsComponent,
     PaypalModalComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
