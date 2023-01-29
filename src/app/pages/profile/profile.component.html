@@ -1,0 +1,45 @@
+<div class="flex flex-wrap pt-6">
+  <div class="w-4">
+    <div class="w-full flex justify-content-center">
+      <div class="container">
+        <img [src]="image">
+        <div class="image-upload" (click)="fileInput.click()">
+          <i class="pi pi-camera" style="font-size: 2.5rem"></i>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex justify-content-center">
+      <div class="w-6 pt-4">
+        <p class="text-xl">{{user.displayName}}</p>
+        <p class="text-l">@{{user.username}}</p>
+      </div>
+    </div>
+    <p-divider></p-divider>
+    <div class="flex justify-content-center">
+      <div class="w-6 pt-4">
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
+          (click)="selectedItem = 'Edit profile'">Edit profile</p>
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
+          (click)="selectedItem = 'Ride history'">Ride history</p>
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Checkout stats'}"
+          (click)="selectedItem = 'Checkout stats'">Checkout stats</p>
+      </div>
+    </div>
+  </div>
+  <div class="w-8 pr-8">
+    <p-card>
+      <p class="p-2 pb-6 text-3xl font-semibold">{{selectedItem}}</p>
+      <app-edit-profile *ngIf="selectedItem === 'Edit profile'" [user]="user" />
+    </p-card>
+  </div>
+</div>
+
+<input #fileInput hidden type="file" (change)="uploadFile($event)"/>
+<p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" 
+  [(visible)]="failureModalVisibility" [modal]="true" [style]="{width: '30vw'}">
+  <p class="m-0">{{ this.modalContent }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="failureModalVisibility=false" label="Ok"
+      styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

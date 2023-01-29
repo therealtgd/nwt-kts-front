@@ -1,6 +1,7 @@
 export interface ContextData {
   image: string;
-  firstName: string;
-  lastName: string;
+  displayName: string;
+  username: string;
+  email: string;
   role: string;
 }

@@ -12,8 +12,8 @@ import { get, post } from "../util/requests";
 export class ClientService {
   constructor(private http: HttpClient) { }
 
-  public activateClient(tokenRequest: RegistrationConfirmation) : Observable<Object> {
-    return post(this.http, '/client/register/confirm', tokenRequest);
+  public activateClient(tokenRequest: RegistrationConfirmation) : Observable<ApiResponse<null>> {
+    return post(this.http, '/client/register/confirm', tokenRequest) as Observable<ApiResponse<null>>;
   }
 
   public getCreditsBalance(): Observable<ApiResponse<number>> {
