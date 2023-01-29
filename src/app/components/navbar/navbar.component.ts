@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   role: String = '';
+  items: MenuItem[] = [];
 
   ngOnInit() {
     if (getToken()) {
@@ -31,13 +32,38 @@ export class NavbarComponent implements OnInit {
         this.role = '';
       }
     }
+    // only the first item has to have style: {'margin-left': 'auto'}
+    this.items = [
+      {
+        label: "Log in",
+        icon: "pi pi-sign-in",
+        visible: this.role === '',
+        command: (event) => this.logIn(),
+        style: {'margin-left': 'auto'}
+      },
+      {
+        label: "Profile",
+        icon: "pi pi-user",
+        command: (event) => this.profile(),
+        style: {'margin-left': 'auto'},
+        visible: this.role !== ''
+      },
+      {
+        label: "Log Out",
+        icon: "pi pi-sign-out",
+        command: (event) => this.logOut(),
+        visible: this.role !== ''
+      },
+    ];
   }
-
   logOut() {
     this.authService.logout();
     window.location.reload();
   }
   logIn() {
     this.router.navigate([`login`]);
+  }
+  profile() {
+    this.router.navigate([`profile`]);
   }
 }
