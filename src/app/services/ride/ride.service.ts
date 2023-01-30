@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '../models/api-response';
-import { RideInfo } from '../models/ride-info';
-import { getWithParams } from '../util/requests';
+import { ApiResponse } from 'src/app/models/api-response';
+import { RideInfo } from 'src/app/models/ride-info';
+import { getWithParams } from 'src/app/util/requests';
 
 @Injectable({
   providedIn: 'root'

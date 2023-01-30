@@ -5,8 +5,8 @@ import { catchError, of, tap } from 'rxjs';
 import { ApiResponse } from 'src/app/models/api-response';
 import { RideInfo } from 'src/app/models/ride-info';
 import { VehicleType } from 'src/app/models/vehicle-type';
-import { ClientService } from 'src/app/services/client.service';
-import { RideService } from 'src/app/services/ride.service';
+import { ClientService } from 'src/app/services/client/client.service';
+import { RideService } from 'src/app/services/ride/ride.service';
 
 
 @Component({
