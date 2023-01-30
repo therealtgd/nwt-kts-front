@@ -18,6 +18,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {AvatarModule} from 'primeng/avatar';
+import {AvatarGroupModule} from 'primeng/avatargroup';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -39,6 +41,7 @@ import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { PaypalModalComponent } from './components/paypal-modal/paypal-modal.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { RideHistoryComponent } from './components/ride-history/ride-history.component';
 import { RideCardComponent } from './components/ride-card/ride-card.component';
 
 @NgModule({
@@ -57,6 +60,8 @@ import { RideCardComponent } from './components/ride-card/ride-card.component';
     PaypalModalComponent,
     ProfileComponent,
     EditProfileComponent,
+    RideHistoryComponent,
+    RideCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +85,8 @@ import { RideCardComponent } from './components/ride-card/ride-card.component';
     DragDropModule,
     NgxPayPalModule,
     ProgressSpinnerModule,
+    AvatarModule,
+    AvatarGroupModule,
   ],
   providers: [
     MessageService,
