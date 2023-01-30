@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getWithParams } from '../util/requests';
 import { Observable } from 'rxjs';
-import { VehicleType } from '../models/vehicle-type';
+import { ApiResponse } from '../models/api-response';
 import { RideInfo } from '../models/ride-info';
+import { getWithParams } from '../util/requests';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,12 @@ export class RideService {
 
   constructor(private http: HttpClient) { }
 
-  public getRidePrice(vehicleType: string, distance: number) : Observable<Object> {
+  public getRidePrice(vehicleType: string, distance: number): Observable<ApiResponse<number>> {
     let params = new HttpParams()
       .set('vehicleType', vehicleType)
       .set('distance', distance.toString());
 
-    return getWithParams(this.http, '/ride/price', params);
+    return getWithParams(this.http, '/ride/price', params) as Observable<ApiResponse<number>>;
   }
 
   public getDriver(rideInfo: RideInfo): Promise<boolean> {
