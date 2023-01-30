@@ -14,7 +14,7 @@ import { getSession } from 'src/app/util/context';
 export class ProfileComponent implements OnInit {
   @ViewChild('fileInput') fileUploader!: FileUpload;
   failureModalVisibility: boolean = false;
-  selectedItem: string = 'Edit profile';
+  selectedItem: string = 'Ride history';
   modalContent: string = '';
   modalHeader: string = '';
   image!: SafeResourceUrl;
@@ -41,13 +41,13 @@ export class ProfileComponent implements OnInit {
     this.imageService.upload(this.getImageData())
       .subscribe({
         next: (data) => window.location.reload(),
-        error: (error) => this.handleRegistrationError(error.error)
+        error: (error) => this.handleRegistrationFailure(error.error)
       });
   }
-  handleRegistrationError(error: ApiResponse<null>) {
-    this.displayErrorModal("Oops!", error.message);
+  handleRegistrationFailure(error: ApiResponse<null>) {
+    this.displayFailureModal("Oops!", error.message);
   }
-  displayErrorModal(header: string, content: string) {
+  displayFailureModal(header: string, content: string) {
     this.modalContent = content;
     this.modalHeader = header;
     this.failureModalVisibility = true;

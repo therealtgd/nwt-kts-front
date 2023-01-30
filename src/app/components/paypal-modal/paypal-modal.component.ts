@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
-import { CreditsService } from 'src/app/services/credits.service';
+import { ApiResponse } from 'src/app/models/api-response';
+import { CreditsService } from 'src/app/services/credits/credits.service';
 
 @Component({
   selector: 'app-paypal-modal',

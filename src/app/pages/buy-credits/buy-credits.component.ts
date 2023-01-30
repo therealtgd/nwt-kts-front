@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { CreditsService } from 'src/app/services/credits.service';
+import { CreditsService } from 'src/app/services/credits/credits.service';
 
 @Component({
   selector: 'app-buy-credits',

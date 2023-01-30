@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiResponse } from 'src/app/models/api-response';
-import { ClientService } from 'src/app/services/client.service';
+import { ClientService } from 'src/app/services/client/client.service';
 
 @Component({
   selector: 'app-registration-confirmation',
