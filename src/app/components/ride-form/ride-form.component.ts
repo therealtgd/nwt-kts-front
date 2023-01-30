@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
-import { of, catchError, tap, Observable } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { ApiResponse } from 'src/app/models/api-response';
 import { RideInfo } from 'src/app/models/ride-info';
 import { VehicleType } from 'src/app/models/vehicle-type';
@@ -65,12 +65,14 @@ export class RideFormComponent implements OnInit {
     }
   }
 
-  handleRideInfoChanged(rideInfo: any): void | Observable<any> {
+  handleRideInfoChanged(rideInfo: any): void {
     this.rideInfo = { ...this.rideInfo, ...rideInfo }
     this.rideService.getRidePrice(this.rideInfo.vehicleType, this.rideInfo.distance.value)
       .pipe(
         tap((response) => {
-          this.rideInfo.price = response as number;
+          if (response.body !== null) { // this is always the case, but just shut up typescript
+            this.rideInfo.price = response.body;
+          }
           this.changeDetector.detectChanges();
         }),
         catchError((error) => {
@@ -89,7 +91,7 @@ export class RideFormComponent implements OnInit {
 
   addStop(): void {
     if (this.rideInfo.stops.length < this.MAX_STOPS) {
-      this.rideInfo.stops = [...this.rideInfo.stops, {address: new Address()}];
+      this.rideInfo.stops = [...this.rideInfo.stops, { address: new Address() }];
     }
   }
 

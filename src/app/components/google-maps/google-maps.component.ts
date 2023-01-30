@@ -4,11 +4,10 @@ import { LatLng, LatLngLiteral } from 'ngx-google-places-autocomplete/objects/la
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 
-import { RideInfo } from 'src/app/models/ride-info';
+import { Driver } from 'src/app/models/driver';
 import { Stop } from 'src/app/models/stop';
 import { Vehicle } from 'src/app/models/vehicle';
 import { DriverService } from 'src/app/services/driver.service';
-import { Driver } from 'src/app/models/driver';
 
 @Component({
   selector: 'app-google-maps',
@@ -80,6 +79,7 @@ export class GoogleMapsComponent implements OnInit {
   initializeWebSocketConnection() {
     this.stompClient = Stomp.over(new SockJS('http://localhost:8080/socket'));
     this.stompClient.connect({}, () => { this.openGlobalSocket(); });
+    this.stompClient.debug = () => { };
   }
 
   openGlobalSocket() {
@@ -144,6 +144,8 @@ export class GoogleMapsComponent implements OnInit {
               endAddress,
             });
 
+
+            // TODO: This should only be used and saved if user is Driver
             let polyline: LatLngLiteral[] = []
             for (let i = 0; i < legs.length; i++) {
               const steps = legs[i].steps;
@@ -155,7 +157,6 @@ export class GoogleMapsComponent implements OnInit {
                 }
               }
             }
-            console.log(polyline);
           }
         } else {
           console.warn('Something went wrong')

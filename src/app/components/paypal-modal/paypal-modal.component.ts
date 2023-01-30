@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
-import { ApiResponse } from 'src/app/models/api-response';
 import { CreditsService } from 'src/app/services/credits.service';
 
 @Component({
@@ -12,7 +11,7 @@ export class PaypalModalComponent implements OnInit {
   public payPalConfig?: IPayPalConfig;
   @Input() buyAmount: number = 0;
   @Input() modalVisible: boolean = false;
-  @Output() onModalClose: EventEmitter<any> = new EventEmitter(); 
+  @Output() onModalClose: EventEmitter<any> = new EventEmitter();
   showSuccess: boolean = false;
   showCancel: boolean = false;
   showError: boolean = false;
@@ -67,8 +66,8 @@ export class PaypalModalComponent implements OnInit {
           next: () => {
             this.showSuccess = true;
           },
-          error: (error) => console.error(error),
-        });;
+          error: (error) => console.error(error.message),
+        });
       },
       onCancel: (data, actions) => {
         this.showCancel = true;

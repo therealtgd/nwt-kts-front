@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
 import { catchError, Observable, of } from 'rxjs';
 import { CreditsService } from 'src/app/services/credits.service';
 
@@ -13,7 +12,7 @@ export class BuyCreditsComponent implements OnInit {
   creditAmounts$!: Observable<any>;
   showPayPalModal: boolean = false;
   buyAmount: number = 0;
- 
+
   constructor(private creditsService: CreditsService) { }
 
   ngOnInit() {
