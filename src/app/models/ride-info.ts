@@ -1,4 +1,5 @@
 import { LatLng, LatLngLiteral } from "ngx-google-places-autocomplete/objects/latLng"
+import { Driver } from "./driver/driver"
 import { Stop } from "./stop"
 import { VehicleType } from "./vehicle-type"
 
@@ -18,7 +19,10 @@ export interface RideInfo {
   startAddress: Address,
   endAddress: Address,
   vehicleType: VehicleType,
-  driver?: string | null,
+  driver?: Driver | null,
   stops: Stop[],
   price: number,
+  clients?: string[] | null,
+  petsAllowed: boolean,
+  babiesAllowed: boolean,
 }

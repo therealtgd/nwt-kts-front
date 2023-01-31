@@ -17,9 +17,10 @@ import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { AvatarModule } from 'primeng/avatar';
-import { AvatarGroupModule } from 'primeng/avatargroup';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {AvatarModule} from 'primeng/avatar';
+import {AvatarGroupModule} from 'primeng/avatargroup';
+import {CheckboxModule} from 'primeng/checkbox';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -91,6 +92,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
     ProgressSpinnerModule,
     AvatarModule,
     AvatarGroupModule,
+    CheckboxModule,
   ],
   providers: [
     MessageService,

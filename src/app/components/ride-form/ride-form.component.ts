@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
-import { catchError, of, tap } from 'rxjs';
+import { of, catchError, tap, Observable, firstValueFrom } from 'rxjs';
 import { ApiResponse } from 'src/app/models/api-response';
+import { DriverStatus } from 'src/app/models/driver/driver-status';
 import { RideInfo } from 'src/app/models/ride-info';
 import { VehicleType } from 'src/app/models/vehicle-type';
 import { ClientService } from 'src/app/services/client/client.service';
@@ -23,10 +24,10 @@ export class RideFormComponent implements OnInit {
   MAX_STOPS = 3;
   startIndex: number = 0;
 
-  modalHeader: string = 'Checkout';
-  modalContent: string = 'Pay...';
+  modalHeader: string = '';
+  modalContent: string = '';
   modalVisible: boolean = false;
-  showSpinner: boolean = true;
+  showSpinner: boolean = false;
   clientCreditsBalance: number = 0;
 
   autocompleteOptions: any = {
@@ -53,6 +54,8 @@ export class RideFormComponent implements OnInit {
       driver: null,
       stops: [],
       price: 0,
+      petsAllowed: false,
+      babiesAllowed: false,
     };
   }
 
@@ -105,28 +108,79 @@ export class RideFormComponent implements OnInit {
 
   onDrop(dropIndex: number): void {
     const stop = this.rideInfo.stops[this.startIndex];
-    this.rideInfo.stops.splice(this.startIndex, 1);       // delete from old position
-    this.rideInfo.stops.splice(dropIndex, 0, stop);    // add to new position
+    this.rideInfo.stops.splice(this.startIndex, 1);
+    this.rideInfo.stops.splice(dropIndex, 0, stop);
     this.rideInfo.stops = [...this.rideInfo.stops]
   }
 
-  onRequestRide(): void {
-    this.clientService.getCreditsBalance().subscribe({
-      next: (data: ApiResponse<number>) => { this.clientCreditsBalance = data.body ?? 0 },
-      error: (error) => console.error(error),
-    });
-    this.modalContent = this.rideInfo.price < this.clientCreditsBalance ? 'It seems like you don\'t have enough credits.' : '';
-    this.modalHeader = 'Finding a driver'
-    this.modalVisible = true;
-    this.rideService.getDriver(this.rideInfo).then((value) => {
-      this.showSpinner = !value
-      this.modalHeader = 'Checkout'
-      this.rideInfo.driver = 'Marko';
-    });
+  async onRequestRide(): Promise<void> {
+    await this.getCreditsBalance()
+    if (this.clientCreditsBalance < this.rideInfo.price) {
+      this.modalContent = 'It seems like you don\'t have enough credits.';
+      this.modalHeader = 'Not enough credits';
+      this.modalVisible = true;
+    } else {
+      this.modalContent = '';
+      this.modalHeader = 'Finding a driver';
+      this.showSpinner = true;
+      this.modalVisible = true;
+      this.getDriver();
+    }
+  }
+
+  async getCreditsBalance() {
+    try {
+      const response = await firstValueFrom(this.clientService.getCreditsBalance());
+      if (response.success && response.body) {
+        this.clientCreditsBalance = response.body as number;
+      } else {
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getDriver(): void {
+    
+    this.rideService.getDriver(this.rideInfo).subscribe(
+      {
+        next: (response: ApiResponse<any>) => {
+          if (!response.success) {
+            console.error(response.message);
+          } else {
+            if (response.body === null) {
+              this.modalHeader = 'All drivers are busy';
+              this.modalContent = 'All drivers are busy, try again later.'
+            }
+            this.rideInfo.driver = response.body;
+            if (this.rideInfo.driver?.status === DriverStatus.BUSY) {
+              this.modalHeader = 'All drivers are busy'
+              this.modalContent = 'We assigned a driver nearest to the end of his/hers ride to you.\nPlease wait.'
+            } else {
+              this.modalHeader = 'Checkout'
+            }
+            this.showSpinner = false;
+          }
+        },
+        error: (error) => console.error(error),
+      }
+    )
   }
 
   closeModal(): void {
     this.modalVisible = false;
+  }
+
+  orderRide(): void {
+    this.rideService.orderRide(this.rideInfo).subscribe(
+      {
+        next: () => {
+          console.log('Ordered ride')
+        },
+        error: (error: any) => console.error(error),
+      }
+    )
   }
 
 }

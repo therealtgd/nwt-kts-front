@@ -38,6 +38,10 @@
       <label for="float-input">Destination</label>
       <i *ngIf="rideInfo.stops.length < MAX_STOPS" class="pi pi-plus cursor-pointer text-xl" style="margin-left: 10px" (click)="addStop()"></i>
     </span>
+    <div class="my-3">
+      <p-checkbox label="Pets allowed" [value]="false" [(ngModel)]="rideInfo.petsAllowed" class="mr-5"></p-checkbox>
+      <p-checkbox label="Babies allowed" [value]="false" [(ngModel)]="rideInfo.babiesAllowed"></p-checkbox>
+    </div>
   </div>
   
   <div class="w-11 flex justify-content-between aling-items-center">
@@ -68,15 +72,15 @@
   (onModalClose)="closeModal()">
   <div content>
     <p-progressSpinner *ngIf="showSpinner"></p-progressSpinner>
-    <div *ngIf="rideInfo?.driver">
-      <div><label>Driver: </label>{{rideInfo.driver}}</div>
+    <ng-container *ngIf="rideInfo.driver">
+      <div><label>Driver: </label>{{rideInfo.driver.displayName}}</div>
       <div><label>Pickup location: </label>{{rideInfo.startAddress.address | address}}</div>
       <div><label>Destination: </label>{{rideInfo.endAddress.address | address}}</div>
       <div><label>Stops: </label>{{rideInfo.stops.length}}</div>
       <div><label>Distance: </label>{{rideInfo.distance.text}}</div>
-    </div>
+    </ng-container>
   </div>
-  <div *ngIf="rideInfo?.driver" footer class="flex justify-content-center">
+  <div *ngIf="rideInfo.driver && rideInfo.driver?.status === 'AVAILABLE'" footer class="flex justify-content-center">
     <p-button
       *ngIf="clientCreditsBalance >= rideInfo.price"
       icon="pi pi-wallet"
