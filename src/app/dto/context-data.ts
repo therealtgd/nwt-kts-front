@@ -4,4 +4,6 @@ export interface ContextData {
   username: string;
   email: string;
   role: string;
+  phoneNumber: string;
+  city: string;
 }

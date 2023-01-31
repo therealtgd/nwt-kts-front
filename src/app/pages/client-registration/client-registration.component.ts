@@ -38,6 +38,8 @@ export class ClientRegistrationComponent implements OnInit {
       displayName: [''],
       email: [''],
       username: [''],
+      phoneNumber: [''],
+      city: [''],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     },
@@ -76,6 +78,8 @@ export class ClientRegistrationComponent implements OnInit {
       displayName: this.form.value.displayName,
       email: this.form.value.email,
       username: this.form.value.username,
+      city: this.form.value.city,
+      phoneNumber: this.form.value.phoneNumber,
       password: this.form.value.password,
       confirmPassword: this.form.value.confirmPassword,
       socialProvider: 'LOCAL'
