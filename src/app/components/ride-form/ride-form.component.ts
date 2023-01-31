@@ -8,6 +8,8 @@ import { RideInfo } from 'src/app/models/ride-info';
 import { VehicleType } from 'src/app/models/vehicle-type';
 import { ClientService } from 'src/app/services/client/client.service';
 import { RideService } from 'src/app/services/ride/ride.service';
+import { VehicleService } from 'src/app/services/vehicle.service';
+import { getSession } from 'src/app/util/context';
 
 
 @Component({
@@ -18,6 +20,7 @@ import { RideService } from 'src/app/services/ride/ride.service';
 export class RideFormComponent implements OnInit {
   @Input() width!: string;
 
+  vehicleTypes: VehicleType[] = [];
   pickupLocation: LatLngLiteral | null = null;
   destination: LatLngLiteral | null = null;
   rideInfo!: RideInfo;
@@ -42,12 +45,24 @@ export class RideFormComponent implements OnInit {
   constructor(
     private rideService: RideService,
     private clientService: ClientService,
+    private vehicleService: VehicleService,
     private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.vehicleService.getAllVehicleTypes().subscribe({
+      next: (response: ApiResponse<VehicleType[]>) => {
+        if (response.success && response.body) {
+          this.vehicleTypes = response.body;
+        } else {
+          console.error('Error while getting vehicle types')
+        }
+      },
+      error: (error) => console.error(error),  
+    });
+
     this.rideInfo = {
-      distance: { text: "", value: 0 },
-      duration: { text: "", value: 0 },
+      distance: 0,
+      duration: 0,
       startAddress: { address: "", coordinates: { lat: 0, lng: 0 } },
       endAddress: { address: "", coordinates: { lat: 0, lng: 0 } },
       vehicleType: VehicleType.SEDAN,
@@ -70,18 +85,19 @@ export class RideFormComponent implements OnInit {
 
   handleRideInfoChanged(rideInfo: any): void {
     this.rideInfo = { ...this.rideInfo, ...rideInfo }
-    this.rideService.getRidePrice(this.rideInfo.vehicleType, this.rideInfo.distance.value)
-      .pipe(
-        tap((response) => {
-          if (response.body !== null) { // this is always the case, but just shut up typescript
+    if (this.rideInfo.startAddress.address && this.rideInfo.endAddress.address) {
+      this.rideService.getRidePrice(this.rideInfo.vehicleType, this.rideInfo.distance).subscribe({
+        next: (response: ApiResponse<number>) => {
+          if (response.success && response.body !== null) {
             this.rideInfo.price = response.body;
+            this.changeDetector.detectChanges();
+          } else {
+            console.error(response.message);
           }
-          this.changeDetector.detectChanges();
-        }),
-        catchError((error) => {
-          return of(error);
-        })
-      ).subscribe();
+        },
+        error: (error) => console.error(error),
+      })
+    }
   }
 
   handleStopChange(address: Address, i: number): void {
@@ -173,14 +189,18 @@ export class RideFormComponent implements OnInit {
   }
 
   orderRide(): void {
-    this.rideService.orderRide(this.rideInfo).subscribe(
-      {
-        next: () => {
-          console.log('Ordered ride')
-        },
-        error: (error: any) => console.error(error),
-      }
-    )
+    if (getSession()?.username) {
+      this.rideInfo.clients = [getSession()!.username]
+      console.log(this.rideInfo);
+      this.rideService.orderRide(this.rideInfo).subscribe(
+        {
+          next: () => {
+            this.modalVisible = false;
+          },
+          error: (error: any) => console.error(error),
+        }
+      )
+    }
   }
 
 }

@@ -21,6 +21,7 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
 import {CheckboxModule} from 'primeng/checkbox';
+import {DropdownModule} from 'primeng/dropdown';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -46,6 +47,8 @@ import { RideHistoryComponent } from './components/ride-history/ride-history.com
 import { RideCardComponent } from './components/ride-card/ride-card.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { DistancePipe } from './pipes/distance.pipe';
+import { MinutesPipe } from './pipes/minutes.pipe';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,8 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
     RideCardComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
+    DistancePipe,
+    MinutesPipe,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +98,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
     AvatarModule,
     AvatarGroupModule,
     CheckboxModule,
+    DropdownModule,
   ],
   providers: [
     MessageService,

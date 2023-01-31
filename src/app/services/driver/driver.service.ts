@@ -16,4 +16,8 @@ export class DriverService {
     return get(this.http, '/driver/rides') as Observable<ApiResponse<Ride[]>>;
   }
   
+  public getAllActiveDrivers(): Observable<Object> {
+    return get(this.http, '/driver/get-all-active');
+  }
+
 }

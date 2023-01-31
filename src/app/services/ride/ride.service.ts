@@ -4,6 +4,7 @@ import { getWithParams, post } from 'src/app/util/requests';
 import { Observable } from 'rxjs';
 import { RideInfo } from 'src/app/models/ride-info';
 import { ApiResponse } from 'src/app/models/api-response';
+import { SimpleDriver } from 'src/app/models/driver/simple-driver';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,7 @@ export class RideService {
     return getWithParams(this.http, '/ride/price', params) as Observable<ApiResponse<number>>;
   }
 
-  public getDriver(rideInfo: RideInfo): Observable<ApiResponse<any>> {
-    // TODO: get driver from BE
+  public getDriver(rideInfo: RideInfo): Observable<ApiResponse<SimpleDriver>> {
     const params = new HttpParams()
       .set('vehicleType', rideInfo.vehicleType)
       .set('petsAllowed', rideInfo.petsAllowed)
@@ -29,7 +29,7 @@ export class RideService {
       .set('lat', rideInfo.startAddress.coordinates.lat)
       .set('lng', rideInfo.startAddress.coordinates.lng);
 
-    return getWithParams(this.http, '/ride/nearest-free-driver', params) as Observable<ApiResponse<any>>;
+    return getWithParams(this.http, '/ride/nearest-free-driver', params) as Observable<ApiResponse<SimpleDriver>>;
   }
 
   public orderRide(rideInfo: RideInfo) {
