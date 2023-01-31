@@ -17,9 +17,9 @@ import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {AvatarModule} from 'primeng/avatar';
-import {AvatarGroupModule} from 'primeng/avatargroup';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -43,6 +43,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { RideHistoryComponent } from './components/ride-history/ride-history.component';
 import { RideCardComponent } from './components/ride-card/ride-card.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { RideCardComponent } from './components/ride-card/ride-card.component';
     EditProfileComponent,
     RideHistoryComponent,
     RideCardComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,14 +96,14 @@ import { RideCardComponent } from './components/ride-card/ride-card.component';
     MessageService,
     AuthGuard,
     AuthService,
-    GoogleMap, 
-  {
-   provide: HTTP_INTERCEPTORS,
-   useClass: HttpInterceptorService,
-   multi: true
-  },
-  {
-    provide: 'SocialAuthServiceConfig',
+    GoogleMap,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
         providers: [
@@ -109,7 +113,7 @@ import { RideCardComponent } from './components/ride-card/ride-card.component';
           },
         ],
       } as SocialAuthServiceConfig,
-  }
+    }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
