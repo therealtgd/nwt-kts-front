@@ -7,7 +7,7 @@ import * as Stomp from 'stompjs';
 import { Driver } from 'src/app/models/driver';
 import { Stop } from 'src/app/models/stop';
 import { Vehicle } from 'src/app/models/vehicle';
-import { DriverService } from 'src/app/services/driver.service';
+import { DriverService } from 'src/app/services/driver/driver.service';
 
 @Component({
   selector: 'app-google-maps',
@@ -138,12 +138,11 @@ export class GoogleMapsComponent implements OnInit {
             const duration = legs.map(leg => leg.duration!.value).reduce((acc, current) => acc + current, 0);
 
             this.onRideInfoChanged.emit({
-              distance: { text: (distance / 1000).toFixed(1) + ' km', value: distance },
-              duration: { text: Math.round(duration / 60) + ' mins', value: duration },
+              distance: distance,
+              duration: duration,
               startAddress,
               endAddress,
             });
-
 
             // TODO: This should only be used and saved if user is Driver
             let polyline: LatLngLiteral[] = []

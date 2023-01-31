@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { getWithParams, post } from 'src/app/util/requests';
 import { Observable } from 'rxjs';
-import { ApiResponse } from 'src/app/models/api-response';
 import { RideInfo } from 'src/app/models/ride-info';
-import { getWithParams } from 'src/app/util/requests';
+import { ApiResponse } from 'src/app/models/api-response';
+import { SimpleDriver } from 'src/app/models/driver/simple-driver';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,19 @@ export class RideService {
     return getWithParams(this.http, '/ride/price', params) as Observable<ApiResponse<number>>;
   }
 
-  public getDriver(rideInfo: RideInfo): Promise<boolean> {
-    // TODO: get driver from BE
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 0);
-    });
+  public getDriver(rideInfo: RideInfo): Observable<ApiResponse<SimpleDriver>> {
+    const params = new HttpParams()
+      .set('vehicleType', rideInfo.vehicleType)
+      .set('petsAllowed', rideInfo.petsAllowed)
+      .set('babiesAllowed', rideInfo.babiesAllowed)
+      .set('lat', rideInfo.startAddress.coordinates.lat)
+      .set('lng', rideInfo.startAddress.coordinates.lng);
+
+    return getWithParams(this.http, '/ride/nearest-free-driver', params) as Observable<ApiResponse<SimpleDriver>>;
+  }
+
+  public orderRide(rideInfo: RideInfo) {
+    return post(this.http, '/ride/order', rideInfo);
   }
 
 }
