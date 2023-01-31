@@ -43,6 +43,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { RideHistoryComponent } from './components/ride-history/ride-history.component';
 import { RideCardComponent } from './components/ride-card/ride-card.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 @NgModule({
@@ -63,6 +64,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
     EditProfileComponent,
     RideHistoryComponent,
     RideCardComponent,
+    ResetPasswordComponent,
     ForgotPasswordComponent,
   ],
   imports: [
