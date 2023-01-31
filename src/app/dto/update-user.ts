@@ -1,4 +1,6 @@
 export interface UpdateUser {
-  displayName: String;
-  username: String;
+  displayName: string;
+  username: string;
+  phoneNumber: string;
+  city: string;
 }

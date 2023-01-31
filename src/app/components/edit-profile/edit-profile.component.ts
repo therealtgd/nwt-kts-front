@@ -33,7 +33,9 @@ export class EditProfileComponent {
   ngOnInit(): void {
     this.userUpdateForm = this.fb.group({
       displayName: [this.user.displayName],
-      username: [this.user.username]
+      username: [this.user.username],
+      phoneNumber: [this.user.phoneNumber],
+      city: [this.user.city]
     });
     this.passwordUpdateForm = this.fb.group({
       password: ['', [Validators.required]],
@@ -46,7 +48,9 @@ export class EditProfileComponent {
   updateUser(): void {
     let updateRequest: UpdateUser = {
       displayName: this.userUpdateForm.value.displayName,
-      username: this.userUpdateForm.value.username
+      username: this.userUpdateForm.value.username,
+      phoneNumber: this.userUpdateForm.value.phoneNumber,
+      city: this.userUpdateForm.value.city
     };
     this.userService.updateUser(updateRequest)
     .subscribe({

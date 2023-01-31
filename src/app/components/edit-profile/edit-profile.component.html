@@ -2,16 +2,25 @@
   <p class="p-2 pb-6 text-3xl font-semibold">Edit profile</p>
   <form class="flex flex-wrap row-gap-1" [formGroup]="userUpdateForm" (ngSubmit)="updateUser()">
 
-    <span class="w-12 p-2 p-float-label">
+    <span class="w-6 p-2 p-float-label">
       <input type="text" required="true" formControlName="displayName" pKeyFilter="alpha" minlength="2" maxlength="20"
         pInputText>
       <label>Displayed name</label>
     </span>
 
-    <span class="w-12 p-2 p-float-label">
+    <span class="w-6 p-2 p-float-label">
       <input type="text" required="true" formControlName="username" pKeyFilter="alpha" minlength="2" maxlength="20"
         pInputText>
       <label>Username</label>
+    </span>
+
+    <span class="w-6 p-2 p-float-label">
+      <input type="text" required="true" formControlName="city" pKeyFilter="alpha" minlength="2" maxlength="20" pInputText>
+      <label for="float-input">City</label>
+    </span>
+    <span class="w-6 p-2 p-float-label">
+      <input type="text" pKeyFilter="int" required="true" formControlName="phoneNumber" minlength="2" maxlength="20" pInputText>
+      <label for="float-input">Phone number</label>
     </span>
 
     <span class="flex justify-content-center flex-wrap w-12 py-3">
@@ -22,7 +31,7 @@
 
   <form class="flex flex-wrap row-gap-1 pt-1" [formGroup]="passwordUpdateForm" (ngSubmit)="updatePassword()">
 
-    <span class="w-12 p-2 p-float-label">
+    <span class="w-6 p-2 p-float-label">
       <p-password [toggleMask]="true" required="true" formControlName="password" minlength="2"
         maxlength="20"></p-password>
       <label>Password</label>
@@ -30,7 +39,7 @@
         *ngIf="passwordUpdateForm.get('confirmPassword')?.hasError('confirmPasswordValidator')">
         Passwords don't match</small>
     </span>
-    <span class="w-12 p-2 p-float-label">
+    <span class="w-6 p-2 p-float-label">
       <p-password [toggleMask]="true" required="true" formControlName="confirmPassword" minlength="2" maxlength="20"
         [feedback]="false"></p-password>
       <label>Confirm password</label>

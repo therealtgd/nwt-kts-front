@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.user = getSession() || { image: '', displayName: '', username: '', email: '', role: '' };
+    this.user = getSession() || { image: '', displayName: '', username: '', email: '', role: '', phoneNumber: '', city: '' };
     this.image = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + this.user.image);
   }
   getImageData(): FormData {
