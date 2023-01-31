@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
    constructor(private router: Router) { }
 
    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-      if (this.getResolvedUrl(route).includes("login") || this.getResolvedUrl(route).includes("register/client")) {
+      if (this.getResolvedUrl(route).includes("login") || this.getResolvedUrl(route).includes("register/client") || this.getResolvedUrl(route).includes("password")) {
          return !this.isLoggedIn();
       }
       return this.isLoggedIn();

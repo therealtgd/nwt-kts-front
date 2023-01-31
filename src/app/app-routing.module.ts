@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'confirm-registration/:token', component: RegistrationConfirmationComponent },
   { path: 'buy-credits', component: BuyCreditsComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
