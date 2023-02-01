@@ -3,6 +3,7 @@
 
 <div class="flex flex-column row-gap-5"  *ngFor="let ride of rides; index as i;">
   <app-ride-card [ride]="ride"/>
+  <div class="mb-5"></div>
 </div>
 
 <div class="text-gray-500 ml-4" *ngIf="rides.length === 0">

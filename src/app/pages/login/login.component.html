@@ -33,21 +33,22 @@
       </div>
     </div>
 
-    <div class="flex justify-content-center px-2">
-      <cool-google-button color="light" (click)="googleLogIn()" class="mr-3">
-        Login with Google
-      </cool-google-button>
-      <cool-facebook-button color="light" (click)="facebookLogIn()" class="ml-3">
-        Login with Facebook
-      </cool-facebook-button>
+    <div class="flex flex-wrap">
+      <div class="w-6 flex justify-content-center">
+        <cool-google-button color="light" (click)="googleLogIn()">
+          Login with Google
+        </cool-google-button>
+      </div>
+      <div class="w-6 flex justify-content-center">
+        <cool-facebook-button color="light" (click)="facebookLogIn()">
+          Login with Facebook
+        </cool-facebook-button>
+      </div>
     </div>
-    <div class="flex justify-content-center px-2">
-    </div>
-    
+
     <small class="flex flex-wrap mt-4">
       <span class="w-6 flex justify-content-center"><a href="/register/client">Not a member yet?</a> </span>
       <span class="w-6 flex justify-content-center"><a href="/forgot-password">Forgot password?</a> </span>
-      
     </small>
 
   </p-card>
