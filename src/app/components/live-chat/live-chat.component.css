@@ -1,0 +1,9 @@
+.message {
+    max-width: 350px;
+    overflow-wrap: break-word;
+}
+
+.messages {
+    overflow-y: scroll;
+    height: 420px;
+}

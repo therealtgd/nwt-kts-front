@@ -83,9 +83,11 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   openGlobalSocket() {
-    this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
-      let vehicle: Vehicle = JSON.parse(message.body);
-      this.vehicle_markers[vehicle.id].setPosition(vehicle.position);
+    this.stompClient.subscribe('/map-updates/update-vehicle-positions', (message: { body: string }) => {
+      let vehicles: Vehicle[] = JSON.parse(message.body);
+      for (const vehicle of vehicles) {
+        this.vehicle_markers[vehicle.id].setPosition(vehicle.position);
+      }
     });
   }
 
