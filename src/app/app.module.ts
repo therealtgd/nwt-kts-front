@@ -53,6 +53,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { DatePipe } from '@angular/common';
+import { LiveChatComponent } from './components/live-chat/live-chat.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { DatePipe } from '@angular/common';
     DistancePipe,
     MinutesPipe,
     ReportsComponent,
+    LiveChatComponent,
   ],
   imports: [
     BrowserModule,
