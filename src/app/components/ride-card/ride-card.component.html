@@ -1,4 +1,11 @@
-<p-card>
+<p-card class="relative">
+  
+  <div class="bg-primary-reverse border-circle absolute pt-2 pb-1 px-2 ml-4" style="top: -25px; right: -25px;">
+    <i class="pi text-4xl cursor-pointer" (click)="toggleFavorite()"
+    [ngClass]="{'pi-heart-fill': ride.favorite, 'pi-heart': !ride.favorite}">
+  </i>
+  </div>
+
   <div class="h-3rem mx-3 flex flex-wrap justify-content-between vertical-align-middle">
     <div class="flex">
       <p-avatar image="data:image/png;base64, {{ride.driver.image}}" size="large" shape="circle"></p-avatar>

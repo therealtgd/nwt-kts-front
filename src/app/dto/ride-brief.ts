@@ -1,6 +1,7 @@
 import { User } from "./user-brief";
 
-export interface Ride {
+export interface RideDto {
+  id: string;
   driver: User;
   clients: User[];
   startTime: string;
@@ -9,4 +10,5 @@ export interface Ride {
   endLocation: string;
   price: string;
   distance: string;
+  favorite: boolean;
 }

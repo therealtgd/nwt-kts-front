@@ -25,7 +25,6 @@ export class FavoriteRoutesComponent implements OnInit {
     })
   }
   setFavorites(routeDto: RouteDto[] | null) {
-    console.log(routeDto);
     if (routeDto){
       this.favorites = routeDto;
     }

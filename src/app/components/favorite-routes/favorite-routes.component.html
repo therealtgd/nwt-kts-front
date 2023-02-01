@@ -4,9 +4,8 @@
   <ng-container *ngFor="let route of favorites; index as i;">
     <div class="w-4"><app-route-card [route]="route"/></div>
   </ng-container>
-  
 </div>
 
 <div class="text-gray-500 ml-4" *ngIf="favorites.length === 0">
-  You don't have any favorite rides.
+  You don't have any favorite routes.
 </div>

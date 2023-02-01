@@ -14,7 +14,7 @@ import { getSession } from 'src/app/util/context';
 export class ProfileComponent implements OnInit {
   @ViewChild('fileInput') fileUploader!: FileUpload;
   failureModalVisibility: boolean = false;
-  selectedItem: string = 'Favorite routes';
+  selectedItem: string = 'Ride history';
   modalContent: string = '';
   modalHeader: string = '';
   image!: SafeResourceUrl;
