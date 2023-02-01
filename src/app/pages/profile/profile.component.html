@@ -19,14 +19,14 @@
 
     <div class="flex justify-content-center">
       <div class="w-6 pt-4">
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
-          (click)="selectedItem = 'Ride history'">Ride history</p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
           (click)="selectedItem = 'Edit profile'">Edit profile</p>
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
+          (click)="selectedItem = 'Ride history'" *ngIf="user.role !== 'ROLE_ADMIN'">Ride history</p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
           (click)="selectedItem = 'Statistics'">Statistics</p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
-          (click)="selectedItem = 'Favorite routes'">Favorite routes</p>
+          (click)="selectedItem = 'Favorite routes'" *ngIf="user.role === 'ROLE_CLIENT'">Favorite routes</p>
       </div>
     </div>
   </div>
