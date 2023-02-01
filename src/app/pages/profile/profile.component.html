@@ -14,21 +14,24 @@
         <p class="text-l">@{{user.username}}</p>
       </div>
     </div>
-    <p-divider></p-divider>
+
+    <hr class="w-8 mt-5 border-gray-500"/>
+
     <div class="flex justify-content-center">
       <div class="w-6 pt-4">
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
           (click)="selectedItem = 'Ride history'">Ride history</p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
           (click)="selectedItem = 'Edit profile'">Edit profile</p>
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Checkout stats'}"
-          (click)="selectedItem = 'Checkout stats'">Checkout stats</p>
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
+          (click)="selectedItem = 'Statistics'">Statistics</p>
       </div>
     </div>
   </div>
-  <div class="w-7">
-    <app-edit-profile *ngIf="selectedItem === 'Edit profile'" [user]="user"/>
+  <div class="w-7 mb-6">
     <app-ride-history *ngIf="selectedItem === 'Ride history'" [user]="user"/>
+    <app-reports *ngIf="selectedItem === 'Statistics'" [user]="user"/>
+    <app-edit-profile *ngIf="selectedItem === 'Edit profile'" [user]="user"/>
   </div>
   <div class="w-1">
   </div>

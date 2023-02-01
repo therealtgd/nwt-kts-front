@@ -49,6 +49,10 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { DistancePipe } from './pipes/distance.pipe';
 import { MinutesPipe } from './pipes/minutes.pipe';
+import { ReportsComponent } from './components/reports/reports.component';
+import { CalendarModule } from 'primeng/calendar';
+import { ChartModule } from 'primeng/chart';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -72,6 +76,7 @@ import { MinutesPipe } from './pipes/minutes.pipe';
     ForgotPasswordComponent,
     DistancePipe,
     MinutesPipe,
+    ReportsComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,8 +104,11 @@ import { MinutesPipe } from './pipes/minutes.pipe';
     AvatarGroupModule,
     CheckboxModule,
     DropdownModule,
+    CalendarModule,
+    ChartModule,
   ],
   providers: [
+    DatePipe,
     MessageService,
     AuthGuard,
     AuthService,

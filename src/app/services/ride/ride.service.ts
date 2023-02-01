@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getWithParams, post } from 'src/app/util/requests';
+import { getWithParams, get, post } from 'src/app/util/requests';
 import { Observable } from 'rxjs';
 import { RideInfo } from 'src/app/models/ride-info';
 import { ApiResponse } from 'src/app/models/api-response';
 import { SimpleDriver } from 'src/app/models/driver/simple-driver';
+import { ReportDto } from 'src/app/dto/report-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,18 @@ export class RideService {
 
   public orderRide(rideInfo: RideInfo) {
     return post(this.http, '/ride/order', rideInfo);
+  }
+
+  public getClientReport(startDate: string, endDate: string): Observable<ApiResponse<ReportDto>> {
+    return get(this.http, '/ride/report/client/' + startDate + '/' + endDate) as Observable<ApiResponse<ReportDto>>;
+  }
+
+  public getDriverReport(startDate: string, endDate: string): Observable<ApiResponse<ReportDto>> {
+    return get(this.http, '/ride/report/driver/' + startDate + '/' + endDate) as Observable<ApiResponse<ReportDto>>;
+  }
+
+  public getAdminReport(startDate: string, endDate: string): Observable<ApiResponse<ReportDto>> {
+    return get(this.http, '/ride/report/admin/' + startDate + '/' + endDate) as Observable<ApiResponse<ReportDto>>;
   }
 
 }
