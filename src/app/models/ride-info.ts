@@ -1,4 +1,3 @@
-import { LatLng, LatLngLiteral } from "ngx-google-places-autocomplete/objects/latLng"
 import { AddressDto } from "../dto/address-dto"
 import { SimpleDriver } from "./driver/simple-driver"
 import { Stop } from "./stop"
