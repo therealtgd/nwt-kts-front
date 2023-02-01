@@ -1,5 +1,5 @@
 <div class="flex flex-wrap pt-6">
-  <div class="w-4">
+  <div class="w-4 fixed">
     <div class="w-full flex justify-content-center">
       <div class="container">
         <img [src]="image">
@@ -23,13 +23,17 @@
           (click)="selectedItem = 'Ride history'">Ride history</p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
           (click)="selectedItem = 'Edit profile'">Edit profile</p>
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
-          (click)="selectedItem = 'Statistics'">Statistics</p>
+          <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Checkout stats'}"
+            (click)="selectedItem = 'Checkout stats'">Checkout stats</p>
+            <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
+              (click)="selectedItem = 'Favorite routes'">Favorite routes</p>
       </div>
     </div>
   </div>
-  <div class="w-7 mb-6">
+  <div class="w-4"></div>
+  <div class="w-7">
     <app-ride-history *ngIf="selectedItem === 'Ride history'" [user]="user"/>
+    <app-favorite-routes *ngIf="selectedItem === 'Favorite routes'" [user]="user"/>
     <app-reports *ngIf="selectedItem === 'Statistics'" [user]="user"/>
     <app-edit-profile *ngIf="selectedItem === 'Edit profile'" [user]="user"/>
   </div>

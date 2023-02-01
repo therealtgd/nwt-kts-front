@@ -1,0 +1,12 @@
+<p class="p-2 m-3 mt-5 mb-0 pb-6 text-3xl font-semibold p-component">Favorite routes</p>
+
+<div class="flex flex-wrap">
+  <ng-container *ngFor="let route of favorites; index as i;">
+    <div class="w-4"><app-route-card [route]="route"/></div>
+  </ng-container>
+  
+</div>
+
+<div class="text-gray-500 ml-4" *ngIf="favorites.length === 0">
+  You don't have any favorite rides.
+</div>

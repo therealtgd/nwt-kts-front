@@ -1,3 +1,6 @@
 :host ::ng-deep p-menubarsub {
   width: 100%;
 }
+p-menubar {
+  z-index: 50;
+}

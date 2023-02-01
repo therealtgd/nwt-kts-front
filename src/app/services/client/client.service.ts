@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { RegistrationConfirmation } from "src/app/dto/registration-confirmation";
 import { Ride } from "src/app/dto/ride-brief";
+import { RouteDto } from "src/app/dto/route-dto";
 import { ApiResponse } from "src/app/models/api-response";
 import { post, get } from "src/app/util/requests";
 
@@ -23,6 +24,10 @@ export class ClientService {
   
   public getRides() : Observable<ApiResponse<Ride[]>> {
     return get(this.http, '/client/rides') as Observable<ApiResponse<Ride[]>>;
+  }
+  
+  public getFavorites() : Observable<ApiResponse<RouteDto[]>> {
+    return get(this.http, '/client/favorite-routes') as Observable<ApiResponse<RouteDto[]>>;
   }
 
 }

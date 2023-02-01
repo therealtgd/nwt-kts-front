@@ -1,0 +1,16 @@
+<div class="p-3">
+  <p-card class="relative">
+    <div class="bg-primary-reverse border-circle absolute pt-2 pb-1 px-2 ml-4" style="top: 7px; right: 7px;">
+      <i class="pi pi-heart-fill text-2xl"></i>
+    </div>
+    
+    <div class="bg-white h-10rem mb-5 flex align-content-center justify-content-center">
+      <p class="text-primary my-auto">map here</p>
+    </div>
+
+    <p>{{route.stops[0].address}}</p>
+    <i class="pi pi-arrow-down my-3"></i>
+    <p>{{route.stops[route.stops.length-1].address}}</p>
+    
+  </p-card>
+</div>
