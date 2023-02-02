@@ -1,0 +1,44 @@
+<div class="grid px-8 py-6">
+    <p-card header="Chats" class="col-4">
+        <div class="chats chat-height">
+            <div *ngFor="let user of usersInfo" class="flex align-items-center chat p-2 border-round"
+                (click)="currentChat=user.username;">
+                <p-avatar image="data:image/png;base64, {{ user.image }}" size="large"
+                    shape="circle"></p-avatar>
+                <div>
+                    <p class="my-auto ml-3">{{ user.displayName }}</p>
+                    <p class="my-auto ml-3">@{{ user.username }}</p>
+                </div>
+            </div>
+        </div>
+    </p-card>
+
+    <p-card class="col-8" header="{{ currentChat }}">
+        <div class="messages" #adminChatBox [scrollTop]="scrollTop" style="scroll-behavior: smooth;">
+            <div *ngFor="let message of messages[currentChat]">
+                <div class="flex" [ngClass]="message.fromMe ? 'justify-content-end' : 'justify-content-start'">
+                    <div
+                        [ngClass]="[message.fromMe ? 'bg-blue-500' : 'bg-bluegray-600']"
+                        class="message p-2 my-1 border-round">
+                        {{ message.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="new-message flex flex-wrap">
+            <span class="w-10">
+                <input type="text"
+                    class="w-full"
+                    pInputText
+                    [(ngModel)]="newMessage"
+                    (keyup.enter)="sendMessage()"
+                    [disabled]="currentChat === ''"
+                    minlength="2"
+                    maxlength="200"
+                    placeholder="Write a message">
+            </span>
+            <button pButton type="button" (click)="sendMessage()" [disabled]="currentChat === ''"><i class="pi pi-send"
+                    style="font-size: 1.4rem;"></i></button>
+        </div>
+    </p-card>
+</div>

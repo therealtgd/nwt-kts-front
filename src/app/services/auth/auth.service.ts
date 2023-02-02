@@ -20,17 +20,13 @@ export class AuthService {
 
   logout(): void {
     put(this.http, '/auth/signout', {}).subscribe({
-      next: (response: any) => {
-        console.log("invalidating")
-        invalidateSession();
-        invalidateToken();
-        window.location.reload();
-      },
+      next: (response: any) => { },
       error: (error) => console.error(error),
     });
-   
+    invalidateSession();
+    invalidateToken();
   }
-  
+
   getWhoAmI(): void {
     (get(this.http, '/user/me') as Observable<ApiResponse<ContextData>>)
       .subscribe({
@@ -38,5 +34,5 @@ export class AuthService {
         error: (error) => this.logout()
       })
   }
-  
+
 }
