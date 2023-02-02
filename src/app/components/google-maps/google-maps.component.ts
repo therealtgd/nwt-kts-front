@@ -8,6 +8,8 @@ import { Driver } from 'src/app/models/driver';
 import { Stop } from 'src/app/models/stop';
 import { Vehicle } from 'src/app/models/vehicle';
 import { DriverService } from 'src/app/services/driver/driver.service';
+import { ApiResponse } from 'src/app/models/api-response';
+import { getSession } from 'src/app/util/context';
 
 @Component({
   selector: 'app-google-maps',
@@ -47,10 +49,10 @@ export class GoogleMapsComponent implements OnInit {
       zoom: 13,
       restriction: {
         latLngBounds: {
-          north: 45.33871095236587,
-          south: 45.21794541928532,
-          east: 19.91827998750687,
-          west: 19.688449296530184
+          north: 45.4163067202218,
+          south: 45.102887840869684,
+          east: 20.097893163467827,
+          west: 19.53315013570948
         },
         strictBounds: true,
       },
@@ -60,20 +62,46 @@ export class GoogleMapsComponent implements OnInit {
     this.directionsRenderer = new google.maps.DirectionsRenderer();
 
     this.initializeWebSocketConnection();
-    this.driverService.getAllActiveDrivers().subscribe((ret: any) => {
-      for (const driver of ret.body) {
-        this.drivers[driver.id] = driver;
-        let icon = {
-          url: 'assets/car.png',
-          scaledSize: new google.maps.Size(40, 51),
-        }
-        this.vehicle_markers[driver.vehicle.id] = new google.maps.Marker({
-          position: driver.vehicle.position,
-          map: this.map.googleMap,
-          icon,
-        })
-      }
+    this.driverService.getAllAvailableDrivers().subscribe({
+      next: (response: ApiResponse<Driver[]>) => {
+        if (response.success && response.body) {
+          this.setVehicleMarkers(response.body, 'assets/car-green.png');
+        }        
+      },
+      error: (error: any) => console.error(error),
     });
+    this.driverService.getAllBusyDrivers().subscribe({
+      next: (response: ApiResponse<Driver[]>) => {
+        if (response.success && response.body) {
+          this.setVehicleMarkers(response.body, 'assets/car-red.png');
+        }        
+      },
+      error: (error: any) => console.error(error),
+    });
+    
+    getSession()?.role === 'ROLE_DRIVER' && this.driverService.getDriver().subscribe({
+      next: (response: ApiResponse<Driver>) => {
+        if (response.success && response.body) {
+          this.setVehicleMarkers([response.body], 'assets/car-blue.png');
+        }
+      },
+      error: (error) => console.error(error),
+    })
+  }
+
+  private setVehicleMarkers(drivers: Driver[], img: string) {
+    for (const driver of drivers) {
+      this.drivers[driver.id] = driver;
+      let icon = {
+        url: img,
+        scaledSize: new google.maps.Size(40, 51),
+      };
+      this.vehicle_markers[driver.vehicle.id] = new google.maps.Marker({
+        position: driver.vehicle.position,
+        map: this.map.googleMap,
+        icon,
+      });
+    }
   }
 
   initializeWebSocketConnection() {

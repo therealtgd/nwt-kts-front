@@ -1,12 +1,15 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
 import { of, catchError, tap, Observable, firstValueFrom } from 'rxjs';
+import { ActiveRide } from 'src/app/models/active-ride';
 import { ApiResponse } from 'src/app/models/api-response';
 import { DriverStatus } from 'src/app/models/driver/driver-status';
 import { RideInfo } from 'src/app/models/ride-info';
 import { VehicleType } from 'src/app/models/vehicle-type';
 import { ClientService } from 'src/app/services/client/client.service';
+import { DriverService } from 'src/app/services/driver/driver.service';
 import { RideService } from 'src/app/services/ride/ride.service';
 import { VehicleService } from 'src/app/services/vehicle.service';
 import { getSession } from 'src/app/util/context';
@@ -19,6 +22,7 @@ import { getSession } from 'src/app/util/context';
 })
 export class RideFormComponent implements OnInit {
   @Input() width!: string;
+  @Output() onClientActiveRideChanged = new EventEmitter<ActiveRide>();
 
   vehicleTypes: VehicleType[] = [];
   pickupLocation: LatLngLiteral | null = null;
@@ -46,7 +50,9 @@ export class RideFormComponent implements OnInit {
     private rideService: RideService,
     private clientService: ClientService,
     private vehicleService: VehicleService,
-    private changeDetector: ChangeDetectorRef) { }
+    private driverService: DriverService,
+    private changeDetector: ChangeDetectorRef,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.vehicleService.getAllVehicleTypes().subscribe({
@@ -130,18 +136,24 @@ export class RideFormComponent implements OnInit {
   }
 
   async onRequestRide(): Promise<void> {
-    await this.getCreditsBalance()
-    if (this.clientCreditsBalance < this.rideInfo.price) {
-      this.modalContent = 'It seems like you don\'t have enough credits.';
-      this.modalHeader = 'Not enough credits';
-      this.modalVisible = true;
+    console.log(getSession())
+    if (getSession() === undefined) {
+      this.router.navigate(['/login'])
     } else {
-      this.modalContent = '';
-      this.modalHeader = 'Finding a driver';
-      this.showSpinner = true;
-      this.modalVisible = true;
-      this.getDriver();
+      await this.getCreditsBalance()
+      if (this.clientCreditsBalance < this.rideInfo.price) {
+        this.modalContent = 'It seems like you don\'t have enough credits.';
+        this.modalHeader = 'Not enough credits';
+        this.modalVisible = true;
+      } else {
+        this.modalContent = '';
+        this.modalHeader = 'Finding a driver';
+        this.showSpinner = true;
+        this.modalVisible = true;
+        this.getDriver();
+      }
     }
+   
   }
 
   async getCreditsBalance() {
@@ -170,7 +182,7 @@ export class RideFormComponent implements OnInit {
               this.modalContent = 'All drivers are busy, try again later.'
             }
             this.rideInfo.driver = response.body;
-            if (this.rideInfo.driver?.status === DriverStatus.BUSY) {
+            if (this.rideInfo.driver?.isReserved) {
               this.modalHeader = 'All drivers are busy'
               this.modalContent = 'We assigned a driver nearest to the end of his/hers ride to you.\nPlease wait.'
             } else {
@@ -185,6 +197,12 @@ export class RideFormComponent implements OnInit {
   }
 
   closeModal(): void {
+    if (this.rideInfo.driver) {
+      this.driverService.unassignDriver(this.rideInfo.driver.id).subscribe({
+        next: () => this.rideInfo.driver = null,
+        error: (error: any) => console.error(error),
+      })
+    }
     this.modalVisible = false;
   }
 
@@ -194,8 +212,11 @@ export class RideFormComponent implements OnInit {
       console.log(this.rideInfo);
       this.rideService.orderRide(this.rideInfo).subscribe(
         {
-          next: () => {
+          next: (response: ApiResponse<ActiveRide>) => {
             this.modalVisible = false;
+            if (response.success && response.body) {
+              this.onClientActiveRideChanged.emit({...response.body})
+            }
           },
           error: (error: any) => console.error(error),
         }

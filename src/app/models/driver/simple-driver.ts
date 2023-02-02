@@ -4,4 +4,5 @@ export interface SimpleDriver {
     id: number,
     displayName: string,
     status: DriverStatus,
+    isReserved: boolean,
 }

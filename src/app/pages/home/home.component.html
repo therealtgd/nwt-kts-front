@@ -1,1 +1,3 @@
-<app-ride-form></app-ride-form>
+  <app-ride-form *ngIf="!user || (user.role === 'ROLE_CLIENT' && !activeRide)" (onClientActiveRideChanged)="handleClientActiveRideChanged($event)"></app-ride-form>
+  <app-client-active-ride *ngIf="user?.role === 'ROLE_CLIENT' && activeRide" [ride]="activeRide"></app-client-active-ride>
+  <app-driver-home *ngIf="user?.role === 'ROLE_DRIVER'"></app-driver-home>

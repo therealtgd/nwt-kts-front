@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
   handleLoginSuccess(response: ApiResponse<null>) {
     saveToken(response.message);
     this.authService.getWhoAmI();
-    window.location.reload();
+    // window.location.reload();
     this.router.navigate(['home']);
   }
   handleLoginError(error: ApiResponse<null>) {
