@@ -1,8 +1,14 @@
 
-<p class="p-2 m-3 mt-5 mb-0 pb-6 text-3xl font-semibold p-component">Ride history</p>
+<div class="flex justify-content-between">
+  <p class="p-2 m-3 mt-5 mb-0 pb-6 text-3xl font-semibold p-component">
+  Ride history
+</p>
+<p>ef</p>
+</div>
+
 
 <div class="flex flex-column row-gap-5"  *ngFor="let ride of rides; index as i;">
-  <app-ride-card [ride]="ride"/>
+  <app-ride-card [ride]="ride" [userRole]="user.role"/>
   <div class="mb-5"></div>
 </div>
 

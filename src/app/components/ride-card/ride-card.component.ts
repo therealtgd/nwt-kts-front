@@ -9,6 +9,7 @@ import { ClientService } from 'src/app/services/client/client.service';
 })
 export class RideCardComponent {
   @Input() ride!: RideDto;
+  @Input() userRole: string = 'ROLE_CLIENT';
 
   constructor
     (
