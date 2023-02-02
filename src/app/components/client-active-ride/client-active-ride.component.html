@@ -1,0 +1,39 @@
+<ng-container *ngIf="ride !== null">
+  <p-card class="w-3 inline-block absolute z-1 mt-8 ml-8" [style]="{'min-width': '400px'}">
+    <div class="flex justify-content-between mb-3">
+      <div class="flex">
+        <p-avatar image="data:image/png;base64, {{ride.driver.image}}" size="large" shape="circle"></p-avatar>
+        <p class="my-auto ml-3">{{ride.driver.displayName}}</p>
+      </div>
+      <p-avatarGroup>
+        <p-avatar
+          *ngFor="let client of ride.clients; let i = index"
+          image="data:image/png;base64, {{client.image}}"
+          size="large"
+          shape="circle">
+        </p-avatar>
+      </p-avatarGroup>
+    </div>
+    <ng-container *ngIf="this.currentEta > 0; else elseBlock">
+      <p-progressBar [value]="((this.ride.eta - this.currentEta) * 100) / this.ride.eta"></p-progressBar>
+
+      <p-car>
+        Driver ETA: {{this.currentEta | time:'mm:ss'}}
+      </p-car>
+    </ng-container>
+    <ng-template #elseBlock>
+      <div class="flex w-full justify-content-center">
+        <button pButton (click)="reportDriver()" type="button" label="Report driver" class="p-button-danger"></button>
+        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+      </div>
+    </ng-template>
+  </p-card>
+  <p-messages class="inline-block absolute z-1" [value]="msgs"></p-messages>
+  
+  <app-google-maps
+    [pickupLocation]="ride.startAddress.coordinates"
+    [destination]="ride.endAddress.coordinates"
+    [stops]="stops"
+    class="relative block">
+  </app-google-maps>
+</ng-container>

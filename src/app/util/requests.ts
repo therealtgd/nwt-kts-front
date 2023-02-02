@@ -12,7 +12,7 @@ export function get(httpClient: HttpClient, url: string){
 }
 
 export function getWithParams(httpClient: HttpClient, url: string, params: HttpParams){
-  return httpClient.get(apiUrl + url, {...header, params});
+  return httpClient.get(apiUrl + url, { ...header, params });
 }
 
 export function post(httpClient: HttpClient, url: string, requestData : Object){

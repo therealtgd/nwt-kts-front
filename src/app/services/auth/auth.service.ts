@@ -5,7 +5,7 @@ import { ContextData } from 'src/app/dto/context-data';
 import { LoginRequest } from 'src/app/dto/login-request';
 import { ApiResponse } from 'src/app/models/api-response';
 import { saveSession, invalidateSession, invalidateToken } from 'src/app/util/context';
-import { get, post } from 'src/app/util/requests';
+import { get, post, put } from 'src/app/util/requests';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +19,17 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log("invalidating")
-    invalidateSession();
-    invalidateToken();
-    window.location.reload();
+    put(this.http, '/auth/signout', {}).subscribe({
+      next: (response: any) => {
+        console.log(response.message)
+        console.log("invalidating")
+        invalidateSession();
+        invalidateToken();
+        window.location.reload();
+      },
+      error: (error) => console.error(error),
+    });
+   
   }
   
   getWhoAmI(): void {

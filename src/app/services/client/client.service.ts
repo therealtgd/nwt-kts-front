@@ -4,14 +4,15 @@ import { Observable } from "rxjs";
 import { RegistrationConfirmation } from "src/app/dto/registration-confirmation";
 import { RideDto } from "src/app/dto/ride-brief";
 import { RouteDto } from "src/app/dto/route-dto";
-import { ApiResponse } from "src/app/models/api-response";
 import { post, get, del, put } from "src/app/util/requests";
+import { ActiveRide } from "src/app/models/active-ride";
+import { ApiResponse } from "src/app/models/api-response";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-
+  
   constructor(private http: HttpClient) { }
 
   public activateClient(tokenRequest: RegistrationConfirmation): Observable<ApiResponse<null>> {
@@ -37,4 +38,9 @@ export class ClientService {
   public removeFromFavorites(rideId: number): Observable<ApiResponse<RouteDto[]>> {
     return del(this.http, '/client/remove-favorite/' + rideId) as Observable<ApiResponse<RouteDto[]>>;
   }
+
+  public getActiveRide(): Observable<ApiResponse<ActiveRide>> {
+    return get(this.http, '/client/active-ride') as Observable<ApiResponse<ActiveRide>>
+  }
+
 }

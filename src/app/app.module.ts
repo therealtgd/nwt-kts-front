@@ -17,11 +17,13 @@ import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { AvatarModule } from 'primeng/avatar';
-import { AvatarGroupModule } from 'primeng/avatargroup';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {AvatarModule} from 'primeng/avatar';
+import {AvatarGroupModule} from 'primeng/avatargroup';
+import {CheckboxModule} from 'primeng/checkbox';
+import {DropdownModule} from 'primeng/dropdown';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -56,6 +58,9 @@ import { DatePipe } from '@angular/common';
 import { LiveChatComponent } from './components/live-chat/live-chat.component';
 import { FavoriteRoutesComponent } from './components/favorite-routes/favorite-routes.component';
 import { RouteCardComponent } from './components/route-card/route-card.component';
+import { ClientActiveRideComponent } from './components/client-active-ride/client-active-ride.component';
+import { TimePipe } from './pipes/time.pipe';
+import { DriverHomeComponent } from './pages/driver-home/driver-home.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +88,9 @@ import { RouteCardComponent } from './components/route-card/route-card.component
     LiveChatComponent,
     FavoriteRoutesComponent,
     RouteCardComponent,
+    ClientActiveRideComponent,
+    TimePipe,
+    DriverHomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,12 +120,14 @@ import { RouteCardComponent } from './components/route-card/route-card.component
     DropdownModule,
     CalendarModule,
     ChartModule,
+    ConfirmDialogModule,
   ],
   providers: [
     DatePipe,
     MessageService,
     AuthGuard,
     AuthService,
+    ConfirmationService,
     GoogleMap,
     {
       provide: HTTP_INTERCEPTORS,

@@ -1,6 +1,6 @@
 <p-card *ngIf="vehicleTypes.length" class="w-3 inline-block absolute z-1 mt-8 ml-8" [style]="{'min-width': '400px'}">
   <h1>Request a ride now</h1>
-  <span class="p-float-label pickup-location">
+  <span class="p-float-label pickup-location mb-3">
     <input 
       id="pickupLocation" 
       type="text" 
@@ -14,7 +14,7 @@
   <div>
     <span 
       *ngFor="let i of rideInfo.stops; let idx = index"
-      class="p-float-label destination"
+      class="p-float-label mb-3"
       pDraggable="stop" pDroppable="stop"
       (onDragStart)="onDragStart(idx)" (onDrop)="onDrop(idx)"> 
       <input 
@@ -27,7 +27,7 @@
       <label for="float-input">Stop</label>
       <i class="pi pi-minus cursor-pointer text-xl" (click)="removeStop(idx)" style="margin-left: 10px"></i>
     </span>
-    <span class="p-float-label destination">
+    <span class="p-float-label destination mb-3">
       <input 
         type="text" 
         pInputText
@@ -44,7 +44,6 @@
       <p-checkbox label="Babies allowed" [value]="false" [(ngModel)]="rideInfo.babiesAllowed"></p-checkbox>
     </div>
   </div>
-  
   <div class="flex aling-items-center">
     <button
       pButton type="button"
@@ -52,7 +51,7 @@
       class="btn-request"
       (click)="onRequestRide()"
       [disabled]="!rideInfo.price">
-    </button>
+      </button>
     <div class="flex flex-column justify-content-center ml-4">
       <span><label>Distance: </label>{{rideInfo.distance | distance}}</span>
       <span><label>Price: </label>{{rideInfo.price}}RSD</span>
@@ -81,7 +80,7 @@
       <div><label>Distance: </label>{{rideInfo.distance | distance}}</div>
     </ng-container>
   </div>
-  <div *ngIf="rideInfo.driver && rideInfo.driver?.status === 'AVAILABLE'" footer class="flex justify-content-center">
+  <div *ngIf="rideInfo.driver" footer class="flex justify-content-center">
     <p-button
       *ngIf="clientCreditsBalance >= rideInfo.price"
       icon="pi pi-wallet"

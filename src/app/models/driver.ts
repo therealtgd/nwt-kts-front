@@ -9,4 +9,5 @@ export interface Driver {
     enabled: boolean,
     status: DriverStatus,
     vehicle: Vehicle,
+    image?: string, 
 }

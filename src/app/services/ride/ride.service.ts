@@ -6,6 +6,7 @@ import { RideInfo } from 'src/app/models/ride-info';
 import { ApiResponse } from 'src/app/models/api-response';
 import { SimpleDriver } from 'src/app/models/driver/simple-driver';
 import { ReportDto } from 'src/app/dto/report-dto';
+import { ActiveRide } from 'src/app/models/active-ride';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +34,8 @@ export class RideService {
     return getWithParams(this.http, '/ride/nearest-free-driver', params) as Observable<ApiResponse<SimpleDriver>>;
   }
 
-  public orderRide(rideInfo: RideInfo) {
-    return post(this.http, '/ride/order', rideInfo);
+  public orderRide(rideInfo: RideInfo): Observable<ApiResponse<ActiveRide>> {
+    return post(this.http, '/ride/order', rideInfo) as Observable<ApiResponse<ActiveRide>>;
   }
 
   public getClientReport(startDate: string, endDate: string): Observable<ApiResponse<ReportDto>> {
