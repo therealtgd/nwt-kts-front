@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminLiveChatComponent } from './pages/admin-live-chat/admin-live-chat.component';
+import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard] },
   { path: 'admin/support-chat', component: AdminLiveChatComponent, canActivate: [AuthGuard] },
   { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [AuthGuard] },
+  { path: 'statistics', component: AdminReportsComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

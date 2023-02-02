@@ -64,6 +64,8 @@ import { MinutesPipe } from './pipes/minutes.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
+import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
+import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +98,8 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
     DriverHomeComponent,
     EditDriverProfileComponent,
     AdminLiveChatComponent,
+    AdminHomeComponent,
+    AdminReportsComponent,
   ],
   imports: [
     BrowserModule,
