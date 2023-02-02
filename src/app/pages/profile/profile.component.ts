@@ -41,8 +41,11 @@ export class ProfileComponent implements OnInit {
     this.uploadedFile = event.target.files[0];
     console.log(this.uploadedFile)
     this.changeDetector.detectChanges();
+    this.showImage();
     
-    if (this.user.role === "ROLE_DRIVER") return;
+    if (this.user.role === "ROLE_DRIVER") {
+      return;
+    }
 
     this.imageService.upload(this.getImageData())
       .subscribe({
@@ -57,5 +60,16 @@ export class ProfileComponent implements OnInit {
     this.modalContent = content;
     this.modalHeader = header;
     this.failureModalVisibility = true;
+  }
+  showImage() {
+    if (this.uploadedFile === undefined) { return; }
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.image = event.target.result;
+    };
+    reader.onerror = (event: any) => {
+      console.log("File could not be read: " + event.target.error.code);
+    };
+    reader.readAsDataURL(this.uploadedFile);
   }
 }

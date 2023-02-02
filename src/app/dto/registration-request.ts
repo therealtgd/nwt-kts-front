@@ -7,4 +7,5 @@ export interface RegistrationRequest {
   password: String;
   confirmPassword: String;
   socialProvider: string;
+  imageUploaded: boolean;
 }
