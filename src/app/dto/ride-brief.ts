@@ -11,4 +11,5 @@ export interface RideDto {
   price: string;
   distance: string;
   favorite: boolean;
+  rating: number;
 }

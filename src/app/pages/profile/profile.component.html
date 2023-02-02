@@ -19,21 +19,21 @@
 
     <div class="flex justify-content-center">
       <div class="w-6 pt-4">
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
-          (click)="selectedItem = 'Edit profile'">
-          Edit profile
-        </p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
           (click)="selectedItem = 'Ride history'" *ngIf="user.role !== 'ROLE_ADMIN'">
           Ride history
+        </p>
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
+          (click)="selectedItem = 'Favorite routes'" *ngIf="user.role === 'ROLE_CLIENT'">
+          Favorite routes
         </p>
         <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
           (click)="selectedItem = 'Statistics'" *ngIf="user.role !== 'ROLE_ADMIN'">
           Statistics
         </p>
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
-          (click)="selectedItem = 'Favorite routes'" *ngIf="user.role === 'ROLE_CLIENT'">
-          Favorite routes
+        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
+          (click)="selectedItem = 'Edit profile'">
+          Edit profile
         </p>
       </div>
     </div>
@@ -43,6 +43,7 @@
     <app-ride-history *ngIf="selectedItem === 'Ride history'" [user]="user"/>
     <app-reports *ngIf="selectedItem === 'Statistics'" [user]="user"/>
     <app-edit-driver-profile *ngIf="selectedItem === 'Edit profile' && user.role === 'ROLE_DRIVER'" [user]="user" [uploadedFile]="uploadedFile"/>
+    <app-favorite-routes *ngIf="selectedItem === 'Favorite routes' && user.role === 'ROLE_CLIENT'" [user]="user"/>
     <app-edit-profile *ngIf="selectedItem === 'Edit profile' && user.role !== 'ROLE_DRIVER'" [user]="user"/>
   </div>
   <div class="w-1">

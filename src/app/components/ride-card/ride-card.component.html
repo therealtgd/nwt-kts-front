@@ -1,9 +1,16 @@
 <p-card class="relative">
 
-  <div class="bg-primary-reverse border-circle absolute pt-2 pb-1 px-2 ml-4" style="top: -25px; right: -25px;">
+  <div class="bg-primary-reverse border-circle absolute pt-2 pb-1 px-2 ml-4" style="top: -25px; right: -25px;" *ngIf="userRole === 'ROLE_CLIENT'">
     <i class="pi text-4xl cursor-pointer" (click)="toggleFavorite()"
       [ngClass]="{'pi-heart-fill': ride.favorite, 'pi-heart': !ride.favorite}">
     </i>
+  </div>
+  <div class="bg-primary-reverse border-round-2xl absolute pt-2 pb-1 px-2 ml-4 text-4xl" style="top: -35px; right: -25px;" *ngIf="userRole === 'ROLE_DRIVER'">
+    <ng-container *ngFor="let id of [0,1,2,3,4]">
+      <span [ngClass]="{ 'text-primary': id < ride.rating, 'text-color-secondary': id >= ride.rating }">
+        &#9733;
+      </span>
+    </ng-container>
   </div>
 
   <div class="h-3rem mx-3 flex flex-wrap justify-content-between vertical-align-middle">

@@ -15,8 +15,8 @@ export class DriverService {
 
   constructor(private http: HttpClient) { }
 
-  public getRides() : Observable<ApiResponse<RideDto[]>> {
-    return get(this.http, '/driver/rides') as Observable<ApiResponse<RideDto[]>>;
+  public getRides(criteria: string) : Observable<ApiResponse<RideDto[]>> {
+    return get(this.http, '/driver/rides/' + criteria) as Observable<ApiResponse<RideDto[]>>;
   }
   
   public getAllActiveDrivers(): Observable<Object> {

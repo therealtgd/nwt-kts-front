@@ -23,8 +23,8 @@ export class ClientService {
     return get(this.http, '/client/credits') as Observable<ApiResponse<number>>;
   }
 
-  public getRides(): Observable<ApiResponse<RideDto[]>> {
-    return get(this.http, '/client/rides') as Observable<ApiResponse<RideDto[]>>;
+  public getRides(criteria: string): Observable<ApiResponse<RideDto[]>> {
+    return get(this.http, '/client/rides/' + criteria) as Observable<ApiResponse<RideDto[]>>;
   }
 
   public getFavorites(): Observable<ApiResponse<RouteDto[]>> {

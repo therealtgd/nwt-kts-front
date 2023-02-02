@@ -27,6 +27,7 @@ export class ClientRegistrationComponent implements OnInit {
 
   successModalVisibility: boolean = false;
   failureModalVisibility: boolean = false;
+  noSpecial: RegExp = /^[^<>*!0-9]+$/;
   modalHeader: string = '';
   modalContent: string = '';
   uploadedFile!: File;
@@ -66,10 +67,13 @@ export class ClientRegistrationComponent implements OnInit {
     };
     reader.readAsDataURL(this.uploadedFile);
   }
-  getImageData(email: string): FormData {
+  getRequestData(requestData: RegistrationRequest): FormData {
     const formData = new FormData();
-    formData.append('email', email);
+    const blob = new Blob([JSON.stringify(requestData)], { type: "application/json" });
+    formData.append('signupRequest', blob);
     formData.append('image', this.uploadedFile);
+    console.log(formData);
+    console.log(this.uploadedFile)
     return formData;
   }
   save() {
@@ -82,27 +86,16 @@ export class ClientRegistrationComponent implements OnInit {
       phoneNumber: this.form.value.phoneNumber,
       password: this.form.value.password,
       confirmPassword: this.form.value.confirmPassword,
-      socialProvider: 'LOCAL'
+      socialProvider: 'LOCAL',
+      imageUploaded: this.uploadedFile !== undefined
     };
-    this.userService.registerClient(registrationData)
+    this.userService.registerClient(this.getRequestData(registrationData))
       .subscribe({
         next: (data) => this.handleRegistrationSuccess(data),
         error: (error) => this.handleRegistrationError(error.error)
       });
   }
   handleRegistrationSuccess(response: ApiResponse<null>) {
-    const image: FormData = this.getImageData(response.message);
-    if (!this.uploadedFile) {
-      this.handleImageSuccess();
-      return;
-    }
-    this.imageService.upload(this.getImageData(response.message))
-      .subscribe({
-        next: (data) => this.handleImageSuccess(),
-        error: (error) => this.handleRegistrationError(error.error)
-      });
-  }
-  handleImageSuccess() {
     this.displaySuccessModal("Success!", "You have successfully registered.");
   }
   handleRegistrationError(error: ApiResponse<null>) {
