@@ -208,6 +208,7 @@ export class RideFormComponent implements OnInit {
 
   orderRide(): void {
     if (getSession()?.username) {
+      console.log(this.rideInfo)
       this.rideInfo.clients = [getSession()!.username]
       this.rideService.orderRide(this.rideInfo).subscribe(
         {

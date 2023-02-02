@@ -7,6 +7,7 @@ import { RideInfo } from 'src/app/models/ride-info';
 import { ClientService } from 'src/app/services/client/client.service';
 import { getSession } from 'src/app/util/context';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = getSession() ?? null;
-    if (this.user) {
+    if (this.user && this.user.role === 'ROLE_CLIENT') {
       this.clientService.getActiveRide().subscribe({
         next: (response: ApiResponse<ActiveRide>) => {
           console.log(response.body)

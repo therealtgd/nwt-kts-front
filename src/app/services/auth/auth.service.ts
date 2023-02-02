@@ -20,11 +20,16 @@ export class AuthService {
 
   logout(): void {
     put(this.http, '/auth/signout', {}).subscribe({
-      next: (response: any) => { },
+      next: (response: any) => {
+        console.log(response.message)
+      },
       error: (error) => console.error(error),
     });
+    console.log("invalidating")
     invalidateSession();
     invalidateToken();
+    window.location.reload();
+   
   }
 
   getWhoAmI(): void {

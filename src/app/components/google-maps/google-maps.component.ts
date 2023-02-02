@@ -24,7 +24,7 @@ export class GoogleMapsComponent implements OnInit {
 
   @Input() pickupLocation: LatLngLiteral | null = null;
   @Input() destination: LatLngLiteral | null = null;
-  @Input() stops: Stop[] = [];
+  @Input() stops: Stop[] | null = [];
   @Output() onRideInfoChanged = new EventEmitter<any>();
   @ViewChild(GoogleMap) map!: GoogleMap;
   options!: google.maps.MapOptions;
@@ -56,7 +56,7 @@ export class GoogleMapsComponent implements OnInit {
         },
         strictBounds: true,
       },
-      streetViewControl: false,
+      disableDefaultUI: true,
     };
     this.directionsService = new google.maps.DirectionsService();
     this.directionsRenderer = new google.maps.DirectionsRenderer();
@@ -136,10 +136,10 @@ export class GoogleMapsComponent implements OnInit {
       let request = {
         origin: this.pickupLocation,
         destination: this.destination,
-        waypoints: this.stops.map(stop => ({
+        waypoints: this.stops ? this.stops.map(stop => ({
           location: stop.address.formatted_address,
           stopover: true
-        })),
+        })) : [],
         travelMode: google.maps.TravelMode.DRIVING,
       };
 
@@ -158,10 +158,10 @@ export class GoogleMapsComponent implements OnInit {
               }
             };
             const endAddress = {
-              address: legs[legs.length - 1].end_address,
+              address: legs[legs.length === 1 ? 0 : legs.length - 1].end_address,
               coordinates: {
-                lat: legs[legs.length - 1].start_location.lat(),
-                lng: legs[legs.length - 1].start_location.lng()
+                lat: legs[legs.length === 1 ? 0 : legs.length - 1].end_location.lat(),
+                lng: legs[legs.length === 1 ? 0 : legs.length - 1].end_location.lng()
               }
             };
             const distance = legs.map(leg => leg.distance!.value).reduce((acc, current) => acc + current, 0);

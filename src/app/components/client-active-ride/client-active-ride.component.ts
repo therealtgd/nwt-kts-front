@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Address as AutocompleteAddress } from 'ngx-google-places-autocomplete/objects/address';
+import { ConfirmationService, Message, MessageService } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
 import { ActiveRide } from 'src/app/models/active-ride';
-import { Stop } from 'src/app/models/stop';
 import { Address } from 'src/app/models/address';
-import {ConfirmationService, Message} from 'primeng/api';
+import { Stop } from 'src/app/models/stop';
+import { RideService } from 'src/app/services/ride/ride.service';
 
 @Component({
   selector: 'app-client-active-ride',
@@ -17,7 +19,7 @@ export class ClientActiveRideComponent implements OnInit {
   currentEta: number = 0;
   msgs: Message[] = [];
 
-  constructor(private confirmationService: ConfirmationService) {}
+  constructor(private confirmationService: ConfirmationService, private rideService: RideService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     if (this.ride !== undefined) {
@@ -26,23 +28,21 @@ export class ClientActiveRideComponent implements OnInit {
         a.formatted_address = s.address;
         return {address: a};
       })
-      if (sessionStorage.getItem('currentEta') && Number(sessionStorage.getItem('currentEta')) <= this.ride.eta) {
-        this.currentEta = Number(sessionStorage.getItem('currentEta'));
-      } else {
-        this.currentEta = this.ride.eta;
-      }
     }
 
-    const intervalId = setInterval(() => {
-      if (this.currentEta > 0) {
-        this.currentEta--;
-        sessionStorage.setItem('currentEta', this.currentEta.toString());
-      }
-      if (this.currentEta === 0) {
-        sessionStorage.removeItem('currentEta');
-        clearInterval(intervalId);
-      }
-    }, 1000)
+    const intervalId = setInterval(async () => {
+        const response = await firstValueFrom(this.rideService.getDriverEta())
+        if (response.success && response.body) {
+          this.ride = {...this.ride, eta: response.body}
+          console.log(this.ride, this.ride.eta)
+          if (response.body <= 0) {
+            clearInterval(intervalId)
+            this.messageService.add({severity:'info', summary:'Driver arrived', detail:`Your driver is at the pickup location: ${this.ride.startAddress.address}`});
+          }
+        } else {
+          console.error(response.message);
+        }
+      }, 15 * 1000)
   }
 
   reportDriver() {
@@ -54,7 +54,6 @@ export class ClientActiveRideComponent implements OnInit {
             this.msgs = [{severity:'info', summary:'Confirmed', detail:'Driver reported'}];
         },
     });
-}
-
+  }
 
 }

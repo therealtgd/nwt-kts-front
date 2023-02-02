@@ -25,6 +25,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -48,7 +49,9 @@ import { RideFormComponent } from './components/ride-form/ride-form.component';
 import { RideHistoryComponent } from './components/ride-history/ride-history.component';
 import { RouteCardComponent } from './components/route-card/route-card.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminLiveChatComponent } from './pages/admin-live-chat/admin-live-chat.component';
+import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
 import { DriverHomeComponent } from './pages/driver-home/driver-home.component';
@@ -64,8 +67,6 @@ import { MinutesPipe } from './pipes/minutes.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
-import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
-import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { AdminReportsComponent } from './pages/admin-reports/admin-reports.compo
     ConfirmDialogModule,
     DividerModule,
     KeyFilterModule,
+    ToastModule,
   ],
   providers: [
     DatePipe,

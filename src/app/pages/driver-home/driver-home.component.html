@@ -1,6 +1,8 @@
 <ng-container *ngIf="driver">
-  
   <app-google-maps
+    [pickupLocation]="ride ? ride.startAddress.coordinates : null"
+    [destination]="ride ? ride.endAddress.coordinates : null"
+    [stops]="stops ? stops : null"
     class="relative block">
   </app-google-maps>
 </ng-container>

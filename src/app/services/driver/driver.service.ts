@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RideDto } from 'src/app/dto/ride-brief';
+import { ActiveRide } from 'src/app/models/active-ride';
 import { ApiResponse } from 'src/app/models/api-response';
 import { Driver } from 'src/app/models/driver';
 import { DriverStatus } from 'src/app/models/driver-status';
@@ -11,7 +12,7 @@ import { get, getWithParams, postWithoutHeader, put } from 'src/app/util/request
   providedIn: 'root'
 })
 export class DriverService {
-  
+
   constructor(private http: HttpClient) { }
 
   public getRides() : Observable<ApiResponse<RideDto[]>> {
@@ -42,6 +43,10 @@ export class DriverService {
   
   public unassignDriver(driverId: number): Observable<ApiResponse<null>> {
     return put(this.http, '/driver/unassign', driverId) as Observable<ApiResponse<null>>;
+  }
+
+  getActiveRide(): Observable<ApiResponse<ActiveRide>> {
+    return get(this.http, '/driver/active-ride') as Observable<ApiResponse<ActiveRide>>;
   }
 
 }

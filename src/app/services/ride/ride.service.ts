@@ -50,4 +50,8 @@ export class RideService {
     return get(this.http, '/ride/report/admin/' + startDate + '/' + endDate) as Observable<ApiResponse<ReportDto>>;
   }
 
+  getDriverEta(): Observable<ApiResponse<number>> {
+    return get(this.http, '/ride/driver-eta') as Observable<ApiResponse<number>>;
+  }
+
 }
