@@ -39,6 +39,7 @@ export class ClientActiveRideComponent implements OnInit {
         sessionStorage.setItem('currentEta', this.currentEta.toString());
       }
       if (this.currentEta === 0) {
+        sessionStorage.removeItem('currentEta');
         clearInterval(intervalId);
       }
     }, 1000)
