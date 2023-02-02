@@ -12,11 +12,11 @@ import { getSession, getToken } from 'src/app/util/context';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor 
-  (
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor
+    (
+      private authService: AuthService,
+      private router: Router
+    ) { }
 
   role: String = '';
   items: MenuItem[] = [];
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     if (getToken()) {
       this.authService.getWhoAmI();
-      const session: ContextData | undefined = getSession(); 
+      const session: ContextData | undefined = getSession();
       if (session !== undefined) {
         this.role = session.role;
       }
@@ -39,13 +39,13 @@ export class NavbarComponent implements OnInit {
         icon: "pi pi-sign-in",
         visible: this.role === '',
         command: (event) => this.logIn(),
-        style: {'margin-left': 'auto'}
+        style: { 'margin-left': 'auto' }
       },
       {
         label: "Profile",
         icon: "pi pi-user",
         command: (event) => this.profile(),
-        style: {'margin-left': 'auto'},
+        style: { 'margin-left': 'auto' },
         visible: this.role !== ''
       },
       {
