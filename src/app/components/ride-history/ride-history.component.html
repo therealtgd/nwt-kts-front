@@ -3,7 +3,9 @@
   <p class="p-2 m-3 mt-5 mb-0 pb-6 text-3xl font-semibold p-component">
   Ride history
 </p>
-<p>ef</p>
+<p class=" mt-5">
+  <p-dropdown [options]="sortingType" [(ngModel)]="selectedSort" (onChange)="loadData()"></p-dropdown>
+</p>
 </div>
 
 

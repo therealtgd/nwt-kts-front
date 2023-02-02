@@ -15,7 +15,9 @@ export class RideHistoryComponent implements OnInit {
   failureModalVisibility: boolean = false;
   modalHeader: string = '';
   modalContent: string = '';
-  rides: RideDto[] = []
+  rides: RideDto[] = [];
+  sortingType: string[] = [ 'route - ↓', 'route - ↑', 'price - ↓', 'price - ↑', 'date departed - ↓', 'date departed - ↑' ];
+  selectedSort: string = 'route - ↓';
 
   constructor
     (
@@ -24,16 +26,19 @@ export class RideHistoryComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+  loadData() {
     if (this.user.role === "ROLE_CLIENT") {
-      this.clientService.getRides()
+      this.clientService.getRides(this.selectedSort.replace(/\s/g, ''))
         .subscribe
         ({
-          next: (data: ApiResponse<RideDto[]>) => { if (data.body !== null) this.rides = data.body; console.log(data.body) },
+          next: (data: ApiResponse<RideDto[]>) => { if (data.body !== null) this.rides = data.body; },
           error: (error) => this.handleFailure(error.error)
         })
     }
     else if (this.user.role === "ROLE_DRIVER") {
-      this.driverService.getRides()
+      this.driverService.getRides(this.selectedSort.replace(/\s/g, ''))
         .subscribe
         ({
           next: (data) => { if (data.body !== null) this.rides = data.body },
