@@ -25,11 +25,8 @@ export class AuthService {
       },
       error: (error) => console.error(error),
     });
-    console.log("invalidating")
     invalidateSession();
     invalidateToken();
-    window.location.reload();
-   
   }
 
   getWhoAmI(): void {
