@@ -17,7 +17,14 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     const contentType: string = request.headers.get('Content-Type') || 'application/json';
     const token: string = getToken();
-    if (request.url.includes(apiUrl) && token && !request.url.includes('image')) {
+    if (request.url.includes('driver/update')) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${getToken()}`
+        }
+      });
+    }
+    else if (request.url.includes(apiUrl) && token && !request.url.includes('image')) {
 
       request = request.clone({
         setHeaders: {

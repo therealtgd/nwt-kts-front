@@ -4,5 +4,6 @@ export interface Vehicle {
     capacity: number,
     petsAllowed: boolean,
     babiesAllowed: boolean,
+    vehicleType: string,
     position: google.maps.LatLngLiteral,
 }
