@@ -21,20 +21,20 @@ export class ClientService {
   public getCreditsBalance(): Observable<ApiResponse<number>> {
     return get(this.http, '/client/credits') as Observable<ApiResponse<number>>;
   }
-  
-  public getRides() : Observable<ApiResponse<RideDto[]>> {
+
+  public getRides(): Observable<ApiResponse<RideDto[]>> {
     return get(this.http, '/client/rides') as Observable<ApiResponse<RideDto[]>>;
   }
-  
-  public getFavorites() : Observable<ApiResponse<RouteDto[]>> {
+
+  public getFavorites(): Observable<ApiResponse<RouteDto[]>> {
     return get(this.http, '/client/favorite-routes') as Observable<ApiResponse<RouteDto[]>>;
   }
 
-  public addToFavorites(rideId: string) : Observable<ApiResponse<RouteDto[]>> {
+  public addToFavorites(rideId: number): Observable<ApiResponse<RouteDto[]>> {
     return put(this.http, '/client/set-favorite/' + rideId, {}) as Observable<ApiResponse<RouteDto[]>>;
   }
-  
-  public removeFromFavorites(rideId: string) : Observable<ApiResponse<RouteDto[]>> {
+
+  public removeFromFavorites(rideId: number): Observable<ApiResponse<RouteDto[]>> {
     return del(this.http, '/client/remove-favorite/' + rideId) as Observable<ApiResponse<RouteDto[]>>;
   }
 }

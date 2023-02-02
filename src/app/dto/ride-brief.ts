@@ -1,7 +1,7 @@
 import { User } from "./user-brief";
 
 export interface RideDto {
-  id: string;
+  id: number;
   driver: User;
   clients: User[];
   startTime: string;
