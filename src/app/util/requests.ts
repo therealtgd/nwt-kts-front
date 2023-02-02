@@ -27,6 +27,10 @@ export function put(httpClient: HttpClient, url: string, requestData : Object){
   return httpClient.put(apiUrl + url, requestData, header);
 }
 
+export function putWithoutHeader(httpClient: HttpClient, url: string, requestData : Object){
+  return httpClient.put(apiUrl + url, requestData, {});
+}
+
 export function patch(httpClient: HttpClient, url: string, requestData : Object){
   return httpClient.patch(apiUrl + url, requestData, header);
 }

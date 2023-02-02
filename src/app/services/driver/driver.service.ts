@@ -5,7 +5,7 @@ import { RideDto } from 'src/app/dto/ride-brief';
 import { ApiResponse } from 'src/app/models/api-response';
 import { Driver } from 'src/app/models/driver';
 import { DriverStatus } from 'src/app/models/driver-status';
-import { get, getWithParams, put } from 'src/app/util/requests';
+import { get, getWithParams, postWithoutHeader, put } from 'src/app/util/requests';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,14 @@ export class DriverService {
   public getAllActiveDrivers(): Observable<Object> {
     return get(this.http, '/driver/get-all-active');
   }
+  
+  public getDriver(): Observable<ApiResponse<Driver>> {
+    return get(this.http, '/driver/me') as Observable<ApiResponse<Driver>>;
+  }
+
+  public updateDriver(data: FormData): Observable<ApiResponse<null>> {
+    return postWithoutHeader(this.http, '/driver/update', data) as Observable<ApiResponse<null>>;
+  }
 
   getAllAvailableDrivers(): Observable<ApiResponse<Driver[]>> {
     const params = new HttpParams().set('status', DriverStatus.AVAILABLE);
@@ -34,10 +42,6 @@ export class DriverService {
   
   public unassignDriver(driverId: number): Observable<ApiResponse<null>> {
     return put(this.http, '/driver/unassign', driverId) as Observable<ApiResponse<null>>;
-  }
-
-  getDriver(): Observable<ApiResponse<Driver>> {
-    return get(this.http, '/driver') as Observable<ApiResponse<Driver>>;
   }
 
 }

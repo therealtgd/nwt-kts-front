@@ -17,13 +17,15 @@ import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {AvatarModule} from 'primeng/avatar';
-import {AvatarGroupModule} from 'primeng/avatargroup';
-import {CheckboxModule} from 'primeng/checkbox';
-import {DropdownModule} from 'primeng/dropdown';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DropdownModule } from 'primeng/dropdown';
+import { DividerModule } from "primeng/divider";
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -61,6 +63,7 @@ import { RouteCardComponent } from './components/route-card/route-card.component
 import { ClientActiveRideComponent } from './components/client-active-ride/client-active-ride.component';
 import { TimePipe } from './pipes/time.pipe';
 import { DriverHomeComponent } from './pages/driver-home/driver-home.component';
+import { EditDriverProfileComponent } from './components/edit-driver-profile/edit-driver-profile.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +94,7 @@ import { DriverHomeComponent } from './pages/driver-home/driver-home.component';
     ClientActiveRideComponent,
     TimePipe,
     DriverHomeComponent,
+    EditDriverProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -121,6 +125,8 @@ import { DriverHomeComponent } from './pages/driver-home/driver-home.component';
     CalendarModule,
     ChartModule,
     ConfirmDialogModule,
+    DividerModule,
+    KeyFilterModule,
   ],
   providers: [
     DatePipe,

@@ -31,11 +31,11 @@
     </div>
   </div>
   <div class="w-4"></div>
-  <div class="w-7">
-    <app-ride-history *ngIf="selectedItem === 'Ride history'" [user]="user" />
-    <app-favorite-routes *ngIf="selectedItem === 'Favorite routes'" [user]="user" />
-    <app-reports *ngIf="selectedItem === 'Statistics'" [user]="user" />
-    <app-edit-profile *ngIf="selectedItem === 'Edit profile'" [user]="user" />
+  <div class="w-7 mb-6">
+    <app-ride-history *ngIf="selectedItem === 'Ride history'" [user]="user"/>
+    <app-reports *ngIf="selectedItem === 'Statistics'" [user]="user"/>
+    <app-edit-driver-profile *ngIf="selectedItem === 'Edit profile' && user.role === 'ROLE_DRIVER'" [user]="user" [uploadedFile]="uploadedFile"/>
+    <app-edit-profile *ngIf="selectedItem === 'Edit profile' && user.role !== 'ROLE_DRIVER'" [user]="user"/>
   </div>
   <div class="w-1">
   </div>

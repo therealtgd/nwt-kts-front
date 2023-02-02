@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FileUpload } from 'primeng/fileupload/fileupload';
 import { ContextData } from 'src/app/dto/context-data';
@@ -23,7 +23,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private _sanitizer: DomSanitizer,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private changeDetector: ChangeDetectorRef,
     ) { }
 
   ngOnInit(): void {
@@ -38,6 +39,11 @@ export class ProfileComponent implements OnInit {
   }
   uploadFile(event: any) {
     this.uploadedFile = event.target.files[0];
+    console.log(this.uploadedFile)
+    this.changeDetector.detectChanges();
+    
+    if (this.user.role === "ROLE_DRIVER") return;
+
     this.imageService.upload(this.getImageData())
       .subscribe({
         next: (data) => window.location.reload(),
