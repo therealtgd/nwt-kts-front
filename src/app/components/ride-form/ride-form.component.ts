@@ -184,7 +184,7 @@ export class RideFormComponent implements OnInit {
             this.rideInfo.driver = response.body;
             if (this.rideInfo.driver?.isReserved) {
               this.modalHeader = 'All drivers are busy'
-              this.modalContent = 'We assigned a driver nearest to the end of his/hers ride to you.\nPlease wait.'
+              this.modalContent = 'A driver nearest to the end of their ride has been reserved for your ride.'
             } else {
               this.modalHeader = 'Checkout'
             }
@@ -209,7 +209,6 @@ export class RideFormComponent implements OnInit {
   orderRide(): void {
     if (getSession()?.username) {
       this.rideInfo.clients = [getSession()!.username]
-      console.log(this.rideInfo);
       this.rideService.orderRide(this.rideInfo).subscribe(
         {
           next: (response: ApiResponse<ActiveRide>) => {
