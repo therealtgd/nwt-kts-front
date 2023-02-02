@@ -21,7 +21,6 @@ export class AuthService {
   logout(): void {
     put(this.http, '/auth/signout', {}).subscribe({
       next: (response: any) => {
-        console.log(response.message)
         console.log("invalidating")
         invalidateSession();
         invalidateToken();

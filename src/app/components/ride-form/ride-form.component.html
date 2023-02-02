@@ -80,7 +80,7 @@
       <div><label>Distance: </label>{{rideInfo.distance | distance}}</div>
     </ng-container>
   </div>
-  <div *ngIf="rideInfo.driver && rideInfo.driver?.status === 'PENDING'" footer class="flex justify-content-center">
+  <div *ngIf="rideInfo.driver" footer class="flex justify-content-center">
     <p-button
       *ngIf="clientCreditsBalance >= rideInfo.price"
       icon="pi pi-wallet"
