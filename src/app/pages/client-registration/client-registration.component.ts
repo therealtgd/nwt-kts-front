@@ -112,7 +112,7 @@ export class ClientRegistrationComponent implements OnInit {
     this.failureModalVisibility = true;
   }
   redirect(pageName: string = '') {
-    //this.router.navigate([`${pageName}`]);
+    this.router.navigate([`${pageName}`]);
   }
 
   invalidateFields(errorObject: Object) {
