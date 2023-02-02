@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContextData } from 'src/app/dto/context-data';
-import { Ride } from 'src/app/dto/ride-brief';
+import { RideDto } from 'src/app/dto/ride-brief';
 import { ApiResponse } from 'src/app/models/api-response';
 import { ClientService } from 'src/app/services/client/client.service';
 import { DriverService } from 'src/app/services/driver/driver.service';
@@ -15,7 +15,7 @@ export class RideHistoryComponent implements OnInit {
   failureModalVisibility: boolean = false;
   modalHeader: string = '';
   modalContent: string = '';
-  rides: Ride[] = []
+  rides: RideDto[] = []
 
   constructor
     (
@@ -28,7 +28,7 @@ export class RideHistoryComponent implements OnInit {
       this.clientService.getRides()
         .subscribe
         ({
-          next: (data) => { if (data.body !== null) this.rides = data.body },
+          next: (data: ApiResponse<RideDto[]>) => { if (data.body !== null) this.rides = data.body; console.log(data.body) },
           error: (error) => this.handleFailure(error.error)
         })
     }

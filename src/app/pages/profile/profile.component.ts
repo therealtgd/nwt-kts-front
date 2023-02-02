@@ -14,7 +14,7 @@ import { getSession } from 'src/app/util/context';
 export class ProfileComponent implements OnInit {
   @ViewChild('fileInput') fileUploader!: FileUpload;
   failureModalVisibility: boolean = false;
-  selectedItem: string = 'Statistics';
+  selectedItem: string = 'Edit profile';
   modalContent: string = '';
   modalHeader: string = '';
   image!: SafeResourceUrl;

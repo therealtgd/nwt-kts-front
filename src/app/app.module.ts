@@ -17,11 +17,11 @@ import { GMapModule } from 'primeng/gmap';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {AvatarModule} from 'primeng/avatar';
-import {AvatarGroupModule} from 'primeng/avatargroup';
-import {CheckboxModule} from 'primeng/checkbox';
-import {DropdownModule} from 'primeng/dropdown';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -54,6 +54,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { DatePipe } from '@angular/common';
 import { LiveChatComponent } from './components/live-chat/live-chat.component';
+import { FavoriteRoutesComponent } from './components/favorite-routes/favorite-routes.component';
+import { RouteCardComponent } from './components/route-card/route-card.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import { LiveChatComponent } from './components/live-chat/live-chat.component';
     MinutesPipe,
     ReportsComponent,
     LiveChatComponent,
+    FavoriteRoutesComponent,
+    RouteCardComponent,
   ],
   imports: [
     BrowserModule,

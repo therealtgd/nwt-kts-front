@@ -42,10 +42,13 @@ export class ReportsComponent implements OnInit {
     };
   }
   showGraphs() {
-    const startDate: string = this.datepipe.transform(this.rangeDates[0], 'dd-MM-yyyy') || '';
-    const endDate: string = this.datepipe.transform(this.rangeDates[1], 'dd-MM-yyyy') || '';
     if (this.rangeDates[1]) {
-      this.getApiCall(startDate, endDate)
+      const endDate: Date = new Date(this.rangeDates[1].getTime() + (1000 * 60 * 60 * 24));
+      console.log(endDate);
+      const startDateString: string = this.datepipe.transform(this.rangeDates[0], 'dd-MM-yyyy') || '';
+      const endDateString: string = this.datepipe.transform(endDate, 'dd-MM-yyyy') || '';
+      console.log(endDateString);
+      this.getApiCall(startDateString, endDateString)
         .subscribe
         ({
           next: (data) => this.updateGraphData(data.body as ReportDto),
@@ -73,7 +76,7 @@ export class ReportsComponent implements OnInit {
     this.sumOfRides = reportData.sumOfRides;
     this.sumOfDistance = reportData.sumOfDistance;
     this.sumOfTransactions = reportData.sumOfTransactions;
-    this.averageRides = reportData.averageDistance;
+    this.averageRides = reportData.averageRides;
     this.averageDistance = reportData.averageDistance;
     this.averageTransactions = reportData.averageTransactions;
 

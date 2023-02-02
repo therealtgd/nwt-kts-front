@@ -1,17 +1,13 @@
-import { LatLng, LatLngLiteral } from "ngx-google-places-autocomplete/objects/latLng"
+import { AddressDto } from "../dto/address-dto"
 import { SimpleDriver } from "./driver/simple-driver"
 import { Stop } from "./stop"
 import { VehicleType } from "./vehicle-type"
-type Address = {
-  address: string,
-  coordinates: LatLngLiteral,
-}
 
 export interface RideInfo {
   distance: number,
   duration: number,
-  startAddress: Address,
-  endAddress: Address,
+  startAddress: AddressDto,
+  endAddress: AddressDto,
   vehicleType: VehicleType,
   driver?: SimpleDriver | null,
   stops: Stop[],

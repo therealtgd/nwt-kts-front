@@ -45,5 +45,5 @@ p {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: rgba(107, 107, 107, 0.5); 
+  background-color: var(--surface-card); 
 }
