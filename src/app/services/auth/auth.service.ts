@@ -20,7 +20,9 @@ export class AuthService {
 
   logout(): void {
     put(this.http, '/auth/signout', {}).subscribe({
-      next: (response: any) => { },
+      next: (response: any) => {
+        console.log(response.message)
+      },
       error: (error) => console.error(error),
     });
     invalidateSession();

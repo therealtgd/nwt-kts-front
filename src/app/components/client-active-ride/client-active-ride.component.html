@@ -14,12 +14,8 @@
         </p-avatar>
       </p-avatarGroup>
     </div>
-    <ng-container *ngIf="this.currentEta > 0; else elseBlock">
-      <p-progressBar [value]="((this.ride.eta - this.currentEta) * 100) / this.ride.eta"></p-progressBar>
-
-      <p-car>
-        Driver ETA: {{this.currentEta | time:'mm:ss'}}
-      </p-car>
+    <ng-container *ngIf="this.ride.eta > 0; else elseBlock">
+      Driver ETA: {{this.ride.eta | time:'mm:ss'}}
     </ng-container>
     <ng-template #elseBlock>
       <div class="flex w-full justify-content-center">
@@ -29,7 +25,6 @@
     </ng-template>
   </p-card>
   <p-messages class="inline-block absolute z-1" [value]="msgs"></p-messages>
-  
   <app-google-maps
     [pickupLocation]="ride.startAddress.coordinates"
     [destination]="ride.endAddress.coordinates"
