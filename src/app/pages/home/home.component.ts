@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  handleRideCanceled() {
+  handleRideChanged() {
     this.activeRide = null;
     this.getClientActiveRide();
   }

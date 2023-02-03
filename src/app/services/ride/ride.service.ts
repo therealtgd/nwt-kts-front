@@ -7,12 +7,13 @@ import { ApiResponse } from 'src/app/models/api-response';
 import { SimpleDriver } from 'src/app/models/driver/simple-driver';
 import { ReportDto } from 'src/app/dto/report-dto';
 import { ActiveRide } from 'src/app/models/active-ride';
+import { FormGroup } from '@angular/forms';
+import { RideReview } from 'src/app/models/ride-review';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RideService {
-  
   constructor(private http: HttpClient) { }
 
   public getRidePrice(vehicleType: string, distance: number): Observable<ApiResponse<number>> {
@@ -64,6 +65,10 @@ export class RideService {
 
   finishRide(id: number): Observable<ApiResponse<number>> {
     return put(this.http, `/ride/${id}/finish`, {}) as Observable<ApiResponse<number>>;
+  }
+
+  reviewRide(id: number, review: RideReview): Observable<ApiResponse<null>>{
+    return post(this.http, `/ride/${id}/review`, review) as Observable<ApiResponse<null>>;
   }
 
 }

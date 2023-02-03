@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^15.0.3",
     "@angular/platform-browser-dynamic": "^15.0.3",
     "@angular/router": "^15.0.3",
+    "angular-star-rating": "^6.0.0",
     "chart.js": "^4.2.0",
     "net": "^1.0.2",
     "ngx-google-places-autocomplete": "^2.0.5",
