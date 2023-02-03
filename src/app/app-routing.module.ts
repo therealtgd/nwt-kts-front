@@ -5,6 +5,7 @@ import { AdminLiveChatComponent } from './pages/admin-live-chat/admin-live-chat.
 import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
+import { DriverRegistrationComponent } from './pages/driver-registration/driver-registration.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -15,6 +16,7 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'register/client', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
+  { path: 'register/driver', component: DriverRegistrationComponent, canActivate: [AuthGuard] },
   { path: 'confirm-registration/:token', component: RegistrationConfirmationComponent },
   { path: 'buy-credits', component: BuyCreditsComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },

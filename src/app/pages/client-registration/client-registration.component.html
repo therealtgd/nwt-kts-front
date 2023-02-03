@@ -43,10 +43,9 @@
       </p-fileUpload>
       <img *ngIf="url" [src]="url" class="my-auto ml-3">
       <ng-container *ngIf="uploadedFile">
-        <div class="ml-3 w-full overflow-hidden">
+        <div class="ml-3 w-full overflow-hidden my-auto">
           {{uploadedFile.name}}
         </div>
-        
       </ng-container>
     </span>
 

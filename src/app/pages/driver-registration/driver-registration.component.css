@@ -1,0 +1,10 @@
+::ng-deep input,
+::ng-deep .p-password {
+  width: 100%;
+}
+img {
+  border-radius: 50%;
+  height: 42px;
+  width: 42px;
+  object-fit: cover;
+}
