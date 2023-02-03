@@ -19,7 +19,7 @@ export class LiveChatComponent implements OnInit, AfterViewInit {
   private stompClient!: Stomp.Client;
 
   @ViewChild('chatBox') chatBox!: ElementRef;
-  scrollTop!: number;
+  scrollTop: number = 0;
 
   showButton: boolean = false;
   display: boolean = false;
