@@ -73,6 +73,7 @@ import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
 import { DriverRegistrationComponent } from './pages/driver-registration/driver-registration.component';
 import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.component';
+import { DetailedRouteComponent } from './components/detailed-route/detailed-route.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.compo
     AdminReportsComponent,
     DriverRegistrationComponent,
     DetailedRideComponent,
+    DetailedRouteComponent,
   ],
   imports: [
     BrowserModule,

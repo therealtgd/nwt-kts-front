@@ -6,7 +6,9 @@
         <div class="w-4">
           <p-tabView>
             <p-tabPanel header="Route">
-              Content 1
+              <ng-template pTemplate="content">
+                <app-detailed-route [stops]="ride.stops" [startTime]="ride.startTime" [endTime]="ride.endTime"/>
+              </ng-template>
             </p-tabPanel>
             <p-tabPanel header="Participants">
                 Content 2
