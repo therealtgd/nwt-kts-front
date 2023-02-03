@@ -14,18 +14,76 @@ import { RegistrationConfirmationComponent } from './pages/registration-confirma
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-  { path: 'register/client', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
-  { path: 'register/driver', component: DriverRegistrationComponent, canActivate: [AuthGuard] },
-  { path: 'confirm-registration/:token', component: RegistrationConfirmationComponent },
-  { path: 'buy-credits', component: BuyCreditsComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard] },
-  { path: 'support-chat', component: AdminLiveChatComponent, canActivate: [AuthGuard] },
-  { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [AuthGuard] },
-  { path: 'statistics', component: AdminReportsComponent, canActivate: [AuthGuard] },
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'register/client',
+    component: ClientRegistrationComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'register/driver',
+    component: DriverRegistrationComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN']
+    }
+  },
+  {
+    path: 'confirm-registration/:token',
+    component: RegistrationConfirmationComponent
+  },
+  {
+    path: 'buy-credits',
+    component: BuyCreditsComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_DRIVER', 'ROLE_CLIENT']
+    }
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'support-chat',
+    component: AdminLiveChatComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN']
+    }
+  },
+  {
+    path: 'reset-password/:token',
+    component: ResetPasswordComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'statistics',
+    component: AdminReportsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN']
+    }
+  },
+  {
+    path: '',
+    component: HomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
