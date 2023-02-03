@@ -9,6 +9,7 @@ import { ReportDto } from 'src/app/dto/report-dto';
 import { ActiveRide } from 'src/app/models/active-ride';
 import { FormGroup } from '@angular/forms';
 import { RideReview } from 'src/app/models/ride-review';
+import { RideDetailed } from 'src/app/dto/ride-detailed';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +52,7 @@ export class RideService {
     return get(this.http, '/ride/report/admin/' + startDate + '/' + endDate) as Observable<ApiResponse<ReportDto>>;
   }
 
-  getDriverEta(): Observable<ApiResponse<number>> {
+  public getDriverEta(): Observable<ApiResponse<number>> {
     return get(this.http, '/ride/driver-eta') as Observable<ApiResponse<number>>;
   }
 
@@ -69,6 +70,10 @@ export class RideService {
 
   reviewRide(id: number, review: RideReview): Observable<ApiResponse<null>>{
     return post(this.http, `/ride/${id}/review`, review) as Observable<ApiResponse<null>>;
+  }
+
+  public getRide(id: string): Observable<ApiResponse<RideDetailed>> {
+    return get(this.http, '/ride/' + id) as Observable<ApiResponse<RideDetailed>>;
   }
 
 }

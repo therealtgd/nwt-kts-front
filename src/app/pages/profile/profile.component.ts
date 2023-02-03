@@ -3,6 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FileUpload } from 'primeng/fileupload/fileupload';
 import { ContextData } from 'src/app/dto/context-data';
 import { ApiResponse } from 'src/app/models/api-response';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ImageService } from 'src/app/services/image/image.service';
 import { getSession } from 'src/app/util/context';
 
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private imageService: ImageService,
     private changeDetector: ChangeDetectorRef,
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class ProfileComponent implements OnInit {
 
     this.imageService.upload(this.getImageData())
       .subscribe({
-        next: (data) => window.location.reload(),
+        next: (data) => this.authService.getWhoAmI(),
         error: (error) => this.handleRegistrationFailure(error.error)
       });
   }

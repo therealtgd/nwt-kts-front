@@ -26,9 +26,10 @@ import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
-import {TimelineModule} from 'primeng/timeline';
-import {InputTextareaModule} from 'primeng/inputtextarea';
+import { TimelineModule } from 'primeng/timeline';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { StarRatingModule, StarRatingConfigService } from 'angular-star-rating';
+import { TabViewModule } from 'primeng/tabview';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -71,6 +72,11 @@ import { TimePipe } from './pipes/time.pipe';
 import { AuthService } from './services/auth/auth.service';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
 import { DriverRegistrationComponent } from './pages/driver-registration/driver-registration.component';
+import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.component';
+import { DetailedRouteComponent } from './components/detailed-route/detailed-route.component';
+import { DetailedParticipantsComponent } from './components/detailed-participants/detailed-participants.component';
+import { DetailedReviewsComponent } from './components/detailed-reviews/detailed-reviews.component';
+import { ReviewCardComponent } from './components/review-card/review-card.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +112,11 @@ import { DriverRegistrationComponent } from './pages/driver-registration/driver-
     AdminHomeComponent,
     AdminReportsComponent,
     DriverRegistrationComponent,
+    DetailedRideComponent,
+    DetailedRouteComponent,
+    DetailedParticipantsComponent,
+    DetailedReviewsComponent,
+    ReviewCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,6 +153,7 @@ import { DriverRegistrationComponent } from './pages/driver-registration/driver-
     TimelineModule,
     InputTextareaModule,
     StarRatingModule,
+    TabViewModule,
   ],
   providers: [
     DatePipe,

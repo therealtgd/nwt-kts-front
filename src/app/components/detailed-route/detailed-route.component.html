@@ -1,0 +1,29 @@
+<div class="text-center">
+
+  <p-divider align="center" class="w-full">
+    <b>Time</b>
+  </p-divider>
+
+  <p class="mb-3">
+    {{startTime}}
+    &nbsp;&nbsp;<i class="pi pi-arrow-right my-3"></i>&nbsp;&nbsp;
+    {{endTime}}
+  </p>
+
+
+  <p-divider align="center" class="w-full">
+    <b>Route</b>
+  </p-divider>
+
+  <div class="mt-5" style="height: calc(100vh - 500px); overflow-y: scroll;">
+    <ng-container *ngFor="let stop of stops; let i = index">
+
+      <ng-container *ngIf="i !== 0">
+        <i class="pi pi-arrow-down my-3"></i>
+      </ng-container>
+
+      <p class="text-xl">{{stop.address}}</p>
+
+    </ng-container>
+  </div>
+</div>
