@@ -74,11 +74,11 @@ export class ReportsComponent implements OnInit {
   }
   updateGraphData(reportData: ReportDto) {
     this.sumOfRides = reportData.sumOfRides;
-    this.sumOfDistance = reportData.sumOfDistance;
+    this.sumOfDistance = Number(reportData.sumOfDistance.toFixed(3));
     this.sumOfTransactions = reportData.sumOfTransactions;
-    this.averageRides = reportData.averageRides;
-    this.averageDistance = reportData.averageDistance;
-    this.averageTransactions = reportData.averageTransactions;
+    this.averageRides = Number(reportData.averageRides.toFixed(3));
+    this.averageDistance = Number(reportData.averageDistance.toFixed(3));
+    this.averageTransactions = Number(reportData.averageTransactions.toFixed(3));
 
     this.numberOfRidesData = {
       labels: reportData.labels,
