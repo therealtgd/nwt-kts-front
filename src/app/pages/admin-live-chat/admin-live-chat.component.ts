@@ -23,7 +23,7 @@ export class AdminLiveChatComponent implements OnInit {
   private stompClient!: Stomp.Client;
 
   @ViewChild('adminChatBox') chatBox!: ElementRef;
-  scrollTop!: number;
+  scrollTop: number = 0;
 
   messages: { [username: string]: ChatMessage[] } = { '': [] };
   newMessage: string = '';
