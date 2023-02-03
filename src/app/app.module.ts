@@ -74,6 +74,7 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
 import { DriverRegistrationComponent } from './pages/driver-registration/driver-registration.component';
 import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.component';
 import { DetailedRouteComponent } from './components/detailed-route/detailed-route.component';
+import { DetailedParticipantsComponent } from './components/detailed-participants/detailed-participants.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { DetailedRouteComponent } from './components/detailed-route/detailed-rou
     DriverRegistrationComponent,
     DetailedRideComponent,
     DetailedRouteComponent,
+    DetailedParticipantsComponent,
   ],
   imports: [
     BrowserModule,

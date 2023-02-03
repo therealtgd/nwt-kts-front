@@ -1,0 +1,23 @@
+
+<p-divider align="center" class="w-full">
+  <b>Driver</b>
+</p-divider>
+
+<div class="flex">
+  <p-avatar image="data:image/png;base64, {{driver.image}}" size="large" shape="circle"></p-avatar>
+  <p class="my-auto ml-3">{{driver.displayName}}</p>
+</div>
+
+
+<p-divider align="center" class="w-full">
+  <b>Clients</b>
+</p-divider>
+
+<ng-container *ngFor="let client of clients; let i = index">
+
+  <div class="flex mb-3">
+    <p-avatar image="data:image/png;base64, {{client.image}}" size="large" shape="circle"></p-avatar>
+    <p class="my-auto ml-3">{{client.displayName}}</p>
+  </div>
+
+</ng-container>
