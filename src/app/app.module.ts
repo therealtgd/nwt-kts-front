@@ -28,6 +28,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import {TimelineModule} from 'primeng/timeline';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { StarRatingModule, StarRatingConfigService } from 'angular-star-rating';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -140,6 +141,7 @@ import { DriverRegistrationComponent } from './pages/driver-registration/driver-
     ToastModule,
     TimelineModule,
     InputTextareaModule,
+    StarRatingModule,
   ],
   providers: [
     DatePipe,
@@ -147,6 +149,7 @@ import { DriverRegistrationComponent } from './pages/driver-registration/driver-
     AuthGuard,
     AuthService,
     ConfirmationService,
+    StarRatingConfigService,
     GoogleMap,
     {
       provide: HTTP_INTERCEPTORS,

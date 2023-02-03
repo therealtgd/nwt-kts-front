@@ -19,19 +19,19 @@
 
     <div class="flex justify-content-center">
       <div class="w-6 pt-4">
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
           (click)="selectedItem = 'Ride history'" *ngIf="user.role !== 'ROLE_ADMIN'">
           Ride history
         </p>
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
           (click)="selectedItem = 'Favorite routes'" *ngIf="user.role === 'ROLE_CLIENT'">
           Favorite routes
         </p>
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
           (click)="selectedItem = 'Statistics'" *ngIf="user.role !== 'ROLE_ADMIN'">
           Statistics
         </p>
-        <p class="profile-choice" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
           (click)="selectedItem = 'Edit profile'">
           Edit profile
         </p>

@@ -1,5 +1,7 @@
 @import '~/node_modules/primeflex/primeflex.css';
 @import '~/node_modules/primeicons/primeicons.css';
+@import '~css-star-rating/css/star-rating.min.css';
+
 
 body, html, .map_container {
   height: 100%;

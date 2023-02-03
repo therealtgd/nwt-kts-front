@@ -14,7 +14,7 @@
         </p-avatar>
       </p-avatarGroup>
     </div>
-    <ng-container *ngIf="this.ride.eta > 0; else elseBlock">
+    <ng-container *ngIf="this.showEta">
       Driver ETA: {{this.ride.eta | time:'mm:ss'}}
     </ng-container>
     <ng-template #elseBlock>
@@ -24,6 +24,20 @@
       </div>
     </ng-template>
   </p-card>
+
+  <p-dialog *ngIf="review" header="Review" [draggable]="false" [resizable]="false" [(visible)]="showReviewModal"
+    [modal]="true" [style]="{width: '30vw'}" (onHide)="handleOnReviewModalHide()">
+    <p class="mb-4">You have arrived to your destination. Let us know about your experience by leaving a review.</p>
+    <form [formGroup]="review">
+      <star-rating-control formControlName="driverRating" labelText="Driver:" speed="noticeable"></star-rating-control>
+      <star-rating-control formControlName="vehicleRating" labelText="Vehicle:" speed="noticeable"></star-rating-control>
+      <textarea formControlName="comment" class="mt-3" pInputTextarea minlength="0" maxlength="150" placeholder="Leave a comment" rows="5" class="w-full"></textarea>
+    </form>
+  
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-pencil" [disabled]="!review.valid" (click)="reviewRide()" label="Review"></p-button>
+    </ng-template>  
+    </p-dialog>
   <p-messages class="inline-block absolute z-1" [value]="msgs"></p-messages>
   <app-google-maps
     [pickupLocation]="ride.startAddress.coordinates"
