@@ -49,4 +49,8 @@ export class DriverService {
     return get(this.http, '/driver/active-ride') as Observable<ApiResponse<ActiveRide>>;
   }
 
+  public registerDriver(data: FormData): Observable<ApiResponse<null>> {
+    return postWithoutHeader(this.http, '/driver/signup', data) as Observable<ApiResponse<null>>;
+  }
+
 }

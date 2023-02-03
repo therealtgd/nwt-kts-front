@@ -1,0 +1,119 @@
+<div class="flex justify-content-center pt-6 mb-8">
+  <div class="w-6 mb-6">
+
+    <p-card>
+      <p class="p-2 pb-3 text-3xl font-semibold">Register a new driver</p>
+      <form *ngIf="registrationForm" class="flex flex-wrap row-gap-1" [formGroup]="registrationForm"
+        (ngSubmit)="registerDriver()">
+
+        <p-divider align="center" class="w-full">
+          <b>Personal information</b>
+        </p-divider>
+
+        <span class="w-12 p-2 p-float-label">
+          <input type="text" required="true" formControlName="email" pInputText [email]="true" minlength="2"
+            maxlength="64" email>
+          <label for="float-input">Email</label>
+        </span>
+
+        <span class="w-6 p-2 p-float-label">
+          <input type="text" required="true" formControlName="displayName" [pKeyFilter]="noSpecial" minlength="2"
+            maxlength="20" pInputText>
+          <label>Displayed name</label>
+        </span>
+
+        <span class="w-6 p-2 p-float-label">
+          <input type="text" required="true" formControlName="username" pKeyFilter="alphanum" minlength="2"
+            maxlength="20" pInputText>
+          <label>Username</label>
+        </span>
+
+        <span class="w-6 p-2 p-float-label">
+          <input type="text" required="true" formControlName="city" pKeyFilter="alpha" minlength="2" maxlength="20"
+            pInputText>
+          <label for="float-input">City</label>
+        </span>
+        <span class="w-6 p-2 p-float-label">
+          <input type="text" pKeyFilter="int" required="true" formControlName="phoneNumber" minlength="2" maxlength="20"
+            pInputText>
+          <label for="float-input">Phone number</label>
+        </span>
+
+        <span class="w-6 p-2 p-float-label">
+          <p-password [toggleMask]="true" required="true" formControlName="password" minlength="2"
+            maxlength="20"></p-password>
+          <label>Password</label>
+          <small class="p-error block"
+            *ngIf="registrationForm.get('confirmPassword')?.hasError('confirmPasswordValidator')">
+            Passwords don't match</small>
+        </span>
+        <span class="w-6 p-2 p-float-label">
+          <p-password [toggleMask]="true" required="true" formControlName="confirmPassword" minlength="2" maxlength="20"
+            [feedback]="false"></p-password>
+          <label>Confirm password</label>
+        </span>
+
+        <span class="w-12 p-2 p-float-label flex vertical-align-middle">
+          <p-fileUpload #fileUpload mode="basic" chooseLabel="Browse" class="my-auto" accept="image/*"
+            [customUpload]="true" (onSelect)="uploadFile($event)">
+          </p-fileUpload>
+          <img *ngIf="url" [src]="url" class="my-auto ml-3">
+          <ng-container *ngIf="uploadedFile">
+            <div class="ml-3 w-full overflow-hidden my-auto">
+              {{uploadedFile.name}}
+            </div>
+          </ng-container>
+        </span>
+
+        <p-divider align="center" class="w-full">
+          <b>Vehicle</b>
+        </p-divider>
+
+        <span class="w-3 p-2 p-float-label">
+          <input type="text" required="true" formControlName="licencePlate" [pKeyFilter]="licencePlateRegex"
+            minlength="6" maxlength="15" pInputText>
+          <label for="float-input">Licence plate</label>
+        </span>
+
+        <span class="w-2 p-2 p-float-label">
+          <input type="text" pKeyFilter="int" required="true" formControlName="capacity" minlength="1" maxlength="1"
+            pInputText>
+          <label for="float-input">capacity</label>
+        </span>
+
+        <span class="p-2">
+          <p-dropdown [options]="vehicleTypes" formControlName="vehicleType"></p-dropdown>
+        </span>
+
+        <span class="p-2 field-checkbox my-auto">
+          <p-checkbox formControlName="petsAllowed" [binary]="true" inputId="petsAllowed"></p-checkbox>
+          <label for="petsAllowed">Pets allowed</label>
+        </span>
+
+        <span class="p-2 field-checkbox my-auto">
+          <p-checkbox formControlName="babiesAllowed" [binary]="true" inputId="babiesAllowed"></p-checkbox>
+          <label for="babiesAllowed">Babies allowed</label>
+        </span>
+
+        <span class="flex justify-content-center flex-wrap w-12 pt-3">
+          <p-button type="submit" label="Register a new driver"></p-button>
+        </span>
+
+      </form>
+    </p-card>
+
+  </div>
+</div>
+
+<p-dialog header="{{ this.modalHeader }}" (onHide)="redirect('')" [draggable]="false" [resizable]="false" [(visible)]="successModalVisibility" [modal]="true" [style]="{width: '30vw'}" >
+  <p class="m-0">{{ this.modalContent }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="successModalVisibility=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+<p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" [(visible)]="failureModalVisibility" [modal]="true" [style]="{width: '30vw'}" >
+  <p class="m-0">{{ this.modalContent }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="failureModalVisibility=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

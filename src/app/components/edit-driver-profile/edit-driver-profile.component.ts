@@ -82,7 +82,6 @@ export class EditDriverProfileComponent {
       babiesAllowed: this.userUpdateForm.value.babiesAllowed,
       imageUploaded: this.uploadedFile !== undefined
     };
-    console.log(updateRequest)
     this.driverService.updateDriver(this.getRequestData(updateRequest))
       .subscribe({
         next: (data) => this.displaySuccessModal("Success!", "You have successfully changed your information."),
