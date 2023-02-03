@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent {
-  
-  constructor 
-  (
-    private router: Router
-  ) {}
+
+  constructor
+    (
+      private router: Router
+    ) { }
 
   items: any = [
     {
@@ -42,7 +42,7 @@ export class AdminHomeComponent {
       name: "Livechat",
       icon: "pi-comments",
       description: "Real-time chat to solve all your clients' issues",
-      route: "/livechat"
+      route: "/support-chat"
     },
     {
       name: "Your Profile",

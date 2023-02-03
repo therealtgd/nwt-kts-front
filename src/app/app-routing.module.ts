@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'buy-credits', component: BuyCreditsComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard] },
-  { path: 'admin/support-chat', component: AdminLiveChatComponent, canActivate: [AuthGuard] },
+  { path: 'support-chat', component: AdminLiveChatComponent, canActivate: [AuthGuard] },
   { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [AuthGuard] },
   { path: 'statistics', component: AdminReportsComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, pathMatch: 'full' },

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { LatLng, LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
 import * as SockJS from 'sockjs-client';
@@ -6,9 +6,7 @@ import * as Stomp from 'stompjs';
 
 import { Driver } from 'src/app/models/driver';
 import { Stop } from 'src/app/models/stop';
-import { Vehicle } from 'src/app/models/vehicle';
 import { DriverService } from 'src/app/services/driver/driver.service';
-import { ApiResponse } from 'src/app/models/api-response';
 import { getSession } from 'src/app/util/context';
 
 @Component({
@@ -18,9 +16,7 @@ import { getSession } from 'src/app/util/context';
 })
 export class GoogleMapsComponent implements OnInit {
 
-  constructor(
-    private driverService: DriverService,
-  ) { }
+  constructor() { }
 
   @Input() pickupLocation: LatLngLiteral | null = null;
   @Input() destination: LatLngLiteral | null = null;
@@ -31,11 +27,9 @@ export class GoogleMapsComponent implements OnInit {
   directionsService!: google.maps.DirectionsService;
   directionsRenderer!: google.maps.DirectionsRenderer;
 
-  markers: any = [];
 
   drivers: { [id: number]: Driver } = {}
-  vehicles: { [key: number]: Vehicle } = {}
-  vehicle_markers: { [vehicle_id: number]: google.maps.Marker } = {};
+  driverMarkers: { [driver_id: number]: google.maps.Marker | null } = {};
 
   private stompClient!: Stomp.Client;
 
@@ -62,47 +56,8 @@ export class GoogleMapsComponent implements OnInit {
     this.directionsRenderer = new google.maps.DirectionsRenderer();
 
     this.initializeWebSocketConnection();
-    this.driverService.getAllAvailableDrivers().subscribe({
-      next: (response: ApiResponse<Driver[]>) => {
-        if (response.success && response.body) {
-          this.setVehicleMarkers(response.body, 'assets/car-green.png');
-        }        
-      },
-      error: (error: any) => console.error(error),
-    });
-    this.driverService.getAllBusyDrivers().subscribe({
-      next: (response: ApiResponse<Driver[]>) => {
-        if (response.success && response.body) {
-          this.setVehicleMarkers(response.body, 'assets/car-red.png');
-        }        
-      },
-      error: (error: any) => console.error(error),
-    });
-    
-    getSession()?.role === 'ROLE_DRIVER' && this.driverService.getDriver().subscribe({
-      next: (response: ApiResponse<Driver>) => {
-        if (response.success && response.body) {
-          this.setVehicleMarkers([response.body], 'assets/car-blue.png');
-        }
-      },
-      error: (error) => console.error(error),
-    })
   }
 
-  private setVehicleMarkers(drivers: Driver[], img: string) {
-    for (const driver of drivers) {
-      this.drivers[driver.id] = driver;
-      let icon = {
-        url: img,
-        scaledSize: new google.maps.Size(40, 51),
-      };
-      this.vehicle_markers[driver.vehicle.id] = new google.maps.Marker({
-        position: driver.vehicle.position,
-        map: this.map.googleMap,
-        icon,
-      });
-    }
-  }
 
   initializeWebSocketConnection() {
     this.stompClient = Stomp.over(new SockJS('http://localhost:8080/socket'));
@@ -111,24 +66,44 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   openGlobalSocket() {
-    this.stompClient.subscribe('/map-updates/update-vehicle-positions', (message: { body: string }) => {
-      let vehicles: Vehicle[] = JSON.parse(message.body);
-      for (const vehicle of vehicles) {
-        this.vehicle_markers[vehicle.id].setPosition(vehicle.position);
+    this.stompClient.subscribe('/map-updates/update-drivers-status-and-position', (message: { body: string }) => {
+      const drivers: Driver[] = JSON.parse(message.body);
+      const newDriverIds: number[] = [];
+      for (const driver of drivers) {
+        newDriverIds.push(driver.id);
+
+        let image: string;
+        if (getSession()?.role === 'ROLE_DRIVER' && getSession()?.username === driver.username) {
+          image = 'assets/car-blue.png';
+        }
+        else if (driver.status === 'AVAILABLE') {
+          image = 'assets/car-green.png';
+        }
+        else {
+          image = 'assets/car-red.png';
+        }
+
+        let icon = { scaledSize: new google.maps.Size(40, 51), url: image };
+        if (!(driver.id in this.driverMarkers) || this.driverMarkers[driver.id] === null) {
+          this.driverMarkers[driver.id] = new google.maps.Marker({
+            position: driver.vehicle.position,
+            map: this.map.googleMap,
+            icon,
+          });
+        }
+        else {
+          this.driverMarkers[driver.id]?.setIcon(icon);
+          this.driverMarkers[driver.id]?.setPosition(driver.vehicle.position);
+        }
+      }
+
+      const currentDriverIds = Object.keys(this.driverMarkers).map(key => Number(key));
+      const nonActiveDriverIds = currentDriverIds.filter(x => !newDriverIds.includes(x));
+      for (const driverId of nonActiveDriverIds) {
+        this.driverMarkers[driverId]?.setMap(null);
+        delete this.driverMarkers[driverId];
       }
     });
-  }
-
-  dropMarker(coordinates: LatLngLiteral) {
-    this.markers.push({
-      position: {
-        lat: coordinates.lat,
-        lng: coordinates.lng,
-      },
-      options: {
-        animation: google.maps.Animation.DROP,
-      },
-    })
   }
 
   setRoutePolyline() {
