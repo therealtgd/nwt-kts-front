@@ -5,6 +5,7 @@ import { AdminLiveChatComponent } from './pages/admin-live-chat/admin-live-chat.
 import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
+import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.component';
 import { DriverRegistrationComponent } from './pages/driver-registration/driver-registration.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -43,6 +44,14 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_DRIVER', 'ROLE_CLIENT']
+    }
+  },
+  {
+    path: 'ride/:id',
+    component: DetailedRideComponent,
     canActivate: [AuthGuard],
     data: {
       roles: ['ROLE_ADMIN', 'ROLE_DRIVER', 'ROLE_CLIENT']
