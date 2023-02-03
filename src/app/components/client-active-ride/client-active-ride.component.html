@@ -14,7 +14,7 @@
         </p-avatar>
       </p-avatarGroup>
     </div>
-    <ng-container *ngIf="this.ride.eta > 0; else elseBlock">
+    <ng-container *ngIf="this.showEta">
       Driver ETA: {{this.ride.eta | time:'mm:ss'}}
     </ng-container>
     <ng-template #elseBlock>
@@ -26,7 +26,7 @@
   </p-card>
 
   <p-dialog *ngIf="review" header="Review" [draggable]="false" [resizable]="false" [(visible)]="showReviewModal"
-    [modal]="true" [style]="{width: '30vw'}">
+    [modal]="true" [style]="{width: '30vw'}" (onHide)="handleOnReviewModalHide()">
     <p class="mb-4">You have arrived to your destination. Let us know about your experience by leaving a review.</p>
     <form [formGroup]="review">
       <star-rating-control formControlName="driverRating" labelText="Driver:" speed="noticeable"></star-rating-control>

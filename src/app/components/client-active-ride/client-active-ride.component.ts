@@ -17,7 +17,6 @@ import * as Stomp from 'stompjs';
   styleUrls: ['./client-active-ride.component.css']
 })
 export class ClientActiveRideComponent implements OnInit {
-
   @Input() ride!: ActiveRide;
   @Output() onRideChanged = new EventEmitter<null>();
   currentEta: number = 0;
@@ -25,6 +24,7 @@ export class ClientActiveRideComponent implements OnInit {
   client!: User;
   showReviewModal: boolean = true;
   review!: FormGroup;
+  showEta: boolean = true;
   private _stompClient!: Stomp.Client;
 
   constructor(private confirmationService: ConfirmationService, private rideService: RideService, private messageService: MessageService, private fb: FormBuilder) {}
@@ -75,10 +75,11 @@ export class ClientActiveRideComponent implements OnInit {
     if (username) {
       this._stompClient.subscribe(`/client/ride-cancelled/${username}`, (message: { body: string }) => {
         this.messageService.add({severity:'info', summary:'Ride cancelled', detail: message.body});
-        this.onRideChanged.emit();
+        this.onRideChanged.emit(null);
       });
-      this._stompClient.subscribe(`/client/ride-finished/${username}`, (message: { body: string }) => {
-        this.messageService.add({severity:'info', summary:'Ride cancelled', detail: message.body});
+      this._stompClient.subscribe(`/driver/arrived-to-destination/${this.ride.driver.username}`, (message: { body: string }) => {
+        this.messageService.add({severity:'info', summary:'You have arrived', detail: message.body});
+        this.showEta = false;
         this.showReviewModal;
       });
     }
@@ -94,14 +95,18 @@ export class ClientActiveRideComponent implements OnInit {
       next: (response: ApiResponse<null>) => {
         if (response.success) {
           this.messageService.add({severity:'info', summary:'Review posted', detail: 'Thank you for leaving a review!'});
-          this.onRideChanged.emit();
+          this.onRideChanged.emit(null);
         } else {
           this.messageService.add({severity:'error', summary:'Failed to post review', detail: response.message});
-          this.onRideChanged.emit();
+          this.onRideChanged.emit(null);
         }
       }
     })
-    
+  }
+
+  handleOnReviewModalHide() {
+    this.showReviewModal = false;
+    this.onRideChanged.emit(null);
   }
 
 }
