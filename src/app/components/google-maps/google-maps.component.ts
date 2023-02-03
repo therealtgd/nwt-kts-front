@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { LatLng, LatLngLiteral } from 'ngx-google-places-autocomplete/objects/latLng';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 
+import { ActiveRide } from 'src/app/models/active-ride';
 import { Driver } from 'src/app/models/driver';
 import { Stop } from 'src/app/models/stop';
 import { DriverService } from 'src/app/services/driver/driver.service';
@@ -16,7 +17,9 @@ import { getSession } from 'src/app/util/context';
 })
 export class GoogleMapsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private driverService: DriverService,
+  ) { }
 
   @Input() pickupLocation: LatLngLiteral | null = null;
   @Input() destination: LatLngLiteral | null = null;
@@ -104,6 +107,60 @@ export class GoogleMapsComponent implements OnInit {
         delete this.driverMarkers[driverId];
       }
     });
+
+    if (getSession()?.role === 'ROLE_DRIVER') {
+      this.stompClient.subscribe('/driver/ride-assigned/' + getSession()?.username, (message: { body: string }) => {
+        const ride: ActiveRide = JSON.parse(message.body);
+        this.simulateDrive(ride.driver.vehicle.position, ride.startAddress.coordinates);
+      });
+      this.stompClient.subscribe('/driver/ride-started/' + getSession()?.username, (message: { body: string }) => {
+        const ride: ActiveRide = JSON.parse(message.body);
+        const stops = ride.stops.map(stop => ({
+          location: stop.coordinates,
+          stopover: true
+        }));
+        this.simulateDrive(ride.driver.vehicle.position, ride.startAddress.coordinates, stops);
+      });
+    }
+  }
+
+  simulateDrive(
+    currentPosition: google.maps.LatLngLiteral,
+    clientPosition: google.maps.LatLngLiteral,
+    stops?: google.maps.DirectionsWaypoint[]
+  ) {
+    let request: google.maps.DirectionsRequest = {
+      origin: currentPosition,
+      destination: clientPosition,
+      waypoints: stops,
+      travelMode: google.maps.TravelMode.DRIVING,
+    };
+    this.directionsService.route(request, (res, status) => {
+      if (status == google.maps.DirectionsStatus.OK) {
+        this.directionsRenderer.setMap(this.map.googleMap ?? null);
+        this.directionsRenderer.setDirections(res);
+
+        const legs = res?.routes[0].legs;
+        if (legs) {
+          let polyline: LatLngLiteral[] = [];
+          for (let i = 0; i < legs.length; i++) {
+            const steps = legs[i].steps;
+            for (let j = 0; j < steps.length; j++) {
+              let nextSegment = steps[j].path;
+              for (let k = 0; k < nextSegment.length; k++) {
+                let coords: LatLng = nextSegment[k];
+                polyline.push({ lat: coords.lat(), lng: coords.lng() });
+              }
+            }
+          }
+          if (stops) {
+            this.driverService.postSimulateDrive(polyline);
+          } else {
+            this.driverService.postSimulateDriveToClient(polyline);
+          }
+        }
+      }
+    });
   }
 
   setRoutePolyline() {
@@ -148,19 +205,6 @@ export class GoogleMapsComponent implements OnInit {
               startAddress,
               endAddress,
             });
-
-            // TODO: This should only be used and saved if user is Driver
-            let polyline: LatLngLiteral[] = []
-            for (let i = 0; i < legs.length; i++) {
-              const steps = legs[i].steps;
-              for (let j = 0; j < steps.length; j++) {
-                let nextSegment = steps[j].path;
-                for (let k = 0; k < nextSegment.length; k++) {
-                  let coords: LatLng = nextSegment[k];
-                  polyline.push({ lat: coords.lat(), lng: coords.lng() });
-                }
-              }
-            }
           }
         } else {
           console.warn('Something went wrong')
