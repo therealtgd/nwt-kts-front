@@ -7,5 +7,5 @@ import { ReviewDto } from 'src/app/dto/review-dto';
   styleUrls: ['./review-card.component.css']
 })
 export class ReviewCardComponent {
-  @Input("review") review?: ReviewDto;
+  @Input("review") review!: ReviewDto;
 }

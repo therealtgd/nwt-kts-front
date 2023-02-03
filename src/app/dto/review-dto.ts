@@ -5,4 +5,5 @@ export interface ReviewDto {
   timestamp: String;
   driverRating: number;
   vehicleRating: number;
+  comment: string;
 }
