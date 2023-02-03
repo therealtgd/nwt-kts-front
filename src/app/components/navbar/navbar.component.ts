@@ -38,15 +38,52 @@ export class NavbarComponent implements OnInit {
         label: "Log in",
         icon: "pi pi-sign-in",
         visible: this.role === '',
-        command: (event) => this.logIn(),
+        command: (event) => this.router.navigate([`login`]),
         style: { 'margin-left': 'auto' }
+      },
+      {
+        label: "Statistics",
+        icon: "pi pi-chart-bar",
+        command: (event) => this.router.navigate([`statistics`]),
+        style: { 'margin-left': 'auto' },
+        visible: this.role === 'ROLE_ADMIN'
+      },
+      {
+        label: "New Driver",
+        icon: "pi pi-user-plus",
+        command: (event) => this.router.navigate([`register/driver`]),
+        visible: this.role === 'ROLE_ADMIN'
+      },
+      {
+        label: "Drivers",
+        icon: "pi pi-users",
+        command: (event) => this.router.navigate([`drivers`]),
+        visible: this.role === 'ROLE_ADMIN'
+      },
+      {
+        label: "Clients",
+        icon: "pi pi-users",
+        command: (event) => this.router.navigate([`clients`]),
+        visible: this.role === 'ROLE_ADMIN'
+      },
+      {
+        label: "Livechat",
+        icon: "pi pi-comments",
+        command: (event) => this.router.navigate([`livechat`]),
+        visible: this.role === 'ROLE_ADMIN'
       },
       {
         label: "Profile",
         icon: "pi pi-user",
-        command: (event) => this.profile(),
+        command: (event) => this.router.navigate([`profile`]),
+        visible: this.role !== '' && this.role === 'ROLE_ADMIN'
+      },
+      {
+        label: "Profile",
+        icon: "pi pi-user",
+        command: (event) => this.router.navigate([`profile`]),
         style: { 'margin-left': 'auto' },
-        visible: this.role !== ''
+        visible: this.role !== '' && this.role !== 'ROLE_ADMIN'
       },
       {
         label: "Log Out",
@@ -59,11 +96,5 @@ export class NavbarComponent implements OnInit {
   logOut() {
     this.authService.logout();
     window.location.reload();
-  }
-  logIn() {
-    this.router.navigate([`login`]);
-  }
-  profile() {
-    this.router.navigate([`profile`]);
   }
 }
