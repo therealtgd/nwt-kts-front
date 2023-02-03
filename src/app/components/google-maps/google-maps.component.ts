@@ -4,12 +4,11 @@ import { LatLng, LatLngLiteral } from 'ngx-google-places-autocomplete/objects/la
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 
+import { AddressDto } from 'src/app/dto/address-dto';
 import { ActiveRide } from 'src/app/models/active-ride';
 import { Driver } from 'src/app/models/driver';
-import { Stop } from 'src/app/models/stop';
 import { DriverService } from 'src/app/services/driver/driver.service';
 import { getSession } from 'src/app/util/context';
-import { AddressDto } from 'src/app/dto/address-dto';
 
 @Component({
   selector: 'app-google-maps',
@@ -120,7 +119,7 @@ export class GoogleMapsComponent implements OnInit {
           location: stop.coordinates,
           stopover: true
         }));
-        this.simulateDrive(ride.driver.vehicle.position, ride.startAddress.coordinates, stops);
+        this.simulateDrive(ride.driver.vehicle.position, ride.endAddress.coordinates, stops);
       });
     }
   }
@@ -154,7 +153,7 @@ export class GoogleMapsComponent implements OnInit {
               }
             }
           }
-          if (stops) {
+          if (stops !== undefined) {
             this.driverService.postSimulateDrive(polyline);
           } else {
             this.driverService.postSimulateDriveToClient(polyline);

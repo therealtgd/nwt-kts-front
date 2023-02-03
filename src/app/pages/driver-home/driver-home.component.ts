@@ -22,6 +22,8 @@ type TimelineItemT = {
 export class DriverHomeComponent implements OnInit {
   driver!: Driver;
   ride: ActiveRide | null = null;
+  showDialog = false;
+  showFinishRide = false;
   cancellationReason: string = '';
   showEndRideDialog: boolean = false;
   route: TimelineItemT[] = [];
@@ -31,13 +33,13 @@ export class DriverHomeComponent implements OnInit {
     private driverService: DriverService,
     private messageService: MessageService,
     private rideService: RideService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initializeWebSocketConnection();
     this.getDriver();
     this.getActiveRide();
-    
+
   }
 
   private getDriver() {
@@ -64,23 +66,23 @@ export class DriverHomeComponent implements OnInit {
   }
 
   private setRoute() {
-    
+
     if (this.ride) {
       let route = [
-        {label: 'Pickup', address: this.ride.startAddress.address, icon: PrimeIcons.HOME}
+        { label: 'Pickup', address: this.ride.startAddress.address, icon: PrimeIcons.HOME }
       ]
       if (this.ride.stops) {
         for (let stop of this.ride.stops) {
-          route.push({label: 'Stop', address: stop.address, icon: PrimeIcons.STOP_CIRCLE})
+          route.push({ label: 'Stop', address: stop.address, icon: PrimeIcons.STOP_CIRCLE })
         }
       }
       route.push(
-        {label: 'Destination', address: this.ride.endAddress.address, icon: PrimeIcons.FLAG_FILL}
+        { label: 'Destination', address: this.ride.endAddress.address, icon: PrimeIcons.FLAG_FILL }
       )
       this.route = [...route];
     }
   }
- 
+
   initializeWebSocketConnection() {
     this._stompClient = Stomp.over(new SockJS('http://localhost:8080/socket'));
     this._stompClient.connect({}, () => { this.openGlobalSocket(); });
@@ -90,17 +92,26 @@ export class DriverHomeComponent implements OnInit {
   openGlobalSocket() {
     this._stompClient.subscribe(`/driver/ride-assigned/${this.driver.username}`, (message: { body: string }) => {
       const ride: ActiveRide = JSON.parse(message.body);
-      this.messageService.add({severity:'info', summary:'Ride assigned', detail:`You have a new ride: ${ride.startAddress.address} -> ${ride.endAddress.address}`});      
+      this.messageService.add({ severity: 'info', summary: 'Ride assigned', detail: `You have a new ride: ${ride.startAddress.address} -> ${ride.endAddress.address}` });
     });
 
-    this._stompClient.subscribe(`/driver/ride-assigned/${this.driver.username}`, (message: { body: string }) => {
+    this._stompClient.subscribe(`/driver/active-ride/${this.driver.username}`, (message: { body: string }) => {
       const ride: ActiveRide = JSON.parse(message.body);
-      this.ride = {...ride};
-      this.messageService.add({severity:'info', summary:'Pickup', detail:`Pickup next client at: ${ride.startAddress.address} -> ${ride.endAddress.address}`});      
+      this.ride = { ...ride };
+      this.messageService.add({ severity: 'info', summary: 'Pickup', detail: `Pickup next client at: ${ride.startAddress.address} -> ${ride.endAddress.address}` });
     });
-  
+
+    this._stompClient.subscribe(`/driver/arrived-to-client/${this.driver.username}`, (message: { body: string }) => {
+      this.showDialog = true;
+    });
+
+    this._stompClient.subscribe(`/driver/arrived-to-destination/${this.driver.username}`, (message: { body: string }) => {
+      this.showFinishRide = true;
+      this.messageService.add({ severity: 'info', summary: 'Arrived', detail: message.body });
+    });
+
     this._stompClient.subscribe(`/driver/reserved/${this.driver.username}`, (message: { body: string }) => {
-      this.messageService.add({severity:'info', summary:'Reserved', detail: message.body });      
+      this.messageService.add({ severity: 'info', summary: 'Reserved', detail: message.body });
     });
   }
 
@@ -127,6 +138,7 @@ export class DriverHomeComponent implements OnInit {
             if (this.ride) {
               this.ride = null;
               this.showEndRideDialog = false;
+              this.showDialog = false;
               this.getActiveRide();
             }
           }
@@ -143,6 +155,8 @@ export class DriverHomeComponent implements OnInit {
             if (this.ride) {
               this.ride.endTime = response.body;
             }
+            this.showDialog = false;
+            this.showFinishRide = false;
           }
         }
       })
