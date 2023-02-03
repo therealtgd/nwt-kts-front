@@ -75,6 +75,8 @@ import { DriverRegistrationComponent } from './pages/driver-registration/driver-
 import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.component';
 import { DetailedRouteComponent } from './components/detailed-route/detailed-route.component';
 import { DetailedParticipantsComponent } from './components/detailed-participants/detailed-participants.component';
+import { DetailedReviewsComponent } from './components/detailed-reviews/detailed-reviews.component';
+import { ReviewCardComponent } from './components/review-card/review-card.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,8 @@ import { DetailedParticipantsComponent } from './components/detailed-participant
     DetailedRideComponent,
     DetailedRouteComponent,
     DetailedParticipantsComponent,
+    DetailedReviewsComponent,
+    ReviewCardComponent,
   ],
   imports: [
     BrowserModule,

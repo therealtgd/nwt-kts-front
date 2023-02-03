@@ -1,0 +1,27 @@
+<div class="flex pr-2">
+  <div class="w-6 text-center">
+    <p class="text-4xl">0.0</p>
+    <ng-container *ngFor="let id of [0,1,2,3,4]">
+      <span class="text-xl" [ngClass]="{ 'text-primary': id < driverRating, 'text-color-secondary': id >= driverRating }">
+        &#9733;
+      </span>
+    </ng-container>
+    <p class="text-xs text-color-secondary">Driver</p>
+  </div>
+
+  <div class="w-6 text-center">
+    <p class="text-4xl">0.0</p>
+    <ng-container *ngFor="let id of [0,1,2,3,4]">
+      <span class="text-xl" [ngClass]="{ 'text-primary': id < vehicleRating, 'text-color-secondary': id >= vehicleRating }">
+        &#9733;
+      </span>
+    </ng-container>
+    <p class="text-xs text-color-secondary">Vehicle</p>
+  </div>
+</div>
+
+
+<div class="mt-4" style="height: calc(100vh - 420px); overflow-y: scroll; padding-right: 0;">
+  <app-review-card />
+
+</div>

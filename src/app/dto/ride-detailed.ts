@@ -10,7 +10,8 @@ export interface RideDetailed {
   stops: AddressDto[];
   reviews: ReviewDto[];
   price: number;
-  rating: number;
+  driverRating: number;
+  vehicleRating: number;
   startTime: string;
   endTime: string;
 }
