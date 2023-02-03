@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   user: ContextData | null = null;
   activeRide: ActiveRide | null = null;
 
-  constructor(private clientService: ClientService, private changeDetector: ChangeDetectorRef) {}
+  constructor(private clientService: ClientService, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.user = getSession() ?? null;
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
         next: (response: ApiResponse<ActiveRide>) => {
           console.log(response.body)
           if (response.success && response.body) {
-            this.activeRide = {...response.body};
+            this.activeRide = { ...response.body };
           }
         },
         error: (error) => console.error(error),
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   handleClientActiveRideChanged(value: ActiveRide) {
-    this.activeRide = {...value};
+    this.activeRide = { ...value };
     this.changeDetector.detectChanges();
   }
 
