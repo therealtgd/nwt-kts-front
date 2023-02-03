@@ -90,8 +90,13 @@ export class DriverHomeComponent implements OnInit {
   openGlobalSocket() {
     this._stompClient.subscribe(`/driver/ride-assigned/${this.driver.username}`, (message: { body: string }) => {
       const ride: ActiveRide = JSON.parse(message.body);
-      this.ride = {...ride}
       this.messageService.add({severity:'info', summary:'Ride assigned', detail:`You have a new ride: ${ride.startAddress.address} -> ${ride.endAddress.address}`});      
+    });
+
+    this._stompClient.subscribe(`/driver/ride-assigned/${this.driver.username}`, (message: { body: string }) => {
+      const ride: ActiveRide = JSON.parse(message.body);
+      this.ride = {...ride};
+      this.messageService.add({severity:'info', summary:'Pickup', detail:`Pickup next client at: ${ride.startAddress.address} -> ${ride.endAddress.address}`});      
     });
   
     this._stompClient.subscribe(`/driver/reserved/${this.driver.username}`, (message: { body: string }) => {

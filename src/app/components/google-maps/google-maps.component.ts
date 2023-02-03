@@ -110,7 +110,7 @@ export class GoogleMapsComponent implements OnInit {
     });
 
     if (getSession()?.role === 'ROLE_DRIVER') {
-      this.stompClient.subscribe('/driver/ride-assigned/' + getSession()?.username, (message: { body: string }) => {
+      this.stompClient.subscribe('/driver/active-ride/' + getSession()?.username, (message: { body: string }) => {
         const ride: ActiveRide = JSON.parse(message.body);
         this.simulateDrive(ride.driver.vehicle.position, ride.startAddress.coordinates);
       });
