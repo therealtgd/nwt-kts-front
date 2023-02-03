@@ -28,7 +28,7 @@
   <app-google-maps
     [pickupLocation]="ride.startAddress.coordinates"
     [destination]="ride.endAddress.coordinates"
-    [stops]="stops"
+    [stops]="ride.stops"
     class="relative block">
   </app-google-maps>
 </ng-container>

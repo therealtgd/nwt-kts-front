@@ -15,7 +15,6 @@ import { getSession } from 'src/app/util/context';
 })
 export class HomeComponent implements OnInit {
 
-
   user: ContextData | null = null;
   activeRide: ActiveRide | null = null;
 
@@ -23,12 +22,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = getSession() ?? null;
+    this.getClientActiveRide();
+  }
+
+  private getClientActiveRide() {
     if (this.user && this.user.role === 'ROLE_CLIENT') {
       this.clientService.getActiveRide().subscribe({
         next: (response: ApiResponse<ActiveRide>) => {
-          console.log(response.body)
+          console.log(response.body);
           if (response.success && response.body) {
-            this.activeRide = {...response.body};
+            this.activeRide = { ...response.body };
           }
         },
         error: (error) => console.error(error),
@@ -39,6 +42,11 @@ export class HomeComponent implements OnInit {
   handleClientActiveRideChanged(value: ActiveRide) {
     this.activeRide = {...value};
     this.changeDetector.detectChanges();
+  }
+
+  handleRideCanceled() {
+    this.activeRide = null;
+    this.getClientActiveRide();
   }
 
 }

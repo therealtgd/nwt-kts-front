@@ -22,6 +22,7 @@
         pInputText
         ngx-google-places-autocomplete
         (onAddressChange)="handleStopChange($event, idx)"
+        [value]="rideInfo.stops[idx].address"
         class="w-11"
         [options]="autocompleteOptions"> 
       <label for="float-input">Stop</label>

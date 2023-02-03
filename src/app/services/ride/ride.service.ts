@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getWithParams, get, post } from 'src/app/util/requests';
+import { getWithParams, get, post, put } from 'src/app/util/requests';
 import { Observable } from 'rxjs';
 import { RideInfo } from 'src/app/models/ride-info';
 import { ApiResponse } from 'src/app/models/api-response';
@@ -12,7 +12,7 @@ import { ActiveRide } from 'src/app/models/active-ride';
   providedIn: 'root'
 })
 export class RideService {
-
+  
   constructor(private http: HttpClient) { }
 
   public getRidePrice(vehicleType: string, distance: number): Observable<ApiResponse<number>> {
@@ -52,6 +52,18 @@ export class RideService {
 
   getDriverEta(): Observable<ApiResponse<number>> {
     return get(this.http, '/ride/driver-eta') as Observable<ApiResponse<number>>;
+  }
+
+  startRide(id: number): Observable<ApiResponse<number>> {
+    return put(this.http, `/ride/${id}/start`, {}) as Observable<ApiResponse<number>>;
+  }
+
+  endRide(id: number, reason: string): Observable<ApiResponse<number>> {
+    return put(this.http, `/ride/${id}/end`, {reason}) as Observable<ApiResponse<number>>;
+  }
+
+  finishRide(id: number): Observable<ApiResponse<number>> {
+    return put(this.http, `/ride/${id}/finish`, {}) as Observable<ApiResponse<number>>;
   }
 
 }

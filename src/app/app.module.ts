@@ -26,6 +26,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import {TimelineModule} from 'primeng/timeline';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -134,6 +136,8 @@ import { HttpInterceptorService } from './services/interceptor/http-interceptor.
     DividerModule,
     KeyFilterModule,
     ToastModule,
+    TimelineModule,
+    InputTextareaModule,
   ],
   providers: [
     DatePipe,

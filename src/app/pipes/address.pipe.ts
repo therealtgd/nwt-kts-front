@@ -5,8 +5,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class AddressPipe implements PipeTransform {
 
-  transform(value: string, ...args: unknown[]): string {
-    return value.split(',')[0]
+  transform(value: string, format?: string): string {
+    value = value.split(',')[0]
+    if (format === 's' && value.length > 15) {
+      const words = value.split(" ");
+      const shortenedWords = [];
+      for (const word of words) {
+        if (word.length > 3) {
+          shortenedWords.push(word.slice(0, 3) + ".");
+        } else {
+          shortenedWords.push(word);
+        }
+      }
+      return shortenedWords.join(" ");
+    }
+    return value;
   }
 
 }

@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Address as AutocompleteAddress } from 'ngx-google-places-autocomplete/objects/address';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
+import * as SockJS from 'sockjs-client';
+import { User } from 'src/app/dto/user-brief';
 import { ActiveRide } from 'src/app/models/active-ride';
-import { Address } from 'src/app/models/address';
-import { Stop } from 'src/app/models/stop';
 import { RideService } from 'src/app/services/ride/ride.service';
+import { getSession } from 'src/app/util/context';
+import * as Stomp from 'stompjs';
 
 @Component({
   selector: 'app-client-active-ride',
@@ -15,20 +16,16 @@ import { RideService } from 'src/app/services/ride/ride.service';
 export class ClientActiveRideComponent implements OnInit {
 
   @Input() ride!: ActiveRide;
-  stops: Stop[] = [];
+  @Output() onRideCancelled = new EventEmitter<null>();
   currentEta: number = 0;
   msgs: Message[] = [];
+  client!: User;
+  private _stompClient!: Stomp.Client;
 
   constructor(private confirmationService: ConfirmationService, private rideService: RideService, private messageService: MessageService) {}
 
   ngOnInit(): void {
-    if (this.ride !== undefined) {
-      this.stops = this.ride.stops.map((s: Address) => {
-        const a = new AutocompleteAddress();
-        a.formatted_address = s.address;
-        return {address: a};
-      })
-    }
+    getSession() && this.initializeWebSocketConnection();
 
     const intervalId = setInterval(async () => {
         const response = await firstValueFrom(this.rideService.getDriverEta())
@@ -54,6 +51,25 @@ export class ClientActiveRideComponent implements OnInit {
             this.msgs = [{severity:'info', summary:'Confirmed', detail:'Driver reported'}];
         },
     });
+  }
+
+  initializeWebSocketConnection() {
+    this._stompClient = Stomp.over(new SockJS('http://localhost:8080/socket'));
+    this._stompClient.connect({}, () => { this.openGlobalSocket(); });
+    this._stompClient.debug = () => { };
+  }
+
+  openGlobalSocket() {
+    const username = getSession()?.username;
+    console.log(`Username: ${username}`)
+    if (username) {
+      this._stompClient.subscribe(`/client/ride-cancelled/${username}`, (message: { body: string }) => {
+        console.log("Ride cancelled")
+        this.messageService.add({severity:'info', summary:'Ride cancelled', detail: message.body});
+        this.onRideCancelled.emit();
+      });
+      // TODO: Add driver arrived notification
+    }
   }
 
 }
