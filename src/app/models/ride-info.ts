@@ -10,7 +10,7 @@ export interface RideInfo {
   endAddress: AddressDto,
   vehicleType: VehicleType,
   driver?: SimpleDriver | null,
-  stops: Stop[],
+  stops: AddressDto[],
   price: number,
   clients?: string[] | null,
   petsAllowed: boolean,

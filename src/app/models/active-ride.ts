@@ -3,10 +3,11 @@ import { Address } from "./address";
 import { Driver } from "./driver";
 
 export interface ActiveRide {
+  id: number,
   driver: Driver,
   clients: User[],
-  startTime: string,
-  endTime: string,
+  startTime: number,
+  endTime: number,
   startAddress: Address,
   endAddress: Address,
   stops: Address[],

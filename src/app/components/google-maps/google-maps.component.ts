@@ -9,6 +9,7 @@ import { Driver } from 'src/app/models/driver';
 import { Stop } from 'src/app/models/stop';
 import { DriverService } from 'src/app/services/driver/driver.service';
 import { getSession } from 'src/app/util/context';
+import { AddressDto } from 'src/app/dto/address-dto';
 
 @Component({
   selector: 'app-google-maps',
@@ -23,7 +24,7 @@ export class GoogleMapsComponent implements OnInit {
 
   @Input() pickupLocation: LatLngLiteral | null = null;
   @Input() destination: LatLngLiteral | null = null;
-  @Input() stops: Stop[] | null = [];
+  @Input() stops: AddressDto[] | null = [];
   @Output() onRideInfoChanged = new EventEmitter<any>();
   @ViewChild(GoogleMap) map!: GoogleMap;
   options!: google.maps.MapOptions;
@@ -169,7 +170,7 @@ export class GoogleMapsComponent implements OnInit {
         origin: this.pickupLocation,
         destination: this.destination,
         waypoints: this.stops ? this.stops.map(stop => ({
-          location: stop.address.formatted_address,
+          location: stop.address,
           stopover: true
         })) : [],
         travelMode: google.maps.TravelMode.DRIVING,

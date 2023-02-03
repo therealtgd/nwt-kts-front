@@ -109,14 +109,19 @@ export class RideFormComponent implements OnInit {
   handleStopChange(address: Address, i: number): void {
     if (this.rideInfo) {
       const newStops = this.rideInfo?.stops ? [...this.rideInfo.stops] : [];
-      newStops[i].address = address;
+      newStops[i] = {
+        address: address.formatted_address,
+        coordinates: {
+          lat: address.geometry.location.lat(),
+          lng: address.geometry.location.lng()
+        }}
       this.rideInfo.stops = newStops;
     }
   }
 
   addStop(): void {
     if (this.rideInfo.stops.length < this.MAX_STOPS) {
-      this.rideInfo.stops = [...this.rideInfo.stops, { address: new Address() }];
+      this.rideInfo.stops = [...this.rideInfo.stops, { address: '', coordinates: {lat: 0, lng: 0} }];
     }
   }
 
@@ -214,7 +219,7 @@ export class RideFormComponent implements OnInit {
           next: (response: ApiResponse<ActiveRide>) => {
             this.modalVisible = false;
             if (response.success && response.body) {
-              this.onClientActiveRideChanged.emit({...response.body})
+              this.onClientActiveRideChanged.emit(response.body)
             }
           },
           error: (error: any) => console.error(error),
