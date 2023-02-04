@@ -1,0 +1,39 @@
+<p-dialog id="live-chat-button"
+    header="Live Support Chat"
+    [(visible)]="display"
+    [position]="'bottom-right'"
+    [draggable]="false"
+    [contentStyle]="{
+        'height': '500px',
+        'width': '450px'
+    }"
+    showEffect="fade">
+    <div class="messages" #chatBox [scrollTop]="scrollTop" style="scroll-behavior: smooth;">
+        <div *ngFor="let message of messages">
+            <div class="flex" [ngClass]="message.fromMe ? 'justify-content-end' : 'justify-content-start'">
+                <div
+                    [ngClass]="[message.fromMe ? 'bg-blue-500' : 'bg-bluegray-600']"
+                    class="message p-2 my-1 border-round">
+                    {{ message.content }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="new-message flex flex-wrap">
+        <span class="w-10">
+            <input type="text"
+                class="w-full"
+                pInputText
+                [(ngModel)]="newMessage"
+                (keyup.enter)="sendMessage()"
+                minlength="2"
+                maxlength="200"
+                placeholder="Write a message">
+        </span>
+        <button pButton type="button" (click)="sendMessage()"><i class="pi pi-send"
+                style="font-size: 1.4rem;"></i></button>
+    </div>
+</p-dialog>
+
+<button *ngIf="showButton" pButton type="button" label="Live support" (click)="display=true"
+    style="position:fixed;bottom:20px;right:60px;"></button>

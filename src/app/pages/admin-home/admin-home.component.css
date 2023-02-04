@@ -1,0 +1,18 @@
+.page-container {
+  height: calc(100% - 82px);
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.card {
+  height: calc(50% - 100px);
+  margin: 30px;
+  background-color: var(--surface-card);
+  border-radius: 10px;
+  display: flex;
+	transition: transform 0.2s;
+	transition: 0.2s;
+  cursor: pointer;
+}
+.card:hover {
+  transform: scale(1.1);
+}

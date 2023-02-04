@@ -1,0 +1,63 @@
+<div class="flex justify-content-center mt-5 pt-8">
+
+  <p-card class="w-4" header="Log in" id="logInCard">
+
+    <form class="flex flex-wrap row-gap-1" [formGroup]="form" (ngSubmit)="login()">
+
+      <span class="w-12 p-2 p-float-label">
+        <input type="text" required="true" formControlName="email" minlength="2" maxlength="30"
+          pInputText email id="emailInput">
+        <label for="float-input">Email</label>
+      </span>
+
+      <span class="w-12 p-2 mb-1 p-float-label">
+        <p-password [toggleMask]="true" [feedback]="false" required="true" formControlName="password" minlength="2"
+          maxlength="20"  id="passwordInput"/>
+        <label for="float-input">Password</label>
+      </span>
+
+      <small class="p-error mx-2 block" *ngIf="errorMessage">{{ errorMessage }}</small>
+
+      <span class="flex justify-content-center flex-wrap w-12 mt-3 px-2">
+        <button id="logInBtn" pButton type="button" type="submit" label="Log in" style="width:100%"></button>
+      </span>
+
+    </form>
+
+    <div class="flex justify-content-center w-12">
+      <div
+        style="width:95%; text-align:center; border-bottom: 1px solid #444444; line-height:0.1em; margin:30px 0 30px;">
+        <span>
+          or
+        </span>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap">
+      <div class="w-6 flex justify-content-center">
+        <cool-google-button color="light" (click)="googleLogIn()">
+          Login with Google
+        </cool-google-button>
+      </div>
+      <div class="w-6 flex justify-content-center">
+        <cool-facebook-button color="light" (click)="facebookLogIn()">
+          Login with Facebook
+        </cool-facebook-button>
+      </div>
+    </div>
+
+    <small class="flex flex-wrap mt-4">
+      <span class="w-6 flex justify-content-center"><a href="/register/client">Not a member yet?</a> </span>
+      <span class="w-6 flex justify-content-center"><a href="/forgot-password">Forgot password?</a> </span>
+    </small>
+
+  </p-card>
+
+  <p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" [(visible)]="modalVisibility"
+    [modal]="true" [style]="{width: '30vw'}">
+    <p class="m-0">{{ this.modalContent }}</p>
+    <ng-template pTemplate="footer">
+      <p-button id="okBtn" icon="pi pi-check" (click)="modalVisibility=false;" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>

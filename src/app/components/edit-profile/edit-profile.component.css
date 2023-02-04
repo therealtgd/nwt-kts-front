@@ -1,0 +1,4 @@
+::ng-deep input,
+::ng-deep .p-password {
+  width: 100%;
+}

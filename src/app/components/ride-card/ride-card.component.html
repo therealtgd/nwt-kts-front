@@ -1,0 +1,47 @@
+<p-card class="relative card">
+
+  <div class="bg-primary-reverse border-circle absolute pt-2 pb-1 px-2 ml-4" style="top: -25px; right: -25px;" *ngIf="userRole === 'ROLE_CLIENT'">
+    <i class="pi text-4xl cursor-pointer" (click)="toggleFavorite()"
+      [ngClass]="{'pi-heart-fill': ride.favorite, 'pi-heart': !ride.favorite}">
+    </i>
+  </div>
+  <!---
+  <div class="bg-primary-reverse border-round-2xl absolute pt-2 pb-1 px-2 ml-4 text-4xl" style="top: -35px; right: -25px;" *ngIf="userRole !== 'ROLE_CLIENT'">
+    <ng-container *ngFor="let id of [1,2,3,4,5]">
+      <span [ngClass]="{ 'text-primary': id <= ride.rating, 'text-color-secondary': id > ride.rating }">
+        &#9733;
+      </span>
+    </ng-container>
+  </div>
+  -->
+  <div class="h-3rem mx-3 flex flex-wrap justify-content-between vertical-align-middle" (click)="redirect()">
+    <div class="flex">
+      <p-avatar image="data:image/png;base64, {{ride.driver.image}}" size="large" shape="circle"></p-avatar>
+      <p class="my-auto ml-3">{{ride.driver.displayName}}</p>
+    </div>
+
+    <p-avatarGroup>
+      <ng-container *ngFor="let client of ride.clients; let i = index">
+        <ng-container *ngIf="i < 4">
+          <p-avatar image="data:image/png;base64, {{client.image}}" size="large" shape="circle"></p-avatar>
+        </ng-container>
+        <ng-container *ngIf="i === 4">
+          <p-avatar label="+{{ride.clients.length - 3}}" shape="circle" size="large"
+            [style]="{'background-color':'#9c27b0', 'color': '#ffffff'}"></p-avatar>
+        </ng-container>
+      </ng-container>
+    </p-avatarGroup>
+  </div>
+
+  <div class="mt-5 mx-3 flex gap-3 justify-content-between relative text-lg" (click)="redirect()">
+    <div>
+      <p><span class="text-gray-200">[ {{ride.startTime}} ] &nbsp;</span> {{ride.startLocation}}</p>
+      <i class="pi pi-arrow-down my-3"></i>
+      <p><span class="text-gray-200">[ {{ride.endTime}} ] &nbsp;</span> {{ride.endLocation}}</p>
+    </div>
+    <div class="absolute bottom-0 right-0 text-right">
+      <p class="mb-3">{{ride.price}} RSD</p>
+      <p>{{ride.distance}} km</p>
+    </div>
+  </div>
+</p-card>

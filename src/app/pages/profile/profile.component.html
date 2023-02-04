@@ -1,0 +1,61 @@
+<div class="flex flex-wrap pt-6">
+  <div class="w-4 fixed">
+    <div class="w-full flex justify-content-center">
+      <div class="container">
+        <img [src]="image">
+        <div class="image-upload" (click)="fileInput.click()">
+          <i class="pi pi-camera" style="font-size: 2.5rem"></i>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex justify-content-center">
+      <div class="w-6 pt-4">
+        <p class="text-xl">{{user.displayName}}</p>
+        <p class="text-l">@{{user.username}}</p>
+      </div>
+    </div>
+
+    <hr class="w-8 mt-5 border-gray-500" />
+
+    <div class="flex justify-content-center">
+      <div class="w-6 pt-4">
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Ride history'}"
+          (click)="selectedItem = 'Ride history'" *ngIf="user.role !== 'ROLE_ADMIN'">
+          Ride history
+        </p>
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Favorite routes'}"
+          (click)="selectedItem = 'Favorite routes'" *ngIf="user.role === 'ROLE_CLIENT'">
+          Favorite routes
+        </p>
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Statistics'}"
+          (click)="selectedItem = 'Statistics'" *ngIf="user.role !== 'ROLE_ADMIN'">
+          Statistics
+        </p>
+        <p class="profile-choice cursor-pointer" [ngClass]="{'chosen-item': selectedItem === 'Edit profile'}"
+          (click)="selectedItem = 'Edit profile'">
+          Edit profile
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="w-4"></div>
+  <div class="w-7 mb-6">
+    <app-ride-history *ngIf="selectedItem === 'Ride history'" [user]="user"/>
+    <app-reports *ngIf="selectedItem === 'Statistics'" [user]="user"/>
+    <app-edit-driver-profile *ngIf="selectedItem === 'Edit profile' && user.role === 'ROLE_DRIVER'" [user]="user" [uploadedFile]="uploadedFile"/>
+    <app-favorite-routes *ngIf="selectedItem === 'Favorite routes' && user.role === 'ROLE_CLIENT'" [user]="user"/>
+    <app-edit-profile *ngIf="selectedItem === 'Edit profile' && user.role !== 'ROLE_DRIVER'" [user]="user"/>
+  </div>
+  <div class="w-1">
+  </div>
+</div>
+
+<input #fileInput hidden type="file" (change)="uploadFile($event)" />
+<p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" [(visible)]="failureModalVisibility"
+  [modal]="true" [style]="{width: '30vw'}">
+  <p class="m-0">{{ this.modalContent }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="failureModalVisibility=false" label="Ok"
+      styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

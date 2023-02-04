@@ -1,0 +1,15 @@
+<p-dialog
+  header="{{ this.header }}"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="visible"
+  (onHide)="closeModal()"
+  [modal]="true"
+  class="overflow-y-auto"
+  [style]="{width: '30vw', 'overflow-y': 'auto'}" >
+  <p class="m-0">{{ this.content }}</p>
+  <ng-content select="[content]"></ng-content>
+  <ng-template pTemplate="footer">
+    <ng-content select="[footer]"></ng-content>
+  </ng-template>
+</p-dialog>

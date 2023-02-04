@@ -1,0 +1,48 @@
+<ng-container *ngIf="ride !== null">
+  <p-card class="w-3 inline-block absolute z-1 mt-8 ml-8" [style]="{'min-width': '400px'}">
+    <div class="flex justify-content-between mb-3">
+      <div class="flex">
+        <p-avatar image="data:image/png;base64, {{ride.driver.image}}" size="large" shape="circle"></p-avatar>
+        <p class="my-auto ml-3">{{ride.driver.displayName}}</p>
+      </div>
+      <p-avatarGroup>
+        <p-avatar
+          *ngFor="let client of ride.clients; let i = index"
+          image="data:image/png;base64, {{client.image}}"
+          size="large"
+          shape="circle">
+        </p-avatar>
+      </p-avatarGroup>
+    </div>
+    <ng-container *ngIf="this.showEta">
+      Driver ETA: {{this.ride.eta | time:'mm:ss'}}
+    </ng-container>
+    <ng-template #elseBlock>
+      <div class="flex w-full justify-content-center">
+        <button pButton (click)="reportDriver()" type="button" label="Report driver" class="p-button-danger"></button>
+        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+      </div>
+    </ng-template>
+  </p-card>
+
+  <p-dialog *ngIf="review" header="Review" [draggable]="false" [resizable]="false" [(visible)]="showReviewModal"
+    [modal]="true" [style]="{width: '30vw'}" (onHide)="handleOnReviewModalHide()">
+    <p class="mb-4">You have arrived to your destination. Let us know about your experience by leaving a review.</p>
+    <form [formGroup]="review">
+      <star-rating-control formControlName="driverRating" labelText="Driver:" speed="noticeable"></star-rating-control>
+      <star-rating-control formControlName="vehicleRating" labelText="Vehicle:" speed="noticeable"></star-rating-control>
+      <textarea formControlName="comment" class="mt-3" pInputTextarea minlength="0" maxlength="150" placeholder="Leave a comment" rows="5" class="w-full"></textarea>
+    </form>
+  
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-pencil" [disabled]="!review.valid" (click)="reviewRide()" label="Review"></p-button>
+    </ng-template>  
+  </p-dialog>
+  <!-- <p-messages class="inline-block absolute z-1" [value]="msgs"></p-messages> -->
+  <app-google-maps
+    [pickupLocation]="ride.startAddress.coordinates"
+    [destination]="ride.endAddress.coordinates"
+    [stops]="ride.stops"
+    class="relative block">
+  </app-google-maps>
+</ng-container>

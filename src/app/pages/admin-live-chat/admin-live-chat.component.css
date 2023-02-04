@@ -1,0 +1,12 @@
+.messages {
+    overflow-y: scroll;
+    height: 55vh;
+}
+
+.chat-height {
+    height: 60vh;
+}
+
+.chat:hover {
+    background-color: gray;
+}

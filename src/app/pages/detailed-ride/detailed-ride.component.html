@@ -1,0 +1,38 @@
+<div class="flex justify-content-center pt-6 mb-8">
+  <div class="w-8 mb-6">
+    <p-card>
+      <div class="flex" style="height: calc(100vh - 250px);">
+
+        <div class="w-4">
+          <p-tabView>
+            <p-tabPanel header="Route">
+              <ng-template pTemplate="content">
+                <app-detailed-route [stops]="ride.stops" [startTime]="ride.startTime" [endTime]="ride.endTime"/>
+              </ng-template>
+            </p-tabPanel>
+            <p-tabPanel header="Participants">
+              <ng-template pTemplate="content">
+                <app-detailed-participants [driver]="ride.driver" [clients]="ride.clients"/>
+              </ng-template>
+            </p-tabPanel>
+            <p-tabPanel header="Reviews">
+              <ng-template pTemplate="content">
+                <app-detailed-reviews [reviews]="ride.reviews" [vehicleRating]="ride.vehicleRating" [driverRating]="ride.driverRating"/>
+              </ng-template>
+            </p-tabPanel>
+        </p-tabView>
+        </div>
+        <div class="w-8" style="height: 100%; background-color: white;">
+          <app-google-maps [initSocket]="false" [pickupLocation]="ride.stops[0].coordinates" [destination]="ride.stops[ride.stops.length-1].coordinates" [stops]="getStopsForGMaps()"></app-google-maps>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<p-dialog header="{{ this.modalHeader }}" (onHide)="redirect('login')" [draggable]="false" [resizable]="false" [(visible)]="failureModalVisibility" [modal]="true" [style]="{width: '30vw'}" >
+  <p class="m-0">{{ this.modalContent }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="failureModalVisibility=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

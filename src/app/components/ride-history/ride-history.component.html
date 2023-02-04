@@ -1,0 +1,28 @@
+<div class="flex justify-content-between">
+  <p class="p-2 m-3 mt-5 mb-0 pb-6 text-3xl font-semibold p-component">
+    Ride history
+  </p>
+  <p class="mt-5" *ngIf="sortingEnabled">
+    <p-dropdown [options]="sortingType" [(ngModel)]="selectedSort" (onChange)="loadData()"></p-dropdown>
+  </p>
+</div>
+
+
+<div class="flex flex-column row-gap-5" *ngFor="let ride of rides; index as i;">
+  <app-ride-card *ngIf="!forAdmin" [ride]="ride" [userRole]="user.role" />
+  <app-ride-card *ngIf="forAdmin" [ride]="ride" [userRole]="'ROLE_ADMIN'" />
+  <div class="mb-5"></div>
+</div>
+
+<div class="text-gray-500 ml-4" *ngIf="rides.length === 0">
+  You haven't participated in any past rides.
+</div>
+
+<p-dialog header="{{ this.modalHeader }}" [draggable]="false" [resizable]="false" [(visible)]="failureModalVisibility"
+  [modal]="true" [style]="{width: '30vw'}">
+  <p class="m-0">{{ this.modalContent }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="failureModalVisibility=false;" label="Ok"
+      styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

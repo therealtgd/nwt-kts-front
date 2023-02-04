@@ -1,0 +1,60 @@
+<div class="flex justify-content-center pt-6">
+  <div class="w-8">
+
+
+    <p-card>
+      <div class="flex justify-content-between mb-6">
+        <p class="p-2 text-3xl font-semibold my-auto">Statistics</p>
+        <div class="field col-4 my-auto">
+          <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="dateRange"
+            dateFormat="dd.mm.yy." [showIcon]="true" placeholder="Choose Date" (onSelect)="showGraphs()"></p-calendar>
+        </div>
+      </div>
+      
+      <ng-container *ngIf="rangeDates[1]">
+
+        <div class="flex pl-2 mb-6">
+          <div class="w-9">
+            <p class="font-italic text-xl text-color-secondary mb-4">Number of rides</p>
+            <p-chart #rideChart type="line" [data]="numberOfRidesData" [options]="chartOptions"></p-chart>
+          </div>
+          <div class="flex align-content-center">
+            <div class="my-auto">
+              <p><span class="pb-2 text-color-secondary">Total: {{sumOfRides}}</span></p>
+              <p><span class="pb-2 text-color-secondary">Average: {{averageRides}}</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex pl-2 mb-6">
+          <div class="w-9">
+            <p class="font-italic text-xl text-color-secondary mb-4">Distance travelled</p>
+            <p-chart type="line" [data]="distanceData" [options]="chartOptions"></p-chart>
+          </div>
+          <div class="flex align-content-center">
+            <div class="my-auto">
+              <p><span class="pb-2 text-color-secondary">Total: {{sumOfDistance}} km</span></p>
+              <p><span class="pb-2 text-color-secondary">Average: {{averageDistance}} km</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex pl-2">
+          <div class="w-9">
+            <p class="font-italic text-xl text-color-secondary mb-4">Transactions</p>
+            <p-chart type="line" [data]="transactionsData" [options]="chartOptions"></p-chart>
+          </div>
+          <div class="flex align-content-center">
+            <div class="my-auto">
+              <p><span class="pb-2 text-color-secondary">Total: {{sumOfTransactions}} RSD</span></p>
+              <p><span class="pb-2 text-color-secondary">Average: {{averageTransactions}} RSD</span></p>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+
+    </p-card>
+
+  </div>
+</div>
