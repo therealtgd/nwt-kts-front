@@ -24,7 +24,9 @@ export class GoogleMapsComponent implements OnInit {
   @Input() pickupLocation: LatLngLiteral | null = null;
   @Input() destination: LatLngLiteral | null = null;
   @Input() stops: AddressDto[] | null = [];
+  @Input() initSocket: boolean = true;
   @Output() onRideInfoChanged = new EventEmitter<any>();
+  @Input() useNgOnChanges: boolean = false;
   @ViewChild(GoogleMap) map!: GoogleMap;
   options!: google.maps.MapOptions;
   directionsService!: google.maps.DirectionsService;
@@ -37,7 +39,9 @@ export class GoogleMapsComponent implements OnInit {
   private stompClient!: Stomp.Client;
 
   ngOnChanges() {
-    this.pickupLocation && this.destination && this.setRoutePolyline();
+    if (this.useNgOnChanges) {
+      this.pickupLocation?.lat !== 0 && this.destination?.lat !== 0 && this.setRoutePolyline();
+    }
   }
 
   ngOnInit() {
@@ -58,7 +62,8 @@ export class GoogleMapsComponent implements OnInit {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsRenderer = new google.maps.DirectionsRenderer();
 
-    this.initializeWebSocketConnection();
+    this.initSocket && this.initializeWebSocketConnection();
+    this.pickupLocation?.lat !== 0 && this.destination?.lat !== 0 && this.setRoutePolyline();
   }
 
 
@@ -168,7 +173,7 @@ export class GoogleMapsComponent implements OnInit {
       let request = {
         origin: this.pickupLocation,
         destination: this.destination,
-        waypoints: this.stops ? this.stops.map(stop => ({
+        waypoints: this.stops && this.stops.length > 0? this.stops.map(stop => ({
           location: stop.address,
           stopover: true
         })) : [],
