@@ -23,7 +23,7 @@
         </p-tabView>
         </div>
         <div class="w-8" style="height: 100%; background-color: white;">
-          
+          <app-google-maps [initSocket]="false" [pickupLocation]="ride.stops[0].coordinates" [destination]="ride.stops[ride.stops.length-1].coordinates" [stops]="getStopsForGMaps()"></app-google-maps>
         </div>
       </div>
     </p-card>

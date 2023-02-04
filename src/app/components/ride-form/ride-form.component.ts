@@ -116,9 +116,9 @@ export class RideFormComponent implements OnInit {
   handleAddressChange(address: Address, input: string): void {
     const coordinates = address.geometry.location.toJSON();
     if (input === 'pickupLocation') {
-      this.pickupLocation = coordinates;
+      this.pickupLocation = {...coordinates};
     } else {
-      this.destination = coordinates;
+      this.destination = {...coordinates};
     }
   }
 

@@ -10,6 +10,7 @@ import { RideService } from 'src/app/services/ride/ride.service';
   styleUrls: ['./detailed-ride.component.css']
 })
 export class DetailedRideComponent implements OnInit {
+
   failureModalVisibility: boolean = false;
   modalContent: string = '';
   modalHeader: string = '';
@@ -29,7 +30,6 @@ export class DetailedRideComponent implements OnInit {
           next: (response: ApiResponse<RideDetailed>) => {this.ride = (response.body as RideDetailed); console.log(this.ride); },
           error: (error) =>  this.handleError(error.error)
         }));
-        
   }
   handleError(error: ApiResponse<null>) {
     this.displayFailureModal("Oops!", error.message);
@@ -41,5 +41,8 @@ export class DetailedRideComponent implements OnInit {
   }
   redirect(pageName: string = '') {
     this.router.navigate([`${pageName}`]);
+  }
+  getStopsForGMaps() {
+    return this.ride.stops.filter((r, index) => index !== 0 && index !== this.ride.stops.length-1);
   }
 }
