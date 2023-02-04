@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminLiveChatComponent } from './pages/admin-live-chat/admin-live-chat.component';
 import { AdminReportsComponent } from './pages/admin-reports/admin-reports.component';
+import { AllClientsComponent } from './pages/all-clients/all-clients.component';
+import { AllDriversComponent } from './pages/all-drivers/all-drivers.component';
 import { BuyCreditsComponent } from './pages/buy-credits/buy-credits.component';
 import { ClientRegistrationComponent } from './pages/client-registration/client-registration.component';
 import { DetailedRideComponent } from './pages/detailed-ride/detailed-ride.component';
@@ -81,6 +83,22 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: ['ROLE_ADMIN']
+    }
+  },
+  {
+    path: 'drivers',
+    component: AllDriversComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN'],
+    }
+  },
+  {
+    path: 'clients',
+    component: AllClientsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN'],
     }
   },
   {
