@@ -71,7 +71,6 @@ export class ClientActiveRideComponent implements OnInit {
 
   openGlobalSocket() {
     const username = getSession()?.username;
-    console.log(`Username: ${username}`)
     if (username) {
       this._stompClient.subscribe(`/client/ride-cancelled/${username}`, (message: { body: string }) => {
         this.messageService.add({severity:'info', summary:'Ride cancelled', detail: message.body});

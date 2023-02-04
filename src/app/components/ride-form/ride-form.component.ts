@@ -278,11 +278,8 @@ export class RideFormComponent implements OnInit {
   }
 
   openGlobalSocket() {
-    console.log("OPENING SOCKET")
     const username = getSession()?.username;
-    console.log(`Username: ${username}`)
     if (username) {
-      console.log("Adding web socket code")
       this._stompClient.subscribe(`/client/split-fare/${username}`, (message: { body: string }) => {
         const splitFareRide: ActiveRide = JSON.parse(message.body);
         
@@ -302,7 +299,6 @@ export class RideFormComponent implements OnInit {
             })
           },
           reject: () => {
-            console.log("REJECTED")
             this.rideService.declineSplitFare(splitFareRide.id).subscribe({
               next: (response: ApiResponse<null>) => {
                 if (response.success) {
