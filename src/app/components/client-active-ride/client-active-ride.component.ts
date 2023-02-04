@@ -22,7 +22,7 @@ export class ClientActiveRideComponent implements OnInit {
   currentEta: number = 0;
   msgs: Message[] = [];
   client!: User;
-  showReviewModal: boolean = true;
+  showReviewModal: boolean = false;
   review!: FormGroup;
   showEta: boolean = true;
   private _stompClient!: Stomp.Client;
@@ -77,11 +77,15 @@ export class ClientActiveRideComponent implements OnInit {
         this.messageService.add({severity:'info', summary:'Ride cancelled', detail: message.body});
         this.onRideChanged.emit(null);
       });
-      this._stompClient.subscribe(`/driver/arrived-to-destination/${this.ride.driver.username}`, (message: { body: string }) => {
-        this.messageService.add({severity:'info', summary:'You have arrived', detail: message.body});
+      this._stompClient.subscribe(`/driver/arrived-to-client/${this.ride.driver.username}`, (message: { body: string }) => {
+        this.messageService.add({severity:'info', summary:'Driver arrived', detail: 'Driver is at the pickup location'});
         this.showEta = false;
-        this.showReviewModal;
       });
+      this._stompClient.subscribe(`/client/ride-finished/${this.ride.driver.username}`, (message: { body: string }) => {
+        this.messageService.add({severity:'info', summary:'You have arrived', detail: message.body});
+        this.showReviewModal = true;
+      });
+      
     }
   }
 

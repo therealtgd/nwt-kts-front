@@ -12,7 +12,7 @@ import { ApiResponse } from "src/app/models/api-response";
   providedIn: 'root'
 })
 export class ClientService {
-  
+ 
   constructor(private http: HttpClient) { }
 
   public activateClient(tokenRequest: RegistrationConfirmation): Observable<ApiResponse<null>> {
@@ -41,6 +41,10 @@ export class ClientService {
 
   public getActiveRide(): Observable<ApiResponse<ActiveRide>> {
     return get(this.http, '/client/active-ride') as Observable<ApiResponse<ActiveRide>>
+  }
+
+  getUsernameByQuery(query: string): Observable<ApiResponse<string[]>>{
+    return get(this.http, `/client/get-usernames/${query}`) as Observable<ApiResponse<string[]>>;
   }
 
 }

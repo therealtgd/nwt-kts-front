@@ -37,8 +37,8 @@
     <ng-template pTemplate="footer">
       <p-button icon="pi pi-pencil" [disabled]="!review.valid" (click)="reviewRide()" label="Review"></p-button>
     </ng-template>  
-    </p-dialog>
-  <p-messages class="inline-block absolute z-1" [value]="msgs"></p-messages>
+  </p-dialog>
+  <!-- <p-messages class="inline-block absolute z-1" [value]="msgs"></p-messages> -->
   <app-google-maps
     [pickupLocation]="ride.startAddress.coordinates"
     [destination]="ride.endAddress.coordinates"

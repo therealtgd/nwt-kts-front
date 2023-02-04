@@ -44,6 +44,18 @@
       <p-checkbox label="Pets allowed" [value]="false" [(ngModel)]="rideInfo.petsAllowed" class="mr-5"></p-checkbox>
       <p-checkbox label="Babies allowed" [value]="false" [(ngModel)]="rideInfo.babiesAllowed"></p-checkbox>
     </div>
+    <div class="my-3">
+      <p-autoComplete 
+        placeholder="Split fare (username)" 
+        class="w-11 inline-block" 
+        *ngIf="userRole === 'ROLE_CLIENT'" 
+        [suggestions]="usernameAutocompleteResults" 
+        (completeMethod)="search($event)" 
+        [multiple]="true"
+        (onSelect)="onSplitFareAdded($event)"
+        (onUnselect)="onSplitFareRemoved($event)">
+      </p-autoComplete>
+    </div>
   </div>
   <div class="flex aling-items-center">
     <button
@@ -59,6 +71,7 @@
     </div>
   </div>
 </p-card>
+<p-confirmDialog [style]="{width: '50vw'}" class="z-1" [baseZIndex]="10000"></p-confirmDialog>
 <app-google-maps
   [pickupLocation]="pickupLocation"
   [destination]="destination"
@@ -93,10 +106,6 @@
       icon="pi pi-credit-card"
       [routerLink]="'/buy-credits'"
       label="Buy credits">
-    </p-button>
-    <p-button
-      (click)="modalVisible=false"
-      label="Split fare">
     </p-button>
   </div>
 </app-modal>

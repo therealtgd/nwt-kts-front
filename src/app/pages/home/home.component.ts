@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { ContextData } from 'src/app/dto/context-data';
 import { ActiveRide } from 'src/app/models/active-ride';
 import { ApiResponse } from 'src/app/models/api-response';
-import { RideInfo } from 'src/app/models/ride-info';
 import { ClientService } from 'src/app/services/client/client.service';
 import { getSession } from 'src/app/util/context';
 
@@ -29,7 +27,6 @@ export class HomeComponent implements OnInit {
     if (this.user && this.user.role === 'ROLE_CLIENT') {
       this.clientService.getActiveRide().subscribe({
         next: (response: ApiResponse<ActiveRide>) => {
-          console.log(response.body);
           if (response.success && response.body) {
             this.activeRide = { ...response.body };
           }
