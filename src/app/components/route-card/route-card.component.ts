@@ -23,4 +23,7 @@ export class RouteCardComponent {
         error: (error) => console.log(error)
       });
     }
+    redirect() {
+      window.open('http://localhost:4200/ride/' + this.route.id, '_blank');
+    }
 }

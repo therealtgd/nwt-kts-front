@@ -7,10 +7,11 @@
     <div class="bg-white h-10rem mb-5 flex align-content-center justify-content-center">
       <p class="text-primary my-auto">map here</p>
     </div>
-
-    <p>{{route.stops[0].address}}</p>
-    <i class="pi pi-arrow-down my-3"></i>
-    <p>{{route.stops[route.stops.length-1].address}}</p>
+    <div class="cursor-pointer" (click)="redirect()">
+      <p>{{route.stops[0].address}}</p>
+      <i class="pi pi-arrow-down my-3"></i>
+      <p>{{route.stops[route.stops.length-1].address}}</p>
+    </div>
     
   </p-card>
 </div>
