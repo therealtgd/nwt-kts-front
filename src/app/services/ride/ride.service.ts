@@ -1,20 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getWithParams, get, post, put } from 'src/app/util/requests';
 import { Observable } from 'rxjs';
-import { RideInfo } from 'src/app/models/ride-info';
+import { ReportDto } from 'src/app/dto/report-dto';
+import { RideDetailed } from 'src/app/dto/ride-detailed';
+import { ActiveRide } from 'src/app/models/active-ride';
 import { ApiResponse } from 'src/app/models/api-response';
 import { SimpleDriver } from 'src/app/models/driver/simple-driver';
-import { ReportDto } from 'src/app/dto/report-dto';
-import { ActiveRide } from 'src/app/models/active-ride';
-import { FormGroup } from '@angular/forms';
+import { RideInfo } from 'src/app/models/ride-info';
 import { RideReview } from 'src/app/models/ride-review';
-import { RideDetailed } from 'src/app/dto/ride-detailed';
+import { get, getWithParams, post, put } from 'src/app/util/requests';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RideService {
+
   constructor(private http: HttpClient) { }
 
   public getRidePrice(vehicleType: string, distance: number): Observable<ApiResponse<number>> {
@@ -74,6 +74,16 @@ export class RideService {
 
   public getRide(id: string): Observable<ApiResponse<RideDetailed>> {
     return get(this.http, '/ride/' + id) as Observable<ApiResponse<RideDetailed>>;
+  }
+
+  acceptSplitFare(id: number): Observable<ApiResponse<null>> {
+    console.log(`Accepting split fare request ${id}`)
+    return put(this.http, `/ride/${id}/accept-split-fare`, {}) as Observable<ApiResponse<null>>;
+  }
+
+  declineSplitFare(id: number): Observable<ApiResponse<null>> {
+    console.log(`Declining split fare request ${id}`)
+    return put(this.http, `/ride/${id}/decline-split-fare`, {}) as Observable<ApiResponse<null>>;
   }
 
 }
