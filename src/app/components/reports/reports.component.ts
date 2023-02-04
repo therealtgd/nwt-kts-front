@@ -44,10 +44,8 @@ export class ReportsComponent implements OnInit {
   showGraphs() {
     if (this.rangeDates[1]) {
       const endDate: Date = new Date(this.rangeDates[1].getTime() + (1000 * 60 * 60 * 24));
-      console.log(endDate);
       const startDateString: string = this.datepipe.transform(this.rangeDates[0], 'dd-MM-yyyy') || '';
       const endDateString: string = this.datepipe.transform(endDate, 'dd-MM-yyyy') || '';
-      console.log(endDateString);
       this.getApiCall(startDateString, endDateString)
         .subscribe
         ({

@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
     this.getClientActiveRide();
     this.authService.roleSubject.subscribe({
       next: (data: ContextData | null) => {
-        console.log("HERE")
         this.user = data ? { ...data } : null;
       },
     })

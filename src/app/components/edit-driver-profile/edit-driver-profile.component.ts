@@ -117,8 +117,6 @@ export class EditDriverProfileComponent {
     const blob = new Blob([JSON.stringify(requestData)], { type: "application/json" });
     formData.append('updateRequest', blob);
     formData.append('image', this.uploadedFile);
-    console.log(formData);
-    console.log(this.uploadedFile)
     return formData;
   }
   compareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {

@@ -77,12 +77,10 @@ export class RideService {
   }
 
   acceptSplitFare(id: number): Observable<ApiResponse<null>> {
-    console.log(`Accepting split fare request ${id}`)
     return put(this.http, `/ride/${id}/accept-split-fare`, {}) as Observable<ApiResponse<null>>;
   }
 
   declineSplitFare(id: number): Observable<ApiResponse<null>> {
-    console.log(`Declining split fare request ${id}`)
     return put(this.http, `/ride/${id}/decline-split-fare`, {}) as Observable<ApiResponse<null>>;
   }
 
