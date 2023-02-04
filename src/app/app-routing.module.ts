@@ -65,7 +65,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'support-chat',
+    path: 'livechat',
     component: AdminLiveChatComponent,
     canActivate: [AuthGuard],
     data: {

@@ -42,7 +42,7 @@ export class AdminHomeComponent {
       name: "Livechat",
       icon: "pi-comments",
       description: "Real-time chat to solve all your clients' issues",
-      route: "/support-chat"
+      route: "/livechat"
     },
     {
       name: "Your Profile",
