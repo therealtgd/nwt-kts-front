@@ -1,0 +1,9 @@
+<div class="grid p-4">
+    <div class="col-6">
+        <app-users-table [users]="clients" (onSelectedUser)="handleSelectedUser($event)"></app-users-table>
+    </div>
+    <div class="p-4 col-6 overflow-y-scroll ride-history" *ngIf="selectedClient">
+        <app-ride-history [adminSelectedUser]="selectedClient" [sortingEnabled]="false"
+            userType="CLIENT"></app-ride-history>
+    </div>
+</div>
