@@ -5,40 +5,40 @@
   <form class="flex flex-wrap row-gap-1" [formGroup]="form" (ngSubmit)="save()">
 
     <span class="w-12 p-2 p-float-label">
-      <input type="text" required="true" formControlName="email" pInputText [email]="true" minlength="2" maxlength="64">
+      <input id="email" type="text" required="true" formControlName="email" pInputText [email]="true" minlength="2" maxlength="64">
       <label for="float-input">Email</label>
     </span>
 
     <span class="w-6 p-2 p-float-label">
-      <input type="text" required="true" formControlName="displayName" [pKeyFilter]="noSpecial" minlength="2" maxlength="20" pInputText>
+      <input id="display-name" type="text" required="true" formControlName="displayName" [pKeyFilter]="noSpecial" minlength="2" maxlength="20" pInputText>
       <label for="float-input">Displayed name</label>
     </span>
     <span class="w-6 p-2 p-float-label">
-      <input type="text" required="true" formControlName="username" pKeyFilter="alphanum" minlength="2" maxlength="20" pInputText>
+      <input id="username" type="text" required="true" formControlName="username" pKeyFilter="alphanum" minlength="2" maxlength="20" pInputText>
       <label for="float-input">Username</label>
     </span>
 
     <span class="w-6 p-2 p-float-label">
-      <input type="text" required="true" formControlName="city" pKeyFilter="alpha" minlength="2" maxlength="20" pInputText>
+      <input id="city" type="text" required="true" formControlName="city" pKeyFilter="alpha" minlength="2" maxlength="20" pInputText>
       <label for="float-input">City</label>
     </span>
     <span class="w-6 p-2 p-float-label">
-      <input type="text" pKeyFilter="int" required="true" formControlName="phoneNumber" minlength="2" maxlength="20" pInputText>
+      <input id="phone-number" type="text" pKeyFilter="int" required="true" formControlName="phoneNumber" minlength="2" maxlength="20" pInputText>
       <label for="float-input">Phone number</label>
     </span>
 
     <span class="w-6 p-2 p-float-label">
-      <p-password [toggleMask]="true" [feedback]="true" required="true" formControlName="password" minlength="2" maxlength="20"></p-password>
+      <p-password id="password" [toggleMask]="true" [feedback]="true" required="true" formControlName="password" minlength="2" maxlength="20"></p-password>
       <label for="float-password">Password</label>
       <small class="p-error block" *ngIf="form.get('confirmPassword')?.hasError('confirmPasswordValidator')">Passwords don't match</small>
     </span>
     <span class="w-6 p-2 p-float-label">
-      <p-password [toggleMask]="true" [feedback]="true" required="true" formControlName="confirmPassword" minlength="2" maxlength="20"></p-password>
+      <p-password id="confirm-password" [toggleMask]="true" [feedback]="true" required="true" formControlName="confirmPassword" minlength="2" maxlength="20"></p-password>
       <label for="float-password">Confirm password</label>
     </span>
 
     <span class="w-12 p-2 p-float-label flex vertical-align-middle">
-      <p-fileUpload #fileUpload mode="basic" chooseLabel="Browse" class="my-auto" accept="image/*"
+      <p-fileUpload id="file-upload"  #fileUpload mode="basic" chooseLabel="Browse" class="my-auto" accept="image/*"
         [customUpload]="true" (onSelect)="uploadFile($event)">
       </p-fileUpload>
       <img *ngIf="url" [src]="url" class="my-auto ml-3">
@@ -50,7 +50,7 @@
     </span>
 
     <span class="flex justify-content-center flex-wrap w-12 pt-5">
-      <p-button type="submit" label="Register"></p-button> 
+      <p-button id="register-btn" type="submit" label="Register"></p-button> 
     </span>
     
   </form>

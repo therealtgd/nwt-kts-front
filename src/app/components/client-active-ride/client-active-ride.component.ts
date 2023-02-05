@@ -41,7 +41,6 @@ export class ClientActiveRideComponent implements OnInit {
         const response = await firstValueFrom(this.rideService.getDriverEta())
         if (response.success && response.body) {
           this.ride = {...this.ride, eta: response.body}
-          console.log(this.ride, this.ride.eta)
           if (response.body <= 0) {
             clearInterval(intervalId)
             this.messageService.add({severity:'info', summary:'Driver arrived', detail:`Your driver is at the pickup location: ${this.ride.startAddress.address}`});
@@ -71,7 +70,6 @@ export class ClientActiveRideComponent implements OnInit {
 
   openGlobalSocket() {
     const username = getSession()?.username;
-    console.log(`Username: ${username}`)
     if (username) {
       this._stompClient.subscribe(`/client/ride-cancelled/${username}`, (message: { body: string }) => {
         this.messageService.add({severity:'info', summary:'Ride cancelled', detail: message.body});
@@ -95,6 +93,7 @@ export class ClientActiveRideComponent implements OnInit {
       driverRating: this.review.get('driverRating')?.value,
       comment: this.review.get('comment')?.value,
     }
+    console.log(review)
     this.rideService.reviewRide(this.ride.id, review).subscribe({
       next: (response: ApiResponse<null>) => {
         if (response.success) {

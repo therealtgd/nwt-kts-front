@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { TRISTATECHECKBOX_VALUE_ACCESSOR } from 'primeng/tristatecheckbox';
 import { ContextData } from 'src/app/dto/context-data';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { getSession, getToken } from 'src/app/util/context';
@@ -22,6 +23,8 @@ export class NavbarComponent implements OnInit {
   items: MenuItem[] = [];
 
   ngOnInit() {
+    this.role = ''
+    this.items = [...this.getItems()]
     if (getToken()) {
       this.authService.getWhoAmI();
       const session: ContextData | undefined = getSession();
@@ -32,69 +35,80 @@ export class NavbarComponent implements OnInit {
         this.role = '';
       }
     }
-    // only the first item has to have style: {'margin-left': 'auto'}
-    this.items = [
+    this.authService.roleSubject.subscribe({
+      next: (response: ContextData | null) => {
+        this.role = '';
+        this.role = response ? response.role : '';
+        this.items = this.getItems()
+      },
+    })
+  }
+
+  getItems(): MenuItem[] {
+    return [
       {
         label: "Log in",
         icon: "pi pi-sign-in",
-        visible: this.role === '',
-        command: (event) => this.router.navigate([`login`]),
+        visible: !this.role,
+        command: () => this.router.navigate([`login`]),
         style: { 'margin-left': 'auto' }
       },
       {
         label: "Statistics",
         icon: "pi pi-chart-bar",
-        command: (event) => this.router.navigate([`statistics`]),
+        command: () => this.router.navigate([`statistics`]),
         style: { 'margin-left': 'auto' },
         visible: this.role === 'ROLE_ADMIN'
       },
       {
         label: "New Driver",
         icon: "pi pi-user-plus",
-        command: (event) => this.router.navigate([`register/driver`]),
+        command: () => this.router.navigate([`register/driver`]),
         visible: this.role === 'ROLE_ADMIN'
       },
       {
         label: "Drivers",
         icon: "pi pi-users",
-        command: (event) => this.router.navigate([`drivers`]),
+        command: () => this.router.navigate([`drivers`]),
         visible: this.role === 'ROLE_ADMIN'
       },
       {
         label: "Clients",
         icon: "pi pi-users",
-        command: (event) => this.router.navigate([`clients`]),
+        command: () => this.router.navigate([`clients`]),
         visible: this.role === 'ROLE_ADMIN'
       },
       {
         label: "Livechat",
         icon: "pi pi-comments",
-        command: (event) => this.router.navigate([`livechat`]),
+        command: () => this.router.navigate([`livechat`]),
         visible: this.role === 'ROLE_ADMIN'
       },
       {
         label: "Profile",
         icon: "pi pi-user",
-        command: (event) => this.router.navigate([`profile`]),
+        command: () => this.router.navigate([`profile`]),
         visible: this.role !== '' && this.role === 'ROLE_ADMIN'
       },
       {
         label: "Profile",
         icon: "pi pi-user",
-        command: (event) => this.router.navigate([`profile`]),
+        command: () => this.router.navigate([`profile`]),
         style: { 'margin-left': 'auto' },
         visible: this.role !== '' && this.role !== 'ROLE_ADMIN'
       },
       {
         label: "Log Out",
         icon: "pi pi-sign-out",
-        command: (event) => this.logOut(),
+        command: () => this.logOut(),
         visible: this.role !== ''
       },
     ];
   }
+
   logOut() {
     this.authService.logout();
+    window.location.reload();
     window.location.reload();
   }
 }

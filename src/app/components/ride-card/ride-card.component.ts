@@ -22,7 +22,7 @@ export class RideCardComponent {
     this.getRequest()
     .subscribe
     ({
-      next: (data) => { console.log(data); window.location.reload(); },
+      next: (data) => { window.location.reload(); },
       error: (error) => console.log(error)
     });
   }

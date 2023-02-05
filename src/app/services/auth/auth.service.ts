@@ -4,13 +4,17 @@ import { Observable } from 'rxjs';
 import { ContextData } from 'src/app/dto/context-data';
 import { LoginRequest } from 'src/app/dto/login-request';
 import { ApiResponse } from 'src/app/models/api-response';
-import { saveSession, invalidateSession, invalidateToken } from 'src/app/util/context';
+import { saveSession, invalidateSession, invalidateToken, getSession } from 'src/app/util/context';
 import { get, post, put } from 'src/app/util/requests';
+import { Subject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+ 
+  roleSubject = new Subject<ContextData | null>();
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +26,7 @@ export class AuthService {
     put(this.http, '/auth/signout', {}).subscribe({
       next: (response: any) => {
         console.log(response.message)
+        this.roleSubject.next(null);
       },
       error: (error) => console.error(error),
     });
@@ -32,8 +37,13 @@ export class AuthService {
   getWhoAmI(): void {
     (get(this.http, '/user/me') as Observable<ApiResponse<ContextData>>)
       .subscribe({
-        next: (data) => saveSession(data.body as ContextData),
-        error: (error) => this.logout()
+        next: (data: ApiResponse<ContextData>) => { 
+          if (data.success && data.body) {
+            saveSession(data.body as ContextData);
+            this.roleSubject.next(data.body);
+          }
+        } ,
+        error: (error) => this.logout(),
       })
   }
 

@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     saveToken(response.message);
     this.authService.getWhoAmI();
     window.location.reload();
-    setTimeout(window.location.reload, 100);
+
   }
   handleLoginError(error: ApiResponse<null>) {
     console.log(error)

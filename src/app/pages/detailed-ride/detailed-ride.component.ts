@@ -27,7 +27,7 @@ export class DetailedRideComponent implements OnInit {
     this.route.params.subscribe(params =>
       this.rideService.getRide(params['id'])
         .subscribe({
-          next: (response: ApiResponse<RideDetailed>) => {this.ride = (response.body as RideDetailed); console.log(this.ride); },
+          next: (response: ApiResponse<RideDetailed>) => {this.ride = (response.body as RideDetailed); },
           error: (error) =>  this.handleError(error.error)
         }));
   }
