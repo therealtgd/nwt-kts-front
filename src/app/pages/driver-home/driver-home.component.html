@@ -15,11 +15,12 @@
     </div>
     <div class="flex w-full justify-content-center">
       <ng-container *ngIf="!ride.startTime">
-        <button pButton (click)="startRide()" type="button" label="Start ride" class="p-button-success"></button>
+        <button id="startRide" pButton (click)="startRide()" type="button" label="Start ride"
+          class="p-button-success"></button>
         <button pButton (click)="showEndRideDialog = !showEndRideDialog" type="button" label="End ride"
           class="p-button-danger"></button>
       </ng-container>
-      <button *ngIf="showFinishRide" pButton (click)="finishRide()" type="button" label="Finish ride"
+      <button id="finishRide" *ngIf="showFinishRide" pButton (click)="finishRide()" type="button" label="Finish ride"
         class="p-button-success"></button>
 
       <p-dialog [(visible)]="showEndRideDialog" [style]="{'width': '20vw'}">
