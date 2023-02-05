@@ -1,9 +1,9 @@
 <p-card *ngIf="vehicleTypes.length" class="w-3 inline-block absolute z-1 mt-8 ml-8" [style]="{'min-width': '400px'}">
   <h1>Request a ride now</h1>
   <span class="p-float-label pickup-location mb-3">
-    <input 
-      id="pickupLocation" 
-      type="text" 
+    <input
+      id="pickupLocation"
+      type="text"
       pInputText
       ngx-google-places-autocomplete
       (onAddressChange)="handleAddressChange($event, 'pickupLocation')"
@@ -12,45 +12,51 @@
     <label for="float-input">Pickup location</label>
   </span>
   <div>
-    <span 
+    <span
       *ngFor="let i of rideInfo.stops; let idx = index"
       class="p-float-label mb-3"
       pDraggable="stop" pDroppable="stop"
-      (onDragStart)="onDragStart(idx)" (onDrop)="onDrop(idx)"> 
-      <input 
-        type="text" 
+      (onDragStart)="onDragStart(idx)" (onDrop)="onDrop(idx)">
+      <input
+        id="stop{{idx+1}}"
+        type="text"
         pInputText
         ngx-google-places-autocomplete
         (onAddressChange)="handleStopChange($event, idx)"
         [value]="rideInfo.stops[idx].address"
         class="w-11"
-        [options]="autocompleteOptions"> 
+        [options]="autocompleteOptions">
       <label for="float-input">Stop</label>
       <i class="pi pi-minus cursor-pointer text-xl" (click)="removeStop(idx)" style="margin-left: 10px"></i>
     </span>
     <span class="p-float-label destination mb-3">
-      <input 
-        type="text" 
+      <input
+        id="destinationLocation"
+        type="text"
         pInputText
         ngx-google-places-autocomplete
         (onAddressChange)="handleAddressChange($event, 'destination')"
         class="w-11"
-        [options]="autocompleteOptions"> 
+        [options]="autocompleteOptions">
       <label for="float-input">Destination</label>
-      <i *ngIf="rideInfo.stops.length < MAX_STOPS" class="pi pi-plus cursor-pointer text-xl" style="margin-left: 10px" (click)="addStop()"></i>
+      <i id="addStopButton" *ngIf="rideInfo.stops.length < MAX_STOPS" class="pi pi-plus cursor-pointer text-xl"
+        style="margin-left: 10px"
+        (click)="addStop()"></i>
     </span>
-    <p-dropdown [options]="vehicleTypes" [(ngModel)]="rideInfo.vehicleType" (onChange)="handleRideInfoChanged(rideInfo)"></p-dropdown>
+    <p-dropdown [options]="vehicleTypes" [(ngModel)]="rideInfo.vehicleType"
+      (onChange)="handleRideInfoChanged(rideInfo)"></p-dropdown>
     <div class="my-3">
       <p-checkbox label="Pets allowed" [value]="false" [(ngModel)]="rideInfo.petsAllowed" class="mr-5"></p-checkbox>
-      <p-checkbox label="Babies allowed" [value]="false" [(ngModel)]="rideInfo.babiesAllowed"></p-checkbox>
+      <p-checkbox id="babiesAllowedBox" label="Babies allowed" [value]="false"
+        [(ngModel)]="rideInfo.babiesAllowed"></p-checkbox>
     </div>
     <div class="my-3">
-      <p-autoComplete 
-        placeholder="Split fare (username)" 
-        class="w-11 inline-block" 
-        *ngIf="userRole === 'ROLE_CLIENT'" 
-        [suggestions]="usernameAutocompleteResults" 
-        (completeMethod)="search($event)" 
+      <p-autoComplete
+        placeholder="Split fare (username)"
+        class="w-11 inline-block"
+        *ngIf="userRole === 'ROLE_CLIENT'"
+        [suggestions]="usernameAutocompleteResults"
+        (completeMethod)="search($event)"
         [multiple]="true"
         (onSelect)="onSplitFareAdded($event)"
         (onUnselect)="onSplitFareRemoved($event)">
@@ -59,12 +65,13 @@
   </div>
   <div class="flex aling-items-center">
     <button
+      id="requestRideButton"
       pButton type="button"
       label="Request now"
       class="btn-request"
       (click)="onRequestRide()"
       [disabled]="!rideInfo.price">
-      </button>
+    </button>
     <div class="flex flex-column justify-content-center ml-4">
       <span><label>Distance: </label>{{rideInfo.distance | distance}}</span>
       <span><label>Price: </label>{{rideInfo.price}}RSD</span>
@@ -97,6 +104,7 @@
   </div>
   <div *ngIf="rideInfo.driver" footer class="flex justify-content-center">
     <p-button
+      id="payRideButton"
       *ngIf="clientCreditsBalance >= rideInfo.price"
       icon="pi pi-wallet"
       (click)="orderRide()"
